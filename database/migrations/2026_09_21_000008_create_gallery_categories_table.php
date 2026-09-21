@@ -20,10 +20,6 @@ return new class extends Migration
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
-
-        Schema::table('gallery_items', function (Blueprint $table) {
-            $table->foreignId('gallery_category_id')->nullable()->after('category')->constrained('gallery_categories')->nullOnDelete();
-        });
     }
 
     /**
@@ -31,10 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('gallery_items', function (Blueprint $table) {
-            $table->dropConstrainedForeignId('gallery_category_id');
-        });
-
         Schema::dropIfExists('gallery_categories');
     }
 };
