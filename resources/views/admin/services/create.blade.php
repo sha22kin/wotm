@@ -26,7 +26,7 @@
           <div class="adm-lang-pane is-active" data-lang="en">
             <div class="adm-form-group">
               <label class="adm-label" for="title_en">Activity Title (English) <span class="adm-req">*</span></label>
-              <input type="text" name="title_en" id="title_en" class="adm-input" value="{{ old('title_en') }}" placeholder="e.g. Regular Educational Scholarships" required>
+              <input type="text" name="title_en" id="title_en" class="adm-input" value="{{ old('title_en') }}" placeholder="e.g. Regular Educational Scholarships">
             </div>
 
             <div class="adm-form-group">
@@ -45,7 +45,7 @@
           <div class="adm-lang-pane" data-lang="bn">
             <div class="adm-form-group">
               <label class="adm-label" for="title_bn">Activity Title (Bangla) <span class="adm-req">*</span></label>
-              <input type="text" name="title_bn" id="title_bn" class="adm-input" value="{{ old('title_bn') }}" placeholder="e.g. নিয়মিত শিক্ষাবৃত্তি ও মেধা বিকাশ" required>
+              <input type="text" name="title_bn" id="title_bn" class="adm-input" value="{{ old('title_bn') }}" placeholder="e.g. নিয়মিত শিক্ষাবৃত্তি ও মেধা বিকাশ">
             </div>
 
             <div class="adm-form-group">
@@ -157,7 +157,17 @@
   const qEn = new Quill('#serviceQuillEn', { theme: 'snow', modules: { toolbar: toolbarOptions } });
   const qBn = new Quill('#serviceQuillBn', { theme: 'snow', modules: { toolbar: toolbarOptions } });
 
-  document.getElementById('serviceForm').addEventListener('submit', function() {
+  document.getElementById('serviceForm').addEventListener('submit', function(e) {
+    const tEn = document.getElementById('title_en').value.trim();
+    const tBn = document.getElementById('title_bn').value.trim();
+    if (!tEn && !tBn) {
+      e.preventDefault();
+      alert('অনুগ্রহ করে কার্যক্রমের অন্তত একটি শিরোনাম (বাংলা বা ইংরেজি) লিখুন।');
+      return false;
+    }
+    if (!tEn && tBn) document.getElementById('title_en').value = tBn;
+    else if (tEn && !tBn) document.getElementById('title_bn').value = tEn;
+
     document.getElementById('description_en').value = qEn.root.innerHTML === '<p><br></p>' ? '' : qEn.root.innerHTML;
     document.getElementById('description_bn').value = qBn.root.innerHTML === '<p><br></p>' ? '' : qBn.root.innerHTML;
   });

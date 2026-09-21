@@ -23,8 +23,8 @@ class ServiceController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title_en' => 'required|string|max:255',
-            'title_bn' => 'required|string|max:255',
+            'title_en' => 'nullable|string|max:255',
+            'title_bn' => 'nullable|string|max:255',
             'slug' => 'nullable|string|max:255|unique:services,slug',
             'category' => 'required|string|max:50',
             'short_description_en' => 'nullable|string',
@@ -36,10 +36,32 @@ class ServiceController extends Controller
             'districts_count' => 'nullable|string|max:50',
             'order' => 'nullable|integer',
             'is_active' => 'nullable|boolean',
-            'image' => 'nullable|image|max:3072',
+            'image' => 'nullable|image|max:5120',
         ]);
 
-        $validated['slug'] = $validated['slug'] ? Str::slug($validated['slug']) : Str::slug($validated['title_en']);
+        if (empty($validated['title_en']) && empty($validated['title_bn'])) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'title_en' => 'কার্যক্রমের অন্তত একটি শিরোনাম (বাংলা বা ইংরেজি) আবশ্যক।',
+            ]);
+        }
+
+        $validated['title_en'] = $validated['title_en'] ?: $validated['title_bn'];
+        $validated['title_bn'] = $validated['title_bn'] ?: $validated['title_en'];
+
+        if (empty($validated['slug'])) {
+            $baseText = $validated['title_en'] ?: $validated['title_bn'];
+            $generatedSlug = Str::slug($baseText);
+            $validated['slug'] = $generatedSlug ?: ('service-' . time());
+        } else {
+            $validated['slug'] = Str::slug($validated['slug']) ?: ('service-' . time());
+        }
+
+        $baseSlug = $validated['slug'];
+        $count = 1;
+        while (Service::where('slug', $validated['slug'])->exists()) {
+            $validated['slug'] = $baseSlug . '-' . $count++;
+        }
+
         $validated['is_active'] = $request->has('is_active');
         $validated['order'] = $validated['order'] ?? 0;
 
@@ -61,8 +83,8 @@ class ServiceController extends Controller
     public function update(Request $request, Service $service)
     {
         $validated = $request->validate([
-            'title_en' => 'required|string|max:255',
-            'title_bn' => 'required|string|max:255',
+            'title_en' => 'nullable|string|max:255',
+            'title_bn' => 'nullable|string|max:255',
             'slug' => 'nullable|string|max:255|unique:services,slug,' . $service->id,
             'category' => 'required|string|max:50',
             'short_description_en' => 'nullable|string',
@@ -74,10 +96,32 @@ class ServiceController extends Controller
             'districts_count' => 'nullable|string|max:50',
             'order' => 'nullable|integer',
             'is_active' => 'nullable|boolean',
-            'image' => 'nullable|image|max:3072',
+            'image' => 'nullable|image|max:5120',
         ]);
 
-        $validated['slug'] = $validated['slug'] ? Str::slug($validated['slug']) : Str::slug($validated['title_en']);
+        if (empty($validated['title_en']) && empty($validated['title_bn'])) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'title_en' => 'কার্যক্রমের অন্তত একটি শিরোনাম (বাংলা বা ইংরেজি) আবশ্যক।',
+            ]);
+        }
+
+        $validated['title_en'] = $validated['title_en'] ?: $validated['title_bn'];
+        $validated['title_bn'] = $validated['title_bn'] ?: $validated['title_en'];
+
+        if (empty($validated['slug'])) {
+            $baseText = $validated['title_en'] ?: $validated['title_bn'];
+            $generatedSlug = Str::slug($baseText);
+            $validated['slug'] = $generatedSlug ?: ('service-' . time());
+        } else {
+            $validated['slug'] = Str::slug($validated['slug']) ?: ('service-' . time());
+        }
+
+        $baseSlug = $validated['slug'];
+        $count = 1;
+        while (Service::where('slug', $validated['slug'])->where('id', '!=', $service->id)->exists()) {
+            $validated['slug'] = $baseSlug . '-' . $count++;
+        }
+
         $validated['is_active'] = $request->has('is_active');
 
         if ($request->hasFile('image')) {

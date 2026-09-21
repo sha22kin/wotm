@@ -45,8 +45,8 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title_en' => 'required|string|max:255',
-            'title_bn' => 'required|string|max:255',
+            'title_en' => 'nullable|string|max:255',
+            'title_bn' => 'nullable|string|max:255',
             'slug' => 'nullable|string|max:255|unique:posts,slug',
             'category_id' => 'nullable|exists:post_categories,id',
             'excerpt_en' => 'nullable|string',
@@ -57,17 +57,42 @@ class PostController extends Controller
             'status' => 'required|in:draft,published',
             'is_featured' => 'nullable|boolean',
             'published_at' => 'nullable|date',
-            'featured_image' => 'nullable|image|max:3072',
+            'featured_image' => 'nullable|image|max:5120',
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string',
             'meta_keywords' => 'nullable|string',
         ]);
 
-        $validated['slug'] = $validated['slug'] ? Str::slug($validated['slug']) : Str::slug($validated['title_en']);
+        if (empty($validated['title_en']) && empty($validated['title_bn'])) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'title_en' => 'পোস্টের জন্য অন্তত একটি শিরোনাম (বাংলা বা ইংরেজি) আবশ্যক।',
+            ]);
+        }
+
+        // Fallback title between languages
+        $validated['title_en'] = $validated['title_en'] ?: $validated['title_bn'];
+        $validated['title_bn'] = $validated['title_bn'] ?: $validated['title_en'];
+
+        // Generate robust slug
+        if (empty($validated['slug'])) {
+            $baseText = $validated['title_en'] ?: $validated['title_bn'];
+            $generatedSlug = Str::slug($baseText);
+            $validated['slug'] = $generatedSlug ?: ('post-' . time());
+        } else {
+            $validated['slug'] = Str::slug($validated['slug']) ?: ('post-' . time());
+        }
+
+        // Guarantee uniqueness
+        $baseSlug = $validated['slug'];
+        $count = 1;
+        while (Post::where('slug', $validated['slug'])->exists()) {
+            $validated['slug'] = $baseSlug . '-' . $count++;
+        }
+
         $validated['is_featured'] = $request->has('is_featured');
         $validated['author_name'] = $validated['author_name'] ?: 'WOTM';
 
-        if (!$validated['published_at'] && $validated['status'] === 'published') {
+        if (empty($validated['published_at']) && $validated['status'] === 'published') {
             $validated['published_at'] = now();
         }
 
@@ -90,8 +115,8 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         $validated = $request->validate([
-            'title_en' => 'required|string|max:255',
-            'title_bn' => 'required|string|max:255',
+            'title_en' => 'nullable|string|max:255',
+            'title_bn' => 'nullable|string|max:255',
             'slug' => 'nullable|string|max:255|unique:posts,slug,' . $post->id,
             'category_id' => 'nullable|exists:post_categories,id',
             'excerpt_en' => 'nullable|string',
@@ -102,13 +127,36 @@ class PostController extends Controller
             'status' => 'required|in:draft,published',
             'is_featured' => 'nullable|boolean',
             'published_at' => 'nullable|date',
-            'featured_image' => 'nullable|image|max:3072',
+            'featured_image' => 'nullable|image|max:5120',
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string',
             'meta_keywords' => 'nullable|string',
         ]);
 
-        $validated['slug'] = $validated['slug'] ? Str::slug($validated['slug']) : Str::slug($validated['title_en']);
+        if (empty($validated['title_en']) && empty($validated['title_bn'])) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'title_en' => 'পোস্টের জন্য অন্তত একটি শিরোনাম (বাংলা বা ইংরেজি) আবশ্যক।',
+            ]);
+        }
+
+        $validated['title_en'] = $validated['title_en'] ?: $validated['title_bn'];
+        $validated['title_bn'] = $validated['title_bn'] ?: $validated['title_en'];
+
+        if (empty($validated['slug'])) {
+            $baseText = $validated['title_en'] ?: $validated['title_bn'];
+            $generatedSlug = Str::slug($baseText);
+            $validated['slug'] = $generatedSlug ?: ('post-' . time());
+        } else {
+            $validated['slug'] = Str::slug($validated['slug']) ?: ('post-' . time());
+        }
+
+        // Guarantee uniqueness excluding current post
+        $baseSlug = $validated['slug'];
+        $count = 1;
+        while (Post::where('slug', $validated['slug'])->where('id', '!=', $post->id)->exists()) {
+            $validated['slug'] = $baseSlug . '-' . $count++;
+        }
+
         $validated['is_featured'] = $request->has('is_featured');
 
         if ($request->hasFile('featured_image')) {

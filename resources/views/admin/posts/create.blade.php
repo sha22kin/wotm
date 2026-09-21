@@ -32,7 +32,7 @@
           <div class="adm-lang-pane is-active" data-lang="en">
             <div class="adm-form-group">
               <label class="adm-label" for="title_en">Post Title (English) <span class="adm-req">*</span></label>
-              <input type="text" name="title_en" id="title_en" class="adm-input" value="{{ old('title_en') }}" placeholder="Enter English post title" required>
+              <input type="text" name="title_en" id="title_en" class="adm-input" value="{{ old('title_en') }}" placeholder="Enter English post title">
             </div>
 
             <div class="adm-form-group">
@@ -51,7 +51,7 @@
           <div class="adm-lang-pane" data-lang="bn">
             <div class="adm-form-group">
               <label class="adm-label" for="title_bn">Post Title (Bangla) <span class="adm-req">*</span></label>
-              <input type="text" name="title_bn" id="title_bn" class="adm-input" value="{{ old('title_bn') }}" placeholder="পোস্টের বাংলা শিরোনাম লিখুন" required>
+              <input type="text" name="title_bn" id="title_bn" class="adm-input" value="{{ old('title_bn') }}" placeholder="পোস্টের বাংলা শিরোনাম লিখুন">
             </div>
 
             <div class="adm-form-group">
@@ -202,8 +202,24 @@
     modules: { toolbar: toolbarOptions }
   });
 
-  // Sync Quill content to hidden inputs on form submit
-  document.getElementById('postForm').addEventListener('submit', function() {
+  // Sync Quill content and validate titles on form submit
+  document.getElementById('postForm').addEventListener('submit', function(e) {
+    const titleEn = document.getElementById('title_en').value.trim();
+    const titleBn = document.getElementById('title_bn').value.trim();
+
+    if (!titleEn && !titleBn) {
+      e.preventDefault();
+      alert('অনুগ্রহ করে অন্তত একটি শিরোনাম (বাংলা বা ইংরেজি) প্রদান করুন।');
+      return false;
+    }
+
+    // Auto-fill opposite title if empty
+    if (!titleEn && titleBn) {
+      document.getElementById('title_en').value = titleBn;
+    } else if (titleEn && !titleBn) {
+      document.getElementById('title_bn').value = titleEn;
+    }
+
     document.getElementById('content_en').value = quillEn.root.innerHTML === '<p><br></p>' ? '' : quillEn.root.innerHTML;
     document.getElementById('content_bn').value = quillBn.root.innerHTML === '<p><br></p>' ? '' : quillBn.root.innerHTML;
   });
