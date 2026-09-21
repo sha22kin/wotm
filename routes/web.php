@@ -68,6 +68,32 @@ Route::get('/storage-link', function () {
         return '<h3 style="color:red;font-family:sans-serif;padding:20px;">Error linking storage: ' . htmlspecialchars($e->getMessage()) . '</h3>';
     }
 });
+
+// cPanel Utility Route to run migrations and seed data without SSH/Terminal
+Route::get('/run-migration', function () {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+        $migrateOutput = \Illuminate\Support\Facades\Artisan::output();
+
+        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--force' => true]);
+        $seedOutput = \Illuminate\Support\Facades\Artisan::output();
+
+        return '<div style="font-family:sans-serif;padding:30px;background:#f8fafc;color:#0f172a;max-width:800px;margin:30px auto;border-radius:10px;box-shadow:0 4px 15px rgba(0,0,0,0.08);">
+            <h2 style="color:#16a34a;margin-top:0;">✅ Migrations & Seeders Completed Successfully!</h2>
+            <p>All database tables, pages, services, settings, and navigation items have been created.</p>
+            <h4 style="margin-bottom:8px;">Migration Log:</h4>
+            <pre style="background:#1e293b;color:#38bdf8;padding:15px;border-radius:8px;overflow-x:auto;">' . htmlspecialchars($migrateOutput ?: 'All migrations already up to date.') . '</pre>
+            <h4 style="margin-bottom:8px;">Seeder Log:</h4>
+            <pre style="background:#1e293b;color:#a7f3d0;padding:15px;border-radius:8px;overflow-x:auto;">' . htmlspecialchars($seedOutput ?: 'Database seeding completed.') . '</pre>
+            <p style="margin-top:20px;"><a href="/" style="display:inline-block;padding:10px 24px;background:#0284c7;color:#fff;text-decoration:none;border-radius:6px;font-weight:bold;">Go to Homepage →</a></p>
+        </div>';
+    } catch (\Exception $e) {
+        return '<div style="font-family:sans-serif;padding:30px;background:#fff1f2;color:#991b1b;max-width:800px;margin:30px auto;border-radius:10px;">
+            <h2 style="margin-top:0;">❌ Migration Error:</h2>
+            <pre style="background:#fff;padding:15px;border-radius:8px;border:1px solid #fecdd3;color:#be123c;">' . htmlspecialchars($e->getMessage()) . '</pre>
+        </div>';
+    }
+});
 Route::post('/login', [FrontendAuthController::class, 'login'])->middleware('throttle:5,1')->name('login.post');
 Route::get('/register', [FrontendAuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [FrontendAuthController::class, 'register'])->middleware('throttle:5,1')->name('register.post');
