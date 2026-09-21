@@ -88,12 +88,12 @@
         <div class="adm-media-tile">
           <div class="adm-media-thumb-box">
             @if($item->type === 'image')
-              <img src="{{ asset($item->image_path ?: 'images/hero2.webp') }}" alt="{{ $item->title_en }}" class="adm-media-img" loading="lazy">
+              <img src="{{ $item->image_url }}" alt="{{ $item->title }}" class="adm-media-img" loading="lazy" onerror="this.onerror=null;this.src='{{ asset('images/hero2.webp') }}';">
               <span class="adm-media-type-badge">
                 <i class="fa-solid fa-camera"></i> Photo
               </span>
             @else
-              <img src="{{ asset($item->image_path ?: 'images/video-thumb.jpg') }}" alt="{{ $item->title_en }}" class="adm-media-img" loading="lazy">
+              <img src="{{ $item->image_url }}" alt="{{ $item->title }}" class="adm-media-img" loading="lazy" onerror="this.onerror=null;this.src='{{ asset('images/video-thumb.jpg') }}';">
               <span class="adm-media-type-badge">
                 <i class="fa-solid fa-video"></i> Video
               </span>
@@ -183,7 +183,7 @@
           @forelse($items as $item)
             <tr>
               <td class="ps-3">
-                <img src="{{ asset($item->image_path ?: 'images/hero2.webp') }}" alt="{{ $item->title_en }}" class="adm-gallery-thumb-table" loading="lazy">
+                <img src="{{ $item->image_url }}" alt="{{ $item->title }}" class="adm-gallery-thumb-table" loading="lazy" onerror="this.onerror=null;this.src='{{ asset($item->type === 'video' ? 'images/video-thumb.jpg' : 'images/hero2.webp') }}';">
               </td>
               <td>
                 <div class="fw-semibold text-dark fs-sm adm-truncate-md">{{ $item->title_en ?: $item->title_bn ?: 'Untitled Media' }}</div>

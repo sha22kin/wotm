@@ -76,10 +76,11 @@
               <!-- Featured Media Figure -->
               <figure class="activity-details-figure">
                 <img
-                  src="{{ $service->image ? asset($service->image) : asset('2.jpeg') }}"
+                  src="{{ $service->image_url }}"
                   alt="{{ $service->title }}"
                   class="activity-details-img"
-                  loading="eager">
+                  loading="eager"
+                  onerror="this.onerror=null;this.src='{{ asset('2.jpeg') }}';">
                 @if($service->short_description)
                   <figcaption class="activity-details-caption">
                     {{ $service->short_description }}
@@ -156,7 +157,7 @@
                   @forelse($relatedServices as $rel)
                     <a href="{{ route('activities.show', $rel->slug) }}" class="activity-related-item">
                       <div class="activity-related-thumb">
-                        <img src="{{ $rel->image ? asset($rel->image) : asset('2.jpeg') }}" alt="{{ $rel->title }}" class="activity-related-thumb-img" loading="lazy">
+                        <img src="{{ $rel->image_url }}" alt="{{ $rel->title }}" class="activity-related-thumb-img" loading="lazy" onerror="this.onerror=null;this.src='{{ asset('2.jpeg') }}';">
                       </div>
                       <div class="activity-related-info">
                         <span class="activity-related-badge">{{ $rel->category ? ucfirst($rel->category) : 'কার্যক্রম' }}</span>

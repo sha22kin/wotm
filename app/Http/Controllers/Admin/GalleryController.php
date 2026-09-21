@@ -63,10 +63,15 @@ class GalleryController extends Controller
             'video_url' => 'nullable|string|max:255',
             'order' => 'nullable|integer',
             'is_active' => 'nullable|boolean',
-            'image' => 'nullable|image|max:5120',
+            'image' => ($request->input('type') === 'image' ? 'required|' : 'nullable|') . 'image|mimes:jpeg,png,jpg,gif,webp,svg,bmp,avif|max:10240',
+        ], [
+            'image.required' => 'ফটো মিডিয়ার জন্য একটি ছবি আপলোড করা আবশ্যক (Image upload is required).',
+            'image.image' => 'ফাইলটি অবশ্যই একটি সঠিক ছবি (JPG, PNG, WebP) হতে হবে।',
+            'image.max' => 'ছবির সাইজ সর্বোচ্চ ১০ মেগাবাইটের মধ্যে হতে হবে।',
         ]);
 
-        $validated['title_en'] = $validated['title_en'] ?: $validated['title_bn'];
+        $defaultTitle = $request->input('type') === 'video' ? 'Video Item' : 'Gallery Photo';
+        $validated['title_en'] = $validated['title_en'] ?: ($validated['title_bn'] ?: $defaultTitle);
         $validated['title_bn'] = $validated['title_bn'] ?: $validated['title_en'];
         $validated['is_active'] = $request->has('is_active');
         $validated['order'] = $validated['order'] ?? 0;
@@ -79,8 +84,22 @@ class GalleryController extends Controller
         }
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('uploads/gallery', 'public');
+            $file = $request->file('image');
+            $extension = $file->getClientOriginalExtension() ?: 'jpg';
+            $filename = time() . '_' . uniqid() . '.' . $extension;
+            $path = $file->storeAs('uploads/gallery', $filename, 'public');
             $validated['image_path'] = 'storage/' . $path;
+
+            // Direct fallback copy for cPanel environments where symlink may not exist
+            try {
+                $targetDir = public_path('storage/uploads/gallery');
+                if (!file_exists($targetDir)) {
+                    @mkdir($targetDir, 0755, true);
+                }
+                @copy(storage_path('app/public/' . $path), public_path('storage/' . $path));
+            } catch (\Exception $e) {
+                // Silently continue if copy fails
+            }
         }
 
         GalleryItem::create($validated);
@@ -105,10 +124,14 @@ class GalleryController extends Controller
             'video_url' => 'nullable|string|max:255',
             'order' => 'nullable|integer',
             'is_active' => 'nullable|boolean',
-            'image' => 'nullable|image|max:5120',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,svg,bmp,avif|max:10240',
+        ], [
+            'image.image' => 'ফাইলটি অবশ্যই একটি সঠিক ছবি (JPG, PNG, WebP) হতে হবে।',
+            'image.max' => 'ছবির সাইজ সর্বোচ্চ ১০ মেগাবাইটের মধ্যে হতে হবে।',
         ]);
 
-        $validated['title_en'] = $validated['title_en'] ?: $validated['title_bn'];
+        $defaultTitle = $request->input('type') === 'video' ? 'Video Item' : 'Gallery Photo';
+        $validated['title_en'] = $validated['title_en'] ?: ($validated['title_bn'] ?: $defaultTitle);
         $validated['title_bn'] = $validated['title_bn'] ?: $validated['title_en'];
         $validated['is_active'] = $request->has('is_active');
 
@@ -120,8 +143,22 @@ class GalleryController extends Controller
         }
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('uploads/gallery', 'public');
+            $file = $request->file('image');
+            $extension = $file->getClientOriginalExtension() ?: 'jpg';
+            $filename = time() . '_' . uniqid() . '.' . $extension;
+            $path = $file->storeAs('uploads/gallery', $filename, 'public');
             $validated['image_path'] = 'storage/' . $path;
+
+            // Direct fallback copy for cPanel environments where symlink may not exist
+            try {
+                $targetDir = public_path('storage/uploads/gallery');
+                if (!file_exists($targetDir)) {
+                    @mkdir($targetDir, 0755, true);
+                }
+                @copy(storage_path('app/public/' . $path), public_path('storage/' . $path));
+            } catch (\Exception $e) {
+                // Silently continue if copy fails
+            }
         }
 
         $gallery->update($validated);

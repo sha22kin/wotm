@@ -47,11 +47,21 @@ class NoticeController extends Controller
 
         if ($request->hasFile('file')) {
             $file = $request->file('file');
-            $path = $file->store('uploads/notices', 'public');
+            $ext = $file->getClientOriginalExtension() ?: 'pdf';
+            $filename = time() . '_' . uniqid() . '.' . $ext;
+            $path = $file->storeAs('uploads/notices', $filename, 'public');
             $validated['file_path'] = 'storage/' . $path;
-            $validated['file_type'] = strtoupper($file->getClientOriginalExtension());
+            $validated['file_type'] = strtoupper($ext);
             $bytes = $file->getSize();
             $validated['file_size'] = $bytes > 1048576 ? round($bytes / 1048576, 1) . ' MB' : round($bytes / 1024, 0) . ' KB';
+
+            try {
+                $destDir = public_path('storage/uploads/notices');
+                if (!file_exists($destDir)) {
+                    @mkdir($destDir, 0755, true);
+                }
+                @copy(storage_path('app/public/' . $path), public_path('storage/' . $path));
+            } catch (\Exception $e) {}
         }
 
         Notice::create($validated);
@@ -92,11 +102,21 @@ class NoticeController extends Controller
 
         if ($request->hasFile('file')) {
             $file = $request->file('file');
-            $path = $file->store('uploads/notices', 'public');
+            $ext = $file->getClientOriginalExtension() ?: 'pdf';
+            $filename = time() . '_' . uniqid() . '.' . $ext;
+            $path = $file->storeAs('uploads/notices', $filename, 'public');
             $validated['file_path'] = 'storage/' . $path;
-            $validated['file_type'] = strtoupper($file->getClientOriginalExtension());
+            $validated['file_type'] = strtoupper($ext);
             $bytes = $file->getSize();
             $validated['file_size'] = $bytes > 1048576 ? round($bytes / 1048576, 1) . ' MB' : round($bytes / 1024, 0) . ' KB';
+
+            try {
+                $destDir = public_path('storage/uploads/notices');
+                if (!file_exists($destDir)) {
+                    @mkdir($destDir, 0755, true);
+                }
+                @copy(storage_path('app/public/' . $path), public_path('storage/' . $path));
+            } catch (\Exception $e) {}
         }
 
         $notice->update($validated);

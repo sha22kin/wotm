@@ -31,13 +31,7 @@
         @forelse($services as $service)
           <tr>
             <td>
-              @if($service->image)
-                <img src="{{ asset($service->image) }}" alt="Thumb" class="adm-thumb">
-              @else
-                <div class="adm-thumb d-flex align-items-center justify-content-center text-muted">
-                  <i class="fa-solid fa-hand-holding-heart"></i>
-                </div>
-              @endif
+              <img src="{{ $service->image_url }}" alt="Thumb" class="adm-thumb" onerror="this.onerror=null;this.src='{{ asset('2.jpeg') }}';">
             </td>
             <td>
               <div class="fw-semibold">{{ $service->title_en }}</div>

@@ -29,26 +29,50 @@ class SettingController extends Controller
             'site_email' => 'nullable|email|max:100',
             'site_address_en' => 'nullable|string',
             'site_address_bn' => 'nullable|string',
-            'site_logo' => 'nullable|image|max:2048',
-            'footer_logo' => 'nullable|image|max:2048',
-            'site_favicon' => 'nullable|image|max:1024',
+            'site_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,svg,bmp,avif|max:10240',
+            'footer_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,svg,bmp,avif|max:10240',
+            'site_favicon' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,svg,ico|max:5120',
         ]);
 
         if ($request->hasFile('site_logo')) {
-            $path = $request->file('site_logo')->store('uploads/settings', 'public');
+            $file = $request->file('site_logo');
+            $ext = $file->getClientOriginalExtension() ?: 'png';
+            $filename = 'logo_' . time() . '_' . uniqid() . '.' . $ext;
+            $path = $file->storeAs('uploads/settings', $filename, 'public');
             Setting::set('site_logo', 'storage/' . $path, 'general');
+            try {
+                $destDir = public_path('storage/uploads/settings');
+                if (!file_exists($destDir)) { @mkdir($destDir, 0755, true); }
+                @copy(storage_path('app/public/' . $path), public_path('storage/' . $path));
+            } catch (\Exception $e) {}
             unset($validated['site_logo']);
         }
 
         if ($request->hasFile('footer_logo')) {
-            $path = $request->file('footer_logo')->store('uploads/settings', 'public');
+            $file = $request->file('footer_logo');
+            $ext = $file->getClientOriginalExtension() ?: 'png';
+            $filename = 'footer_logo_' . time() . '_' . uniqid() . '.' . $ext;
+            $path = $file->storeAs('uploads/settings', $filename, 'public');
             Setting::set('footer_logo', 'storage/' . $path, 'footer');
+            try {
+                $destDir = public_path('storage/uploads/settings');
+                if (!file_exists($destDir)) { @mkdir($destDir, 0755, true); }
+                @copy(storage_path('app/public/' . $path), public_path('storage/' . $path));
+            } catch (\Exception $e) {}
             unset($validated['footer_logo']);
         }
 
         if ($request->hasFile('site_favicon')) {
-            $path = $request->file('site_favicon')->store('uploads/settings', 'public');
+            $file = $request->file('site_favicon');
+            $ext = $file->getClientOriginalExtension() ?: 'png';
+            $filename = 'favicon_' . time() . '_' . uniqid() . '.' . $ext;
+            $path = $file->storeAs('uploads/settings', $filename, 'public');
             Setting::set('site_favicon', 'storage/' . $path, 'general');
+            try {
+                $destDir = public_path('storage/uploads/settings');
+                if (!file_exists($destDir)) { @mkdir($destDir, 0755, true); }
+                @copy(storage_path('app/public/' . $path), public_path('storage/' . $path));
+            } catch (\Exception $e) {}
             unset($validated['site_favicon']);
         }
 

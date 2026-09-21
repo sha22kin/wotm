@@ -92,7 +92,7 @@
                       <i class="fa-regular fa-clock me-1"></i> {{ $notice->notice_date ? $notice->notice_date->diffForHumans() : $notice->created_at->diffForHumans() }}
                     </span>
                   @if($notice->file_path)
-                    <a href="{{ asset($notice->file_path) }}" class="btn btn-sm btn-outline-success" target="_blank" download>
+                    <a href="{{ $notice->file_url }}" class="btn btn-sm btn-outline-success" target="_blank" download>
                       <i class="fa-solid fa-download me-1"></i> {{ app()->getLocale() === 'en' ? 'Download PDF' : 'ডাউনলোড' }}
                     </a>
                   @endif

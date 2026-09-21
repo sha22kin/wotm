@@ -77,13 +77,23 @@
           </div>
 
           <div class="adm-form-group">
-            <label class="adm-label" for="image">Replace Media / Thumbnail</label>
-            <input type="file" name="image" id="image" class="adm-input" accept="image/*" data-preview="galleryImgPreview">
+            <label class="adm-label" for="image">Replace Media Image / Thumbnail Poster</label>
             @if($item->image_path)
-              <img src="{{ asset($item->image_path) }}" alt="Preview" class="adm-thumb-preview mt-2" id="galleryImgPreview">
-            @else
-              <img src="#" alt="Preview" class="adm-thumb-preview adm-preview-hidden mt-2" id="galleryImgPreview">
+              <div class="mb-2 p-2 border rounded bg-light d-inline-block">
+                <span class="fs-xs text-muted d-block mb-1"><i class="fa-solid fa-image me-1"></i> Current Image:</span>
+                <img src="{{ $item->image_url }}" alt="{{ $item->title }}" class="adm-thumb-preview" id="currentImgPreview" style="max-height:140px;width:auto;border-radius:4px;" onerror="this.onerror=null;this.src='{{ asset('images/hero2.webp') }}';">
+              </div>
             @endif
+            <input type="file" name="image" id="image" class="adm-input @error('image') is-invalid @enderror" accept="image/jpeg,image/png,image/webp,image/gif,image/svg+xml,image/avif" onchange="previewEditImage(this)">
+            @error('image')
+              <div class="text-danger fs-xs mt-1 fw-medium"><i class="fa-solid fa-circle-exclamation me-1"></i>{{ $message }}</div>
+            @enderror
+            <div id="newImagePreviewWrap" class="adm-preview-hidden mt-2 p-2 border rounded bg-light d-inline-block">
+              <span class="fs-xs text-success d-block mb-1 fw-medium"><i class="fa-solid fa-check-circle me-1"></i> New Selected Preview:</span>
+              <img src="" alt="New Preview" class="adm-thumb-preview" id="galleryImgPreview" style="max-height:140px;width:auto;border-radius:4px;object-fit:cover;">
+              <div class="text-muted fs-xs mt-1" id="newImageInfo"></div>
+            </div>
+            <div class="adm-input-hint">Leave blank to keep existing image. Supports PNG, JPG, WebP (max 10MB).</div>
           </div>
 
           <div class="row g-3">
@@ -125,6 +135,23 @@
       videoGroup.classList.remove('adm-preview-hidden');
     } else {
       videoGroup.classList.add('adm-preview-hidden');
+    }
+  }
+
+  function previewEditImage(input) {
+    const preview = document.getElementById('galleryImgPreview');
+    const wrap = document.getElementById('newImagePreviewWrap');
+    const info = document.getElementById('newImageInfo');
+
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        preview.src = e.target.result;
+        wrap.classList.remove('adm-preview-hidden');
+        info.textContent = file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
+      };
+      reader.readAsDataURL(file);
     }
   }
 </script>

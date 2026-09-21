@@ -22,7 +22,7 @@
               <!-- Card Header with Brand Badge -->
               <div class="auth-card-header">
                 <div class="auth-brand-badge">
-                  <img src="{{ asset(App\Models\Setting::get('site_logo', 'images/logos/logo.webp')) }}" alt="WOTM লোগো" class="auth-badge-logo">
+                  <img src="{{ App\Models\Setting::getImageUrl('site_logo', 'images/logos/logo.webp') }}" alt="WOTM লোগো" class="auth-badge-logo" onerror="this.onerror=null;this.src='{{ asset('images/logos/logo.webp') }}';">
                 </div>
                 <h2 class="auth-card-title" id="authCardTitle">{{ app()->getLocale() === 'en' ? 'Sign In' : 'লগইন করুন' }}</h2>
                 <p class="auth-card-subtitle" id="authCardSubtitle">{{ app()->getLocale() === 'en' ? 'Enter credentials to access account' : 'আপনার অ্যাকাউন্টে প্রবেশ করতে সঠিক তথ্য দিন' }}</p>

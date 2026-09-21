@@ -145,7 +145,7 @@
           <div class="adm-form-group">
             <input type="file" name="featured_image" id="featured_image" class="adm-input" accept="image/*" data-preview="pageFeaturedPreview">
             @if($page->featured_image)
-              <img src="{{ asset($page->featured_image) }}" alt="Preview" class="adm-thumb-preview mt-2" id="pageFeaturedPreview">
+              <img src="{{ $page->featured_image_url }}" alt="Preview" class="adm-thumb-preview mt-2" id="pageFeaturedPreview">
             @else
               <img src="#" alt="Preview" class="adm-thumb-preview adm-preview-hidden mt-2" id="pageFeaturedPreview">
             @endif
@@ -165,7 +165,7 @@
           <div class="adm-form-group">
             <input type="file" name="og_image" id="og_image" class="adm-input" accept="image/*" data-preview="pageOgPreview">
             @if($page->og_image)
-              <img src="{{ asset($page->og_image) }}" alt="OG Preview" class="adm-thumb-preview mt-2" id="pageOgPreview">
+              <img src="{{ $page->og_image_url }}" alt="OG Preview" class="adm-thumb-preview mt-2" id="pageOgPreview">
             @else
               <img src="#" alt="OG Preview" class="adm-thumb-preview adm-preview-hidden mt-2" id="pageOgPreview">
             @endif

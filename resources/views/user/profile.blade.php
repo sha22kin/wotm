@@ -53,7 +53,7 @@
             <div class="pf-user-top">
               <div class="pf-avatar-wrapper">
                 @if($user->avatar)
-                  <img src="{{ asset($user->avatar) }}" alt="{{ $user->name }}" class="pf-avatar-img" id="sidebarAvatarImg">
+                  <img src="{{ $user->avatar_url }}" alt="{{ $user->name }}" class="pf-avatar-img" id="sidebarAvatarImg" onerror="this.onerror=null;this.src='{{ asset('images/avatar-default.png') }}';">
                 @else
                   <div class="pf-avatar-fallback" id="sidebarAvatarImg">
                     {{ mb_substr($user->name, 0, 1) }}

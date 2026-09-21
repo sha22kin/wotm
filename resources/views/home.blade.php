@@ -188,7 +188,7 @@
                 <div class="proj-slide">
                   <article class="project-card">
                     <div class="project-img-wrapper">
-                      <img src="{{ $service->image ? asset($service->image) : asset('10.jpeg') }}" alt="{{ $service->title }}" class="project-img" loading="lazy">
+                      <img src="{{ $service->image_url }}" alt="{{ $service->title }}" class="project-img" loading="lazy" onerror="this.onerror=null;this.src='{{ asset('10.jpeg') }}';">
                       <span class="proj-badge">
                         <i class="fa-solid fa-rocket"></i> {{ $service->category ? ucfirst($service->category) : (app()->getLocale() === 'en' ? 'Regular Project' : 'নিয়মিত কার্যক্রম') }}
                       </span>
@@ -445,12 +445,9 @@
 
         <div class="row g-4">
           @forelse($galleryImages as $item)
-            @php
-              $imgSrc = $item->image_path ? (str_starts_with($item->image_path, 'http') ? $item->image_path : asset($item->image_path)) : asset('12.jpeg');
-            @endphp
             <div class="col-lg-4 col-md-6 col-12">
-              <div class="gallery-photo-wrapper" data-src="{{ $imgSrc }}" data-caption="{{ $item->title }}">
-                <img src="{{ $imgSrc }}" alt="{{ $item->title }}" class="gallery-img" loading="lazy">
+              <div class="gallery-photo-wrapper" data-src="{{ $item->image_url }}" data-caption="{{ $item->title }}">
+                <img src="{{ $item->image_url }}" alt="{{ $item->title }}" class="gallery-img" loading="lazy" onerror="this.onerror=null;this.src='{{ asset('images/hero2.webp') }}';">
                 <div class="gallery-overlay">
                   <i class="fa-solid fa-magnifying-glass-plus"></i>
                   @if($item->title)
@@ -487,7 +484,7 @@
             <div class="col-lg-4 col-md-6 col-12">
               <a href="{{ route('blog.show', $post->slug) }}" class="blog-card">
                 <div class="blog-img-wrapper">
-                  <img src="{{ $post->featured_image ? asset($post->featured_image) : asset('images/blogs/blog1.jpg') }}" alt="{{ $post->title }}" class="blog-img" loading="lazy">
+                  <img src="{{ $post->featured_image_url }}" alt="{{ $post->title }}" class="blog-img" loading="lazy" onerror="this.onerror=null;this.src='{{ asset('images/blogs/blog1.jpg') }}';">
                 </div>
                 <div class="blog-body">
                   <h3 class="blog-title">{{ $post->title }}</h3>

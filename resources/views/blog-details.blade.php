@@ -72,10 +72,11 @@
               <!-- Featured Media Figure -->
               <figure class="blog-article-figure">
                 <img
-                  src="{{ $post->featured_image ? asset($post->featured_image) : asset('images/projects/featured_imam.jpg') }}"
+                  src="{{ $post->featured_image_url }}"
                   alt="{{ $post->title }}"
                   class="blog-article-img"
-                  loading="eager">
+                  loading="eager"
+                  onerror="this.onerror=null;this.src='{{ asset('images/projects/featured_imam.jpg') }}';">
                 @if($post->excerpt)
                   <figcaption class="blog-article-caption">{{ $post->excerpt }}</figcaption>
                 @endif
@@ -143,7 +144,7 @@
                   @forelse($relatedPosts as $rel)
                     <a href="{{ route('blog.show', $rel->slug) }}" class="blog-recent-card">
                       <div class="blog-recent-media">
-                        <img src="{{ $rel->featured_image ? asset($rel->featured_image) : asset('images/projects/flood_relief.jpg') }}" alt="{{ $rel->title }}" class="blog-recent-thumb" loading="lazy">
+                        <img src="{{ $rel->featured_image_url }}" alt="{{ $rel->title }}" class="blog-recent-thumb" loading="lazy" onerror="this.onerror=null;this.src='{{ asset('images/projects/flood_relief.jpg') }}';">
                       </div>
                       <div class="blog-recent-info">
                         <span class="blog-recent-date">

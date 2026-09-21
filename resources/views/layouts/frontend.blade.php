@@ -17,11 +17,11 @@
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="@yield('meta_title', $page->meta_title ?? App\Models\Setting::get('seo_meta_title', 'WOTM | উম্মাহর স্বার্থে, সুন্নাহর সাথে'))">
   <meta property="og:description" content="@yield('meta_description', $page->meta_description ?? App\Models\Setting::get('seo_meta_description', 'মানবকল্যাণে নিবেদিত সেবামূলক সরকার-নিবন্ধিত প্রতিষ্ঠান।'))">
-  <meta property="og:image" content="{{ asset($page->og_image ?? App\Models\Setting::get('seo_og_image', 'images/hero.webp')) }}">
+  <meta property="og:image" content="{{ !empty($page->og_image_url) ? $page->og_image_url : App\Models\Setting::getImageUrl('seo_og_image', 'images/hero.webp') }}">
   <meta property="og:type" content="website">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="{{ asset(App\Models\Setting::get('site_favicon', 'images/logos/logo.webp')) }}">
+  <link rel="icon" type="image/png" href="{{ App\Models\Setting::getImageUrl('site_favicon', 'images/logos/logo.webp') }}">
 
   <!-- Google Fonts: Anek Bangla -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,7 +48,7 @@
       <div class="navigation-container" id="navBox">
         <!-- Logo -->
         <a href="{{ route('home') }}" class="nav-brand" aria-label="WOTM হোমপেজ">
-          <img src="{{ asset(App\Models\Setting::get('site_logo', 'images/logos/logo.webp')) }}" alt="WOTM লোগো" class="brand-logo">
+          <img src="{{ App\Models\Setting::getImageUrl('site_logo', 'images/logos/logo.webp') }}" alt="WOTM লোগো" class="brand-logo" onerror="this.onerror=null;this.src='{{ asset('images/logos/logo.webp') }}';">
         </a>
 
         <!-- Desktop Navigation Menu -->
@@ -133,7 +133,7 @@
   <aside class="mobile-nav-panel" id="mobileNavPanel" aria-hidden="true">
     <div class="mobile-nav-content">
       <div class="mobile-nav-header">
-        <img src="{{ asset(App\Models\Setting::get('site_logo', 'images/logos/logo.webp')) }}" alt="WOTM" class="brand-logo">
+        <img src="{{ App\Models\Setting::getImageUrl('site_logo', 'images/logos/logo.webp') }}" alt="WOTM" class="brand-logo" onerror="this.onerror=null;this.src='{{ asset('images/logos/logo.webp') }}';">
         <button class="mobile-nav-close" id="mobileNavClose" type="button" aria-label="মেনু বন্ধ করুন">
           <i class="fa-solid fa-xmark"></i>
         </button>
@@ -204,7 +204,7 @@
         <!-- Col 1: About & Mission -->
         <div class="col-lg-4 col-md-6 col-12">
           <div class="footer-brand">
-            <img src="{{ asset(App\Models\Setting::get('footer_logo', 'images/logos/logo4.webp')) }}" alt="WOTM লোগো" class="footer-logo">
+            <img src="{{ App\Models\Setting::getImageUrl('footer_logo', 'images/logos/logo4.webp') }}" alt="WOTM লোগো" class="footer-logo" onerror="this.onerror=null;this.src='{{ asset('images/logos/logo4.webp') }}';">
             <p class="footer-desc">
               {{ app()->getLocale() === 'en' 
                   ? App\Models\Setting::get('footer_about_en', 'This institution is striving with its utmost efforts to build an ideal welfare society in the service of suffering humanity, following the footsteps of Prophet Muhammad (PBUH).') 
@@ -305,7 +305,7 @@
     <div class="lightbox-nav prev" id="lightboxPrev"><i class="fa-solid fa-chevron-left"></i></div>
     <div class="lightbox-nav next" id="lightboxNext"><i class="fa-solid fa-chevron-right"></i></div>
     <div class="lightbox-image-wrapper text-center">
-      <img src="" alt="গ্যালারি ছবি" class="lightbox-img" id="lightboxImg">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E" alt="গ্যালারি ছবি" class="lightbox-img" id="lightboxImg">
       <p class="text-white mt-2 mb-0 fw-medium" id="lightboxCaption"></p>
     </div>
   </div>

@@ -2,7 +2,7 @@
   <!-- Brand Header -->
   <div class="adm-sidebar-brand">
     <a href="{{ route('admin.dashboard') }}" class="adm-brand-link">
-      <img src="{{ asset(App\Models\Setting::get('site_logo', 'images/logos/logo.webp')) }}" alt="Logo" class="adm-brand-logo">
+      <img src="{{ App\Models\Setting::getImageUrl('site_logo', 'images/logos/logo.webp') }}" alt="Logo" class="adm-brand-logo" onerror="this.onerror=null;this.src='{{ asset('images/logos/logo.webp') }}';">
       <span>WOTM CMS</span>
     </a>
     <button type="button" class="adm-sidebar-close" id="admSidebarClose" aria-label="Close sidebar">
@@ -174,7 +174,7 @@
     <a href="{{ route('admin.profile.index') }}" class="adm-user-brief" title="Admin Profile">
       <div class="adm-user-avatar">
         @if(auth()->user()->avatar)
-          <img src="{{ asset(auth()->user()->avatar) }}" alt="{{ auth()->user()->name }}" class="adm-user-avatar-img">
+          <img src="{{ auth()->user()->avatar_url }}" alt="{{ auth()->user()->name }}" class="adm-user-avatar-img" onerror="this.onerror=null;this.src='{{ asset('images/avatar-default.png') }}';">
         @else
           {{ strtoupper(substr(auth()->user()->name ?? 'A', 0, 1)) }}
         @endif

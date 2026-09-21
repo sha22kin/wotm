@@ -44,4 +44,74 @@ class Page extends Model
         $locale = app()->getLocale();
         return $locale === 'en' ? ($this->content_en ?: $this->content_bn) : ($this->content_bn ?: $this->content_en);
     }
+
+    /**
+     * Get reliable URL for page featured image
+     */
+    public function getFeaturedImageUrlAttribute(): ?string
+    {
+        if (empty($this->featured_image)) {
+            return null;
+        }
+
+        if (str_starts_with($this->featured_image, 'http://') || str_starts_with($this->featured_image, 'https://')) {
+            return $this->featured_image;
+        }
+
+        $cleanPath = ltrim($this->featured_image, '/');
+
+        if (file_exists(public_path($cleanPath))) {
+            return asset($cleanPath);
+        }
+
+        if (file_exists(public_path('images/' . $cleanPath))) {
+            return asset('images/' . $cleanPath);
+        }
+
+        if (file_exists(public_path('storage/' . $cleanPath))) {
+            return asset('storage/' . $cleanPath);
+        }
+
+        $storageSub = preg_replace('#^storage/#', '', $cleanPath);
+        if (file_exists(storage_path('app/public/' . $storageSub))) {
+            return asset(str_starts_with($cleanPath, 'storage/') ? $cleanPath : 'storage/' . $cleanPath);
+        }
+
+        return asset($cleanPath);
+    }
+
+    /**
+     * Get reliable URL for page OG social image
+     */
+    public function getOgImageUrlAttribute(): ?string
+    {
+        if (empty($this->og_image)) {
+            return null;
+        }
+
+        if (str_starts_with($this->og_image, 'http://') || str_starts_with($this->og_image, 'https://')) {
+            return $this->og_image;
+        }
+
+        $cleanPath = ltrim($this->og_image, '/');
+
+        if (file_exists(public_path($cleanPath))) {
+            return asset($cleanPath);
+        }
+
+        if (file_exists(public_path('images/' . $cleanPath))) {
+            return asset('images/' . $cleanPath);
+        }
+
+        if (file_exists(public_path('storage/' . $cleanPath))) {
+            return asset('storage/' . $cleanPath);
+        }
+
+        $storageSub = preg_replace('#^storage/#', '', $cleanPath);
+        if (file_exists(storage_path('app/public/' . $storageSub))) {
+            return asset(str_starts_with($cleanPath, 'storage/') ? $cleanPath : 'storage/' . $cleanPath);
+        }
+
+        return asset($cleanPath);
+    }
 }

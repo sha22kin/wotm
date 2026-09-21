@@ -28,3 +28,10 @@
   @endforeach
 </optgroup>
 @endif
+@if(isset($galleryCategories) && $galleryCategories->count() > 0)
+<optgroup label="Gallery Categories (মিডিয়া ও গ্যালারি ক্যাটাগরি)">
+  @foreach($galleryCategories as $gcat)
+    <option value="gcat-{{ $gcat->id }}" data-title-en="{{ $gcat->name_en }}" data-title-bn="{{ $gcat->name_bn }}" data-url="/gallery?category={{ $gcat->slug }}">{{ $gcat->name_en }} ({{ $gcat->name_bn }})</option>
+  @endforeach
+</optgroup>
+@endif

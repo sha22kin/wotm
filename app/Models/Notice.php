@@ -45,4 +45,35 @@ class Notice extends Model
         $locale = app()->getLocale();
         return $locale === 'en' ? ($this->description_en ?: $this->description_bn) : ($this->description_bn ?: $this->description_en);
     }
+
+    /**
+     * Get reliable URL for notice attachment file
+     */
+    public function getFileUrlAttribute(): ?string
+    {
+        if (empty($this->file_path)) {
+            return null;
+        }
+
+        if (str_starts_with($this->file_path, 'http://') || str_starts_with($this->file_path, 'https://')) {
+            return $this->file_path;
+        }
+
+        $cleanPath = ltrim($this->file_path, '/');
+
+        if (file_exists(public_path($cleanPath))) {
+            return asset($cleanPath);
+        }
+
+        if (file_exists(public_path('storage/' . $cleanPath))) {
+            return asset('storage/' . $cleanPath);
+        }
+
+        $storageSub = preg_replace('#^storage/#', '', $cleanPath);
+        if (file_exists(storage_path('app/public/' . $storageSub))) {
+            return asset(str_starts_with($cleanPath, 'storage/') ? $cleanPath : 'storage/' . $cleanPath);
+        }
+
+        return asset($cleanPath);
+    }
 }

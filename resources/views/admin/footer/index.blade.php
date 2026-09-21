@@ -24,7 +24,7 @@
             
             <div class="adm-dark-preview-box">
               <span class="adm-preview-caption">Preview on dark green footer background:</span>
-              <img src="{{ asset(App\Models\Setting::get('footer_logo', 'images/logos/logo4.webp')) }}" alt="Footer Logo Preview" class="adm-footer-logo-preview" id="footerLogoPreview">
+              <img src="{{ App\Models\Setting::getImageUrl('footer_logo', 'images/logos/logo4.webp') }}" alt="Footer Logo Preview" class="adm-footer-logo-preview" id="footerLogoPreview" onerror="this.onerror=null;this.src='{{ asset('images/logos/logo4.webp') }}';">
             </div>
           </div>
 

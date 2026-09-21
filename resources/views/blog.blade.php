@@ -66,7 +66,7 @@
               <div class="row g-0 align-items-center">
                 <div class="col-lg-6 col-12">
                   <div class="blog-featured-media">
-                    <img src="{{ $featuredPost->featured_image ? asset($featuredPost->featured_image) : asset('images/projects/featured_imam.jpg') }}" alt="{{ $featuredPost->title }}" class="blog-featured-img" loading="lazy">
+                    <img src="{{ $featuredPost->featured_image_url }}" alt="{{ $featuredPost->title }}" class="blog-featured-img" loading="lazy" onerror="this.onerror=null;this.src='{{ asset('images/projects/featured_imam.jpg') }}';">
                   </div>
                 </div>
                 <div class="col-lg-6 col-12">
@@ -90,7 +90,7 @@
               <div class="col-lg-4 col-md-6 col-12">
                 <a href="{{ route('blog.show', $post->slug) }}" class="blog-grid-card">
                   <div class="blog-card-media">
-                    <img src="{{ $post->featured_image ? asset($post->featured_image) : asset('images/projects/flood_relief.jpg') }}" alt="{{ $post->title }}" class="blog-card-img" loading="lazy">
+                    <img src="{{ $post->featured_image_url }}" alt="{{ $post->title }}" class="blog-card-img" loading="lazy" onerror="this.onerror=null;this.src='{{ asset('images/projects/flood_relief.jpg') }}';">
                   </div>
                   <div class="blog-card-body">
                     <h3 class="blog-card-title">{{ $post->title }}</h3>

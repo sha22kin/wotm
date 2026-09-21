@@ -35,7 +35,7 @@ class ProfileController extends Controller
             'phone' => 'nullable|string|max:50',
             'current_password' => 'nullable|required_with:password',
             'password' => ['nullable', 'confirmed', Password::defaults()],
-            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg,gif|max:10240',
         ], [
             'name.required' => app()->getLocale() === 'en' ? 'Name is required.' : 'নাম আবশ্যক।',
             'current_password.required_with' => app()->getLocale() === 'en' ? 'Current password is required to change password.' : 'পাসওয়ার্ড পরিবর্তনের জন্য বর্তমান পাসওয়ার্ড দিতে হবে।',
@@ -63,6 +63,16 @@ class ProfileController extends Controller
         if ($request->hasFile('avatar')) {
             $path = $request->file('avatar')->store('uploads/avatars', 'public');
             $validated['avatar'] = 'storage/' . $path;
+
+            try {
+                $destDir = public_path('storage/uploads/avatars');
+                if (!file_exists($destDir)) {
+                    @mkdir($destDir, 0755, true);
+                }
+                @copy(storage_path('app/public/' . $path), public_path('storage/' . $path));
+            } catch (\Exception $e) {
+                // Ignore fallback copy error
+            }
         }
 
         $user->update($validated);
@@ -76,14 +86,25 @@ class ProfileController extends Controller
     public function updateAvatar(Request $request)
     {
         $request->validate([
-            'avatar' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,webp,svg,gif|max:10240',
         ], [
             'avatar.required' => app()->getLocale() === 'en' ? 'Please select an image file.' : 'একটি ছবি নির্বাচন করুন।',
             'avatar.image' => app()->getLocale() === 'en' ? 'Uploaded file must be an image.' : 'ফাইলটি ছবি হতে হবে।',
-            'avatar.max' => app()->getLocale() === 'en' ? 'Maximum image size is 2MB.' : 'ছবির সাইজ সর্বোচ্চ ২ মেগাবাইট হতে পারবে।',
+            'avatar.max' => app()->getLocale() === 'en' ? 'Maximum image size is 10MB.' : 'ছবির সাইজ সর্বোচ্চ ১০ মেগাবাইট হতে পারবে।',
         ]);
 
         $path = $request->file('avatar')->store('uploads/avatars', 'public');
+        
+        try {
+            $destDir = public_path('storage/uploads/avatars');
+            if (!file_exists($destDir)) {
+                @mkdir($destDir, 0755, true);
+            }
+            @copy(storage_path('app/public/' . $path), public_path('storage/' . $path));
+        } catch (\Exception $e) {
+            // Ignore fallback copy error
+        }
+
         Auth::user()->update([
             'avatar' => 'storage/' . $path,
         ]);

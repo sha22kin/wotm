@@ -36,7 +36,7 @@ class ServiceController extends Controller
             'districts_count' => 'nullable|string|max:50',
             'order' => 'nullable|integer',
             'is_active' => 'nullable|boolean',
-            'image' => 'nullable|image|max:5120',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,svg,bmp,avif|max:10240',
         ]);
 
         if (empty($validated['title_en']) && empty($validated['title_bn'])) {
@@ -67,8 +67,19 @@ class ServiceController extends Controller
         $validated['order'] = $validated['order'] ?? 0;
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('uploads/services', 'public');
+            $file = $request->file('image');
+            $ext = $file->getClientOriginalExtension() ?: 'jpg';
+            $filename = time() . '_' . uniqid() . '.' . $ext;
+            $path = $file->storeAs('uploads/services', $filename, 'public');
             $validated['image'] = 'storage/' . $path;
+
+            try {
+                $destDir = public_path('storage/uploads/services');
+                if (!file_exists($destDir)) {
+                    @mkdir($destDir, 0755, true);
+                }
+                @copy(storage_path('app/public/' . $path), public_path('storage/' . $path));
+            } catch (\Exception $e) {}
         }
 
         Service::create($validated);
@@ -97,7 +108,7 @@ class ServiceController extends Controller
             'districts_count' => 'nullable|string|max:50',
             'order' => 'nullable|integer',
             'is_active' => 'nullable|boolean',
-            'image' => 'nullable|image|max:5120',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,svg,bmp,avif|max:10240',
         ]);
 
         if (empty($validated['title_en']) && empty($validated['title_bn'])) {
@@ -127,8 +138,19 @@ class ServiceController extends Controller
         $validated['is_active'] = $request->has('is_active');
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('uploads/services', 'public');
+            $file = $request->file('image');
+            $ext = $file->getClientOriginalExtension() ?: 'jpg';
+            $filename = time() . '_' . uniqid() . '.' . $ext;
+            $path = $file->storeAs('uploads/services', $filename, 'public');
             $validated['image'] = 'storage/' . $path;
+
+            try {
+                $destDir = public_path('storage/uploads/services');
+                if (!file_exists($destDir)) {
+                    @mkdir($destDir, 0755, true);
+                }
+                @copy(storage_path('app/public/' . $path), public_path('storage/' . $path));
+            } catch (\Exception $e) {}
         }
 
         $service->update($validated);

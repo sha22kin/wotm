@@ -44,7 +44,7 @@
                 <label class="adm-label" for="avatar">Profile Avatar</label>
                 <input type="file" name="avatar" id="avatar" class="adm-input" accept="image/*" data-preview="userAvatarPreview">
                 @if($user->avatar)
-                  <img src="{{ asset($user->avatar) }}" alt="Avatar" class="adm-thumb-preview mt-2" id="userAvatarPreview">
+                  <img src="{{ $user->avatar_url }}" alt="Avatar" class="adm-thumb-preview mt-2" id="userAvatarPreview" onerror="this.onerror=null;this.src='{{ asset('images/avatar-default.png') }}';">
                 @else
                   <img src="#" alt="Avatar" class="adm-thumb-preview adm-preview-hidden mt-2" id="userAvatarPreview">
                 @endif

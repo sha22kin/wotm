@@ -6,7 +6,7 @@
   <title>Admin Login | WOTM CMS</title>
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="{{ asset(App\Models\Setting::get('site_favicon', 'images/logos/logo.webp')) }}">
+  <link rel="icon" type="image/png" href="{{ App\Models\Setting::getImageUrl('site_favicon', 'images/logos/logo.webp') }}">
 
   <!-- Bootstrap 5 CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
@@ -19,7 +19,7 @@
 
   <div class="adm-login-card">
     <div class="adm-login-brand">
-      <img src="{{ asset(App\Models\Setting::get('site_logo', 'images/logos/logo.webp')) }}" alt="Logo" class="adm-login-logo">
+      <img src="{{ App\Models\Setting::getImageUrl('site_logo', 'images/logos/logo.webp') }}" alt="Logo" class="adm-login-logo" onerror="this.onerror=null;this.src='{{ asset('images/logos/logo.webp') }}';">
       <h1 class="adm-login-title">WOTM CMS</h1>
       <p class="adm-login-subtitle">Sign in to manage website content</p>
     </div>

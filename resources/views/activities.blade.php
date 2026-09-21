@@ -77,7 +77,7 @@
             <div class="col-lg-4 col-md-6 col-12">
               <article class="activity-card" data-category="{{ $service->category }}">
                 <div class="activity-card-media">
-                  <img src="{{ $service->image ? asset($service->image) : asset('2.jpeg') }}" alt="{{ $service->title }}" class="activity-card-img" loading="lazy">
+                  <img src="{{ $service->image_url }}" alt="{{ $service->title }}" class="activity-card-img" loading="lazy" onerror="this.onerror=null;this.src='{{ asset('2.jpeg') }}';">
                   <span class="activity-card-badge">
                     <i class="fa-solid fa-seedling"></i> {{ $service->category ? ucfirst($service->category) : (app()->getLocale() === 'en' ? 'Regular Activity' : 'কার্যক্রম') }}
                   </span>

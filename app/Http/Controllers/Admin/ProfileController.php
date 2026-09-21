@@ -26,7 +26,7 @@ class ProfileController extends Controller
             'phone' => 'nullable|string|max:50',
             'current_password' => 'nullable|required_with:password|current_password',
             'password' => ['nullable', 'confirmed', Password::defaults()],
-            'avatar' => 'nullable|image|max:2048',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg,gif|max:10240',
         ]);
 
         if (!empty($validated['password'])) {
@@ -38,6 +38,16 @@ class ProfileController extends Controller
         if ($request->hasFile('avatar')) {
             $path = $request->file('avatar')->store('uploads/avatars', 'public');
             $validated['avatar'] = 'storage/' . $path;
+
+            try {
+                $destDir = public_path('storage/uploads/avatars');
+                if (!file_exists($destDir)) {
+                    @mkdir($destDir, 0755, true);
+                }
+                @copy(storage_path('app/public/' . $path), public_path('storage/' . $path));
+            } catch (\Exception $e) {
+                // Ignore fallback copy error
+            }
         }
 
         $user->update($validated);

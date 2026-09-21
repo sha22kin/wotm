@@ -108,7 +108,7 @@
           @if($notice->file_path)
             <div class="mb-3 p-2 bg-light border rounded small">
               <i class="fa-solid fa-file-pdf text-danger me-1"></i>
-              Current: <a href="{{ asset($notice->file_path) }}" target="_blank" class="fw-semibold">{{ basename($notice->file_path) }}</a> ({{ $notice->file_size }})
+              Current: <a href="{{ $notice->file_url }}" target="_blank" class="fw-semibold">{{ basename($notice->file_path) }}</a> ({{ $notice->file_size }})
             </div>
           @endif
           <div class="adm-form-group mb-0">

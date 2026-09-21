@@ -170,7 +170,7 @@
           <div class="adm-form-group mb-0">
             <input type="file" name="featured_image" id="featured_image" class="adm-input" accept="image/*" data-preview="postCoverPreview">
             @if($post->featured_image)
-              <img src="{{ asset($post->featured_image) }}" alt="Preview" class="adm-thumb-preview mt-2" id="postCoverPreview">
+              <img src="{{ $post->featured_image_url }}" alt="Preview" class="adm-thumb-preview mt-2" id="postCoverPreview" onerror="this.onerror=null;this.src='{{ asset('images/projects/featured_imam.jpg') }}';">
             @else
               <img src="#" alt="Preview" class="adm-thumb-preview adm-preview-hidden mt-2" id="postCoverPreview">
             @endif

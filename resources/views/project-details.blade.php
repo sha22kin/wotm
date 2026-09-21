@@ -54,10 +54,11 @@
 
               <figure class="mb-4">
                 <img
-                  src="{{ $post->featured_image ? asset($post->featured_image) : asset('images/projects/featured_imam.jpg') }}"
+                  src="{{ $post->featured_image_url }}"
                   alt="{{ $post->title }}"
                   class="img-fluid rounded-3 w-100"
-                  loading="eager">
+                  loading="eager"
+                  onerror="this.onerror=null;this.src='{{ asset('images/projects/featured_imam.jpg') }}';">
                 @if($post->excerpt)
                   <figcaption class="text-muted small mt-2 fst-italic">{{ $post->excerpt }}</figcaption>
                 @endif
@@ -77,7 +78,7 @@
                 <div class="d-flex flex-column gap-3">
                   @foreach($relatedPosts as $rel)
                     <a href="{{ route('projects.show', $rel->slug) }}" class="d-flex gap-3 text-decoration-none text-dark align-items-center">
-                      <img src="{{ $rel->featured_image ? asset($rel->featured_image) : asset('images/projects/flood_relief.jpg') }}" alt="{{ $rel->title }}" class="rounded-2 project-rel-thumb">
+                      <img src="{{ $rel->featured_image_url }}" alt="{{ $rel->title }}" class="rounded-2 project-rel-thumb" onerror="this.onerror=null;this.src='{{ asset('images/projects/flood_relief.jpg') }}';">
                       <div>
                         <h6 class="mb-1 small fw-semibold text-truncate project-rel-title">{{ $rel->title }}</h6>
                         <small class="text-muted">{{ $rel->published_at ? $rel->published_at->format('d M, Y') : '' }}</small>

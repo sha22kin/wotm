@@ -139,7 +139,7 @@
           <div class="adm-form-group mb-0">
             <input type="file" name="image" id="image" class="adm-input" accept="image/*" data-preview="serviceImgPreview">
             @if($service->image)
-              <img src="{{ asset($service->image) }}" alt="Preview" class="adm-thumb-preview mt-2" id="serviceImgPreview">
+              <img src="{{ $service->image_url }}" alt="Preview" class="adm-thumb-preview mt-2" id="serviceImgPreview" onerror="this.onerror=null;this.src='{{ asset('2.jpeg') }}';">
             @else
               <img src="#" alt="Preview" class="adm-thumb-preview adm-preview-hidden mt-2" id="serviceImgPreview">
             @endif

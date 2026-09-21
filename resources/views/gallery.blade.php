@@ -98,9 +98,9 @@
                 <div class="row g-4" id="galleryImagesRow">
                   @forelse($images as $img)
                     <div class="col-md-6 col-12" data-category="{{ $img->category_slug }}">
-                      <a href="{{ asset($img->image_path ?: $img->file_path) }}" class="gallery-media-card text-decoration-none d-block" data-fancybox="gallery" data-caption="{{ $img->title }}">
+                      <a href="{{ $img->image_url }}" class="gallery-media-card text-decoration-none d-block" data-fancybox="gallery" data-caption="{{ $img->title }}">
                         <div class="gallery-image-frame">
-                          <img src="{{ asset($img->image_path ?: $img->file_path) }}" alt="{{ $img->title }}" class="gallery-card-img" loading="lazy">
+                          <img src="{{ $img->image_url }}" alt="{{ $img->title }}" class="gallery-card-img" loading="lazy" onerror="this.onerror=null;this.src='{{ asset('images/hero2.webp') }}';">
                           <div class="gallery-image-overlay">
                             <span class="gallery-overlay-badge">{{ $img->category_name }}</span>
                             <h3 class="gallery-overlay-caption">{{ $img->title }}</h3>
@@ -153,7 +153,7 @@
                     <div class="col-md-6 col-12" data-category="{{ $vid->category_slug }}">
                       <a href="{{ $vid->video_url }}" class="gallery-video-card text-decoration-none d-block" data-fancybox="video-gallery" data-caption="{{ $vid->title }}">
                         <div class="gallery-video-frame">
-                          <img src="{{ $vid->image_path ? asset($vid->image_path) : ($vid->file_path ? asset($vid->file_path) : asset('WhatsApp Image 2026-09-07 at 12.06.17 PM.jpeg')) }}" alt="{{ $vid->title }}" class="gallery-video-thumb" loading="lazy">
+                          <img src="{{ $vid->image_url }}" alt="{{ $vid->title }}" class="gallery-video-thumb" loading="lazy" onerror="this.onerror=null;this.src='{{ asset('images/video-thumb.jpg') }}';">
                           <div class="gallery-video-play-btn"><i class="fa-solid fa-play"></i></div>
                         </div>
                         <div class="gallery-video-info">

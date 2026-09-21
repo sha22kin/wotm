@@ -40,7 +40,7 @@
             <td>{{ $notice->notice_date ? $notice->notice_date->format('M d, Y') : '-' }}</td>
             <td>
               @if($notice->file_path)
-                <a href="{{ asset($notice->file_path) }}" target="_blank" class="adm-btn adm-btn-outline adm-btn-sm">
+                <a href="{{ $notice->file_url }}" target="_blank" class="adm-btn adm-btn-outline adm-btn-sm">
                   <i class="fa-solid fa-file-arrow-down me-1"></i> {{ $notice->file_type ?: 'File' }} ({{ $notice->file_size ?: '' }})
                 </a>
               @else

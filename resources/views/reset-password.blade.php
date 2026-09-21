@@ -17,7 +17,7 @@
             <!-- Card Header with Brand Badge -->
             <div class="auth-card-header">
               <div class="auth-brand-badge">
-                <img src="{{ asset(App\Models\Setting::get('site_logo', 'images/logos/logo.webp')) }}" alt="WOTM" class="auth-badge-logo">
+                <img src="{{ App\Models\Setting::getImageUrl('site_logo', 'images/logos/logo.webp') }}" alt="WOTM" class="auth-badge-logo" onerror="this.onerror=null;this.src='{{ asset('images/logos/logo.webp') }}';">
               </div>
               <h2 class="auth-card-title">{{ app()->getLocale() === 'en' ? 'Set New Password' : 'নতুন পাসওয়ার্ড দিন' }}</h2>
               <p class="auth-card-subtitle">

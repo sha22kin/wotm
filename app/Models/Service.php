@@ -51,4 +51,39 @@ class Service extends Model
         $locale = app()->getLocale();
         return $locale === 'en' ? ($this->description_en ?: $this->description_bn) : ($this->description_bn ?: $this->description_en);
     }
+
+    /**
+     * Get reliable URL for service/activity image with local and cPanel fallbacks
+     */
+    public function getImageUrlAttribute(): string
+    {
+        if (empty($this->image)) {
+            return asset('2.jpeg');
+        }
+
+        if (str_starts_with($this->image, 'http://') || str_starts_with($this->image, 'https://')) {
+            return $this->image;
+        }
+
+        $cleanPath = ltrim($this->image, '/');
+
+        if (file_exists(public_path($cleanPath))) {
+            return asset($cleanPath);
+        }
+
+        if (file_exists(public_path('images/' . $cleanPath))) {
+            return asset('images/' . $cleanPath);
+        }
+
+        if (file_exists(public_path('storage/' . $cleanPath))) {
+            return asset('storage/' . $cleanPath);
+        }
+
+        $storageSub = preg_replace('#^storage/#', '', $cleanPath);
+        if (file_exists(storage_path('app/public/' . $storageSub))) {
+            return asset(str_starts_with($cleanPath, 'storage/') ? $cleanPath : 'storage/' . $cleanPath);
+        }
+
+        return asset($cleanPath);
+    }
 }

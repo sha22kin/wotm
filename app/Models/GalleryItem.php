@@ -72,4 +72,44 @@ class GalleryItem extends Model
 
         return $this->category ? \Illuminate\Support\Str::slug($this->category) : 'all';
     }
+
+    /**
+     * Get reliable, cross-platform URL for the media image or thumbnail poster
+     */
+    public function getImageUrlAttribute(): string
+    {
+        if (empty($this->image_path)) {
+            return asset($this->type === 'video' ? 'images/video-thumb.jpg' : 'images/hero2.webp');
+        }
+
+        if (str_starts_with($this->image_path, 'http://') || str_starts_with($this->image_path, 'https://')) {
+            return $this->image_path;
+        }
+
+        $cleanPath = ltrim($this->image_path, '/');
+
+        // 1. Direct file in public root (e.g. 7.jpeg, 8.jpeg)
+        if (file_exists(public_path($cleanPath))) {
+            return asset($cleanPath);
+        }
+
+        // 2. File in public/images/ (e.g. video-thumb.jpg, hero2.webp)
+        if (file_exists(public_path('images/' . $cleanPath))) {
+            return asset('images/' . $cleanPath);
+        }
+
+        // 3. File in public/storage/ (symlinked or direct)
+        if (file_exists(public_path('storage/' . $cleanPath))) {
+            return asset('storage/' . $cleanPath);
+        }
+
+        // 4. File stored in storage/app/public/
+        $storageSub = preg_replace('#^storage/#', '', $cleanPath);
+        if (file_exists(storage_path('app/public/' . $storageSub))) {
+            return asset(str_starts_with($cleanPath, 'storage/') ? $cleanPath : 'storage/' . $cleanPath);
+        }
+
+        // Default fallback asset helper
+        return asset($cleanPath);
+    }
 }

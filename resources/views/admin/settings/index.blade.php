@@ -127,7 +127,7 @@
           <div class="adm-form-group mb-0">
             <input type="file" name="site_logo" id="site_logo" class="adm-input" accept="image/*" data-preview="siteLogoPreview">
             @if(!empty($settings['site_logo']))
-              <img src="{{ asset($settings['site_logo']) }}" alt="Site Logo" class="adm-thumb-preview mt-2" id="siteLogoPreview">
+              <img src="{{ App\Models\Setting::getImageUrl('site_logo', 'images/logos/logo.webp') }}" alt="Site Logo" class="adm-thumb-preview mt-2" id="siteLogoPreview" onerror="this.onerror=null;this.src='{{ asset('images/logos/logo.webp') }}';">
             @else
               <img src="#" alt="Site Logo" class="adm-thumb-preview adm-preview-hidden mt-2" id="siteLogoPreview">
             @endif
@@ -149,7 +149,7 @@
             <input type="file" name="footer_logo" id="footer_logo" class="adm-input" accept="image/*" data-preview="footerLogoPreview">
             <div class="adm-dark-preview-box">
               <span class="adm-preview-caption">Preview on dark background:</span>
-              <img src="{{ asset(App\Models\Setting::get('footer_logo', 'images/logos/logo4.webp')) }}" alt="Footer Logo" class="adm-footer-logo-preview" id="footerLogoPreview">
+              <img src="{{ App\Models\Setting::getImageUrl('footer_logo', 'images/logos/logo4.webp') }}" alt="Footer Logo" class="adm-footer-logo-preview" id="footerLogoPreview" onerror="this.onerror=null;this.src='{{ asset('images/logos/logo4.webp') }}';">
             </div>
             <div class="adm-input-hint mt-2">Dedicated horizontal logo for the dark footer (Default: logo4.webp).</div>
           </div>
@@ -168,7 +168,7 @@
           <div class="adm-form-group mb-0">
             <input type="file" name="site_favicon" id="site_favicon" class="adm-input" accept="image/*" data-preview="siteFaviconPreview">
             @if(!empty($settings['site_favicon']))
-              <img src="{{ asset($settings['site_favicon']) }}" alt="Favicon" class="adm-thumb-preview adm-fav-preview mt-2" id="siteFaviconPreview">
+              <img src="{{ App\Models\Setting::getImageUrl('site_favicon', 'images/logos/logo.webp') }}" alt="Favicon" class="adm-thumb-preview adm-fav-preview mt-2" id="siteFaviconPreview" onerror="this.onerror=null;this.src='{{ asset('images/logos/logo.webp') }}';">
             @else
               <img src="#" alt="Favicon" class="adm-thumb-preview adm-preview-hidden adm-fav-preview mt-2" id="siteFaviconPreview">
             @endif

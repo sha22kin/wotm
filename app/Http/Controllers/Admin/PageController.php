@@ -32,19 +32,39 @@ class PageController extends Controller
             'meta_description' => 'nullable|string',
             'meta_keywords' => 'nullable|string',
             'canonical_url' => 'nullable|string|max:255',
-            'featured_image' => 'nullable|image|max:2048',
-            'og_image' => 'nullable|image|max:2048',
+            'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg,gif|max:10240',
+            'og_image' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg,gif|max:10240',
             'is_active' => 'nullable|boolean',
         ]);
 
         if ($request->hasFile('featured_image')) {
             $path = $request->file('featured_image')->store('uploads/pages', 'public');
             $validated['featured_image'] = 'storage/' . $path;
+
+            try {
+                $destDir = public_path('storage/uploads/pages');
+                if (!file_exists($destDir)) {
+                    @mkdir($destDir, 0755, true);
+                }
+                @copy(storage_path('app/public/' . $path), public_path('storage/' . $path));
+            } catch (\Exception $e) {
+                // Ignore fallback copy error
+            }
         }
 
         if ($request->hasFile('og_image')) {
             $path = $request->file('og_image')->store('uploads/pages', 'public');
             $validated['og_image'] = 'storage/' . $path;
+
+            try {
+                $destDir = public_path('storage/uploads/pages');
+                if (!file_exists($destDir)) {
+                    @mkdir($destDir, 0755, true);
+                }
+                @copy(storage_path('app/public/' . $path), public_path('storage/' . $path));
+            } catch (\Exception $e) {
+                // Ignore fallback copy error
+            }
         }
 
         $validated['is_active'] = $request->has('is_active');

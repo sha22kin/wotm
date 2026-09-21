@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\GalleryCategory;
 use App\Models\NavigationItem;
 use App\Models\Page;
 use App\Models\PostCategory;
@@ -19,8 +20,9 @@ class NavigationController extends Controller
         $parents = NavigationItem::whereNull('parent_id')->orderBy('order', 'asc')->get();
         $pages = Page::where('is_active', true)->orderBy('title_en')->get(['id', 'title_en', 'title_bn', 'slug']);
         $postCategories = PostCategory::where('is_active', true)->orderBy('name_en')->get(['id', 'name_en', 'name_bn', 'slug']);
+        $galleryCategories = GalleryCategory::where('is_active', true)->orderBy('order', 'asc')->get(['id', 'name_en', 'name_bn', 'slug']);
 
-        return view('admin.navigation.index', compact('items', 'parents', 'pages', 'postCategories'));
+        return view('admin.navigation.index', compact('items', 'parents', 'pages', 'postCategories', 'galleryCategories'));
     }
 
     public function store(Request $request)
@@ -64,8 +66,9 @@ class NavigationController extends Controller
         }]);
         $pages = Page::where('is_active', true)->orderBy('title_en')->get(['id', 'title_en', 'title_bn', 'slug']);
         $postCategories = PostCategory::where('is_active', true)->orderBy('name_en')->get(['id', 'name_en', 'name_bn', 'slug']);
+        $galleryCategories = GalleryCategory::where('is_active', true)->orderBy('order', 'asc')->get(['id', 'name_en', 'name_bn', 'slug']);
 
-        return view('admin.navigation.edit', compact('navigation', 'pages', 'postCategories'));
+        return view('admin.navigation.edit', compact('navigation', 'pages', 'postCategories', 'galleryCategories'));
     }
 
     public function update(Request $request, NavigationItem $navigation)

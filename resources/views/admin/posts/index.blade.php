@@ -68,13 +68,7 @@
         @forelse($posts as $post)
           <tr>
             <td>
-              @if($post->featured_image)
-                <img src="{{ asset($post->featured_image) }}" alt="Thumb" class="adm-thumb">
-              @else
-                <div class="adm-thumb d-flex align-items-center justify-content-center text-muted">
-                  <i class="fa-solid fa-image"></i>
-                </div>
-              @endif
+              <img src="{{ $post->featured_image_url }}" alt="Thumb" class="adm-thumb" onerror="this.onerror=null;this.src='{{ asset('images/projects/featured_imam.jpg') }}';">
             </td>
             <td>
               <div class="fw-semibold adm-truncate-lg">

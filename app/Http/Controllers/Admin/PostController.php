@@ -57,7 +57,7 @@ class PostController extends Controller
             'status' => 'required|in:draft,published',
             'is_featured' => 'nullable|boolean',
             'published_at' => 'nullable|date',
-            'featured_image' => 'nullable|image|max:5120',
+            'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,svg,bmp,avif|max:10240',
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string',
             'meta_keywords' => 'nullable|string',
@@ -97,8 +97,19 @@ class PostController extends Controller
         }
 
         if ($request->hasFile('featured_image')) {
-            $path = $request->file('featured_image')->store('uploads/posts', 'public');
+            $file = $request->file('featured_image');
+            $ext = $file->getClientOriginalExtension() ?: 'jpg';
+            $filename = time() . '_' . uniqid() . '.' . $ext;
+            $path = $file->storeAs('uploads/posts', $filename, 'public');
             $validated['featured_image'] = 'storage/' . $path;
+
+            try {
+                $destDir = public_path('storage/uploads/posts');
+                if (!file_exists($destDir)) {
+                    @mkdir($destDir, 0755, true);
+                }
+                @copy(storage_path('app/public/' . $path), public_path('storage/' . $path));
+            } catch (\Exception $e) {}
         }
 
         Post::create($validated);
@@ -127,7 +138,7 @@ class PostController extends Controller
             'status' => 'required|in:draft,published',
             'is_featured' => 'nullable|boolean',
             'published_at' => 'nullable|date',
-            'featured_image' => 'nullable|image|max:5120',
+            'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,svg,bmp,avif|max:10240',
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string',
             'meta_keywords' => 'nullable|string',
@@ -165,8 +176,19 @@ class PostController extends Controller
         }
 
         if ($request->hasFile('featured_image')) {
-            $path = $request->file('featured_image')->store('uploads/posts', 'public');
+            $file = $request->file('featured_image');
+            $ext = $file->getClientOriginalExtension() ?: 'jpg';
+            $filename = time() . '_' . uniqid() . '.' . $ext;
+            $path = $file->storeAs('uploads/posts', $filename, 'public');
             $validated['featured_image'] = 'storage/' . $path;
+
+            try {
+                $destDir = public_path('storage/uploads/posts');
+                if (!file_exists($destDir)) {
+                    @mkdir($destDir, 0755, true);
+                }
+                @copy(storage_path('app/public/' . $path), public_path('storage/' . $path));
+            } catch (\Exception $e) {}
         }
 
         $post->update($validated);

@@ -64,4 +64,39 @@ class Post extends Model
         $locale = app()->getLocale();
         return $locale === 'en' ? ($this->content_en ?: $this->content_bn) : ($this->content_bn ?: $this->content_en);
     }
+
+    /**
+     * Get reliable URL for post featured image with fallback
+     */
+    public function getFeaturedImageUrlAttribute(): string
+    {
+        if (empty($this->featured_image)) {
+            return asset('images/projects/featured_imam.jpg');
+        }
+
+        if (str_starts_with($this->featured_image, 'http://') || str_starts_with($this->featured_image, 'https://')) {
+            return $this->featured_image;
+        }
+
+        $cleanPath = ltrim($this->featured_image, '/');
+
+        if (file_exists(public_path($cleanPath))) {
+            return asset($cleanPath);
+        }
+
+        if (file_exists(public_path('images/' . $cleanPath))) {
+            return asset('images/' . $cleanPath);
+        }
+
+        if (file_exists(public_path('storage/' . $cleanPath))) {
+            return asset('storage/' . $cleanPath);
+        }
+
+        $storageSub = preg_replace('#^storage/#', '', $cleanPath);
+        if (file_exists(storage_path('app/public/' . $storageSub))) {
+            return asset(str_starts_with($cleanPath, 'storage/') ? $cleanPath : 'storage/' . $cleanPath);
+        }
+
+        return asset($cleanPath);
+    }
 }

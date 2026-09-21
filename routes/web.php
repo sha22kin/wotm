@@ -205,12 +205,21 @@ Route::prefix('admin')->name('admin.')->middleware('admin.auth')->group(function
 });
 
 // Deployment & Maintenance utility routes
-Route::get('/storage-link', function () {
-    \Illuminate\Support\Facades\Artisan::call('storage:link');
-    return response()->json(['status' => 'success', 'message' => 'Storage symlink created successfully!']);
-});
-
 Route::get('/clear-cache', function () {
     \Illuminate\Support\Facades\Artisan::call('optimize:clear');
     return response()->json(['status' => 'success', 'message' => 'Application cache cleared successfully!']);
 });
+
+// Fallback media asset streamer when symlink is not available on shared host
+Route::get('/storage/uploads/{path}', function (string $path) {
+    $fullPath = storage_path('app/public/uploads/' . $path);
+    if (file_exists($fullPath)) {
+        return response()->file($fullPath);
+    }
+    $publicPath = public_path('storage/uploads/' . $path);
+    if (file_exists($publicPath)) {
+        return response()->file($publicPath);
+    }
+    abort(404);
+})->where('path', '.*')->name('media.storage.stream');
+

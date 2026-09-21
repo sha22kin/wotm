@@ -43,7 +43,7 @@
             <label class="adm-label" for="seo_og_image">Default Social Share Image (Open Graph)</label>
             <input type="file" name="seo_og_image" id="seo_og_image" class="adm-input" accept="image/*" data-preview="seoOgPreview">
             @if(!empty($settings['seo_og_image']))
-              <img src="{{ asset($settings['seo_og_image']) }}" alt="OG Preview" class="adm-thumb-preview mt-2" id="seoOgPreview">
+              <img src="{{ App\Models\Setting::getImageUrl('seo_og_image', 'images/hero.webp') }}" alt="OG Preview" class="adm-thumb-preview mt-2" id="seoOgPreview" onerror="this.onerror=null;this.src='{{ asset('images/hero.webp') }}';">
             @else
               <img src="#" alt="OG Preview" class="adm-thumb-preview adm-preview-hidden mt-2" id="seoOgPreview">
             @endif

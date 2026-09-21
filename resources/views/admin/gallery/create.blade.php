@@ -79,9 +79,15 @@
           <!-- Image Upload Field -->
           <div class="adm-form-group">
             <label class="adm-label" for="image" id="imageLabel">Upload Image <span class="adm-req">*</span></label>
-            <input type="file" name="image" id="image" class="adm-input" accept="image/*" data-preview="galleryImgPreview">
-            <img src="#" alt="Preview" class="adm-thumb-preview adm-preview-hidden mt-2" id="galleryImgPreview">
-            <div class="adm-input-hint" id="imageHint">Upload high resolution image (PNG, JPG, WebP).</div>
+            <input type="file" name="image" id="image" class="adm-input @error('image') is-invalid @enderror" accept="image/jpeg,image/png,image/webp,image/gif,image/svg+xml,image/avif" onchange="previewSelectedImage(this)">
+            @error('image')
+              <div class="text-danger fs-xs mt-1 fw-medium"><i class="fa-solid fa-circle-exclamation me-1"></i>{{ $message }}</div>
+            @enderror
+            <div id="imagePreviewContainer" class="adm-preview-hidden mt-2 p-2 border rounded bg-light d-inline-block">
+              <img src="" alt="Selected Preview" class="adm-thumb-preview" id="galleryImgPreview" style="max-height:160px;width:auto;border-radius:6px;object-fit:cover;">
+              <div class="text-muted fs-xs mt-1" id="imageFileInfo"></div>
+            </div>
+            <div class="adm-input-hint" id="imageHint">Upload high resolution image (PNG, JPG, WebP, max 10MB).</div>
           </div>
 
           <div class="row g-3">
@@ -127,11 +133,28 @@
     if (type === 'video') {
       videoGroup.classList.remove('adm-preview-hidden');
       imageLabel.innerHTML = 'Video Thumbnail Poster (Optional)';
-      imageHint.innerHTML = 'Optional cover thumbnail image for the video preview.';
+      imageHint.innerHTML = 'Optional cover thumbnail image for the video preview (JPG, PNG, WebP).';
     } else {
       videoGroup.classList.add('adm-preview-hidden');
       imageLabel.innerHTML = 'Upload Image <span class="adm-req">*</span>';
-      imageHint.innerHTML = 'Upload high resolution image (PNG, JPG, WebP).';
+      imageHint.innerHTML = 'Upload high resolution image (PNG, JPG, WebP, max 10MB).';
+    }
+  }
+
+  function previewSelectedImage(input) {
+    const preview = document.getElementById('galleryImgPreview');
+    const container = document.getElementById('imagePreviewContainer');
+    const info = document.getElementById('imageFileInfo');
+
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        preview.src = e.target.result;
+        container.classList.remove('adm-preview-hidden');
+        info.textContent = file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
+      };
+      reader.readAsDataURL(file);
     }
   }
 </script>

@@ -7,7 +7,7 @@
   <title>@yield('title', 'Admin Panel') | WOTM CMS</title>
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="{{ asset(App\Models\Setting::get('site_favicon', 'images/logos/logo.webp')) }}">
+  <link rel="icon" type="image/png" href="{{ App\Models\Setting::getImageUrl('site_favicon', 'images/logos/logo.webp') }}">
 
   <!-- Bootstrap 5.3.3 Grid & Utilities -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">

@@ -20,7 +20,7 @@
               <!-- Card Header with Brand Badge -->
               <div class="auth-card-header">
                 <div class="auth-brand-badge">
-                  <img src="{{ asset(App\Models\Setting::get('site_logo', 'images/logos/logo.webp')) }}" alt="WOTM লোগো" class="auth-badge-logo">
+                  <img src="{{ App\Models\Setting::getImageUrl('site_logo', 'images/logos/logo.webp') }}" alt="WOTM লোগো" class="auth-badge-logo" onerror="this.onerror=null;this.src='{{ asset('images/logos/logo.webp') }}';">
                 </div>
                 <h2 class="auth-card-title" id="authCardTitle">{{ app()->getLocale() === 'en' ? 'Create Account' : 'অ্যাকাউন্ট তৈরি করুন' }}</h2>
                 <p class="auth-card-subtitle" id="authCardSubtitle">{{ app()->getLocale() === 'en' ? 'Register to connect with our welfare activities' : 'আমাদের সেবামূলক কার্যক্রমে যুক্ত হতে তথ্য দিন' }}</p>

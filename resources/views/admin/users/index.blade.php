@@ -100,7 +100,7 @@
               <div class="adm-user-cell">
                 @if($user->avatar)
                   <div class="adm-avatar-circle">
-                    <img src="{{ asset($user->avatar) }}" alt="{{ $user->name }}" class="adm-avatar-img">
+                    <img src="{{ $user->avatar_url }}" alt="{{ $user->name }}" class="adm-avatar-img" onerror="this.onerror=null;this.src='{{ asset('images/avatar-default.png') }}';">
                   </div>
                 @else
                   <div class="adm-avatar-circle {{ $user->role === 'super_admin' ? 'is-super' : ($user->role === 'admin' ? 'is-admin' : ($user->role === 'editor' ? 'is-editor' : ($user->role === 'moderator' ? 'is-moderator' : 'is-member'))) }}">
@@ -157,7 +157,7 @@
                         data-phone="{{ $user->phone }}"
                         data-role="{{ $user->role }}"
                         data-status="{{ $user->status }}"
-                        data-avatar="{{ $user->avatar ? asset($user->avatar) : '' }}">
+                        data-avatar="{{ $user->avatar ? $user->avatar_url : '' }}">
                   <i class="fa-solid fa-pen-to-square"></i>
                 </button>
 
