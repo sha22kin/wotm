@@ -66,6 +66,8 @@ class GalleryController extends Controller
             'image' => 'nullable|image|max:5120',
         ]);
 
+        $validated['title_en'] = $validated['title_en'] ?: $validated['title_bn'];
+        $validated['title_bn'] = $validated['title_bn'] ?: $validated['title_en'];
         $validated['is_active'] = $request->has('is_active');
         $validated['order'] = $validated['order'] ?? 0;
 
@@ -106,6 +108,8 @@ class GalleryController extends Controller
             'image' => 'nullable|image|max:5120',
         ]);
 
+        $validated['title_en'] = $validated['title_en'] ?: $validated['title_bn'];
+        $validated['title_bn'] = $validated['title_bn'] ?: $validated['title_en'];
         $validated['is_active'] = $request->has('is_active');
 
         if (!empty($validated['gallery_category_id'])) {

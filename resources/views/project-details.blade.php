@@ -77,9 +77,9 @@
                 <div class="d-flex flex-column gap-3">
                   @foreach($relatedPosts as $rel)
                     <a href="{{ route('projects.show', $rel->slug) }}" class="d-flex gap-3 text-decoration-none text-dark align-items-center">
-                      <img src="{{ $rel->featured_image ? asset($rel->featured_image) : asset('images/projects/flood_relief.jpg') }}" alt="{{ $rel->title }}" class="rounded-2" style="width: 70px; height: 50px; object-fit: cover;">
+                      <img src="{{ $rel->featured_image ? asset($rel->featured_image) : asset('images/projects/flood_relief.jpg') }}" alt="{{ $rel->title }}" class="rounded-2 project-rel-thumb">
                       <div>
-                        <h6 class="mb-1 small fw-semibold text-truncate" style="max-width: 200px;">{{ $rel->title }}</h6>
+                        <h6 class="mb-1 small fw-semibold text-truncate project-rel-title">{{ $rel->title }}</h6>
                         <small class="text-muted">{{ $rel->published_at ? $rel->published_at->format('d M, Y') : '' }}</small>
                       </div>
                     </a>

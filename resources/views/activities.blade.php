@@ -66,6 +66,9 @@
           <a href="{{ route('activities.index', ['cat' => 'relief']) }}" class="btn btn-sm {{ request('cat') === 'relief' ? 'btn-success' : 'btn-outline-secondary' }}">
             {{ app()->getLocale() === 'en' ? 'Relief' : 'ত্রাণ ও পুনর্বাসন' }}
           </a>
+          <a href="{{ route('activities.index', ['cat' => 'welfare']) }}" class="btn btn-sm {{ request('cat') === 'welfare' ? 'btn-success' : 'btn-outline-secondary' }}">
+            {{ app()->getLocale() === 'en' ? 'Welfare' : 'সেবা ও পুনর্বাসন' }}
+          </a>
         </div>
 
         <!-- 3-Column Activities Grid -->

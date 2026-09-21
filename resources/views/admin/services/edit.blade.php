@@ -77,10 +77,12 @@
           <div class="adm-form-group">
             <label class="adm-label" for="category">Category <span class="adm-req">*</span></label>
             <select name="category" id="category" class="adm-select" required>
-              <option value="education" {{ old('category', $service->category) === 'education' ? 'selected' : '' }}>শিক্ষা ও দাওয়াহ (Education & Dawah)</option>
+              <option value="education" {{ old('category', $service->category) === 'education' ? 'selected' : '' }}>শিক্ষা (Education)</option>
+              <option value="dawah" {{ old('category', $service->category) === 'dawah' ? 'selected' : '' }}>দাওয়াহ (Dawah)</option>
               <option value="welfare" {{ old('category', $service->category) === 'welfare' ? 'selected' : '' }}>সেবা ও পুনর্বাসন (Welfare & Rehabilitation)</option>
               <option value="relief" {{ old('category', $service->category) === 'relief' ? 'selected' : '' }}>জরুরি ত্রাণ কার্যক্রম (Emergency Relief)</option>
               <option value="livelihood" {{ old('category', $service->category) === 'livelihood' ? 'selected' : '' }}>স্বাবলম্বীকরণ (Livelihood Support)</option>
+              <option value="general" {{ old('category', $service->category) === 'general' ? 'selected' : '' }}>সাধারণ কার্যক্রম (General Activity)</option>
             </select>
           </div>
 

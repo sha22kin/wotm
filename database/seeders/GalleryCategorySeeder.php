@@ -22,7 +22,7 @@ class GalleryCategorySeeder extends Seeder
         ];
 
         foreach ($categories as $cat) {
-            GalleryCategory::firstOrCreate(
+            GalleryCategory::updateOrCreate(
                 ['slug' => $cat['slug']],
                 [
                     'name_en' => $cat['name_en'],

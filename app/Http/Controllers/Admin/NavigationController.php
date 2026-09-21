@@ -26,7 +26,7 @@ class NavigationController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title_en' => 'required|string|max:255',
+            'title_en' => 'nullable|string|max:255',
             'title_bn' => 'nullable|string|max:255',
             'url' => 'required|string|max:255',
             'parent_id' => 'nullable|exists:navigation_items,id',
@@ -35,9 +35,14 @@ class NavigationController extends Controller
             'is_active' => 'nullable|boolean',
         ]);
 
-        if (empty($validated['title_bn'])) {
-            $validated['title_bn'] = $validated['title_en'];
+        if (empty($validated['title_en']) && empty($validated['title_bn'])) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'title_en' => 'মেনুর জন্য অন্তত একটি শিরোনাম (বাংলা বা ইংরেজি) আবশ্যক।',
+            ]);
         }
+
+        $validated['title_en'] = $validated['title_en'] ?: $validated['title_bn'];
+        $validated['title_bn'] = $validated['title_bn'] ?: $validated['title_en'];
         $validated['target'] = $validated['target'] ?? '_self';
         $validated['is_active'] = $request->has('is_active');
 
@@ -66,7 +71,7 @@ class NavigationController extends Controller
     public function update(Request $request, NavigationItem $navigation)
     {
         $validated = $request->validate([
-            'title_en' => 'required|string|max:255',
+            'title_en' => 'nullable|string|max:255',
             'title_bn' => 'nullable|string|max:255',
             'url' => 'required|string|max:255',
             'parent_id' => 'nullable|exists:navigation_items,id',
@@ -75,9 +80,14 @@ class NavigationController extends Controller
             'is_active' => 'nullable|boolean',
         ]);
 
-        if (empty($validated['title_bn'])) {
-            $validated['title_bn'] = $validated['title_en'];
+        if (empty($validated['title_en']) && empty($validated['title_bn'])) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'title_en' => 'মেনুর জন্য অন্তত একটি শিরোনাম (বাংলা বা ইংরেজি) আবশ্যক।',
+            ]);
         }
+
+        $validated['title_en'] = $validated['title_en'] ?: $validated['title_bn'];
+        $validated['title_bn'] = $validated['title_bn'] ?: $validated['title_en'];
         $validated['target'] = $validated['target'] ?? '_self';
         $validated['is_active'] = $request->has('is_active');
 

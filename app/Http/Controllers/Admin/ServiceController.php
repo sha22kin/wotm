@@ -26,7 +26,7 @@ class ServiceController extends Controller
             'title_en' => 'nullable|string|max:255',
             'title_bn' => 'nullable|string|max:255',
             'slug' => 'nullable|string|max:255|unique:services,slug',
-            'category' => 'required|string|max:50',
+            'category' => 'nullable|string|max:50',
             'short_description_en' => 'nullable|string',
             'short_description_bn' => 'nullable|string',
             'description_en' => 'nullable|string',
@@ -62,6 +62,7 @@ class ServiceController extends Controller
             $validated['slug'] = $baseSlug . '-' . $count++;
         }
 
+        $validated['category'] = !empty($validated['category']) ? $validated['category'] : 'general';
         $validated['is_active'] = $request->has('is_active');
         $validated['order'] = $validated['order'] ?? 0;
 
@@ -86,7 +87,7 @@ class ServiceController extends Controller
             'title_en' => 'nullable|string|max:255',
             'title_bn' => 'nullable|string|max:255',
             'slug' => 'nullable|string|max:255|unique:services,slug,' . $service->id,
-            'category' => 'required|string|max:50',
+            'category' => 'nullable|string|max:50',
             'short_description_en' => 'nullable|string',
             'short_description_bn' => 'nullable|string',
             'description_en' => 'nullable|string',
@@ -122,6 +123,7 @@ class ServiceController extends Controller
             $validated['slug'] = $baseSlug . '-' . $count++;
         }
 
+        $validated['category'] = !empty($validated['category']) ? $validated['category'] : 'general';
         $validated['is_active'] = $request->has('is_active');
 
         if ($request->hasFile('image')) {

@@ -45,6 +45,7 @@ use App\Http\Controllers\Admin\UserController as AdminUserController;
 */
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about-us', [PageController::class, 'about'])->name('about');
+Route::get('/page/{slug}', [PageController::class, 'show'])->name('pages.show');
 Route::get('/activities', [ActivityController::class, 'index'])->name('activities.index');
 Route::get('/activities/{slug}', [ActivityController::class, 'show'])->name('activities.show');
 Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');

@@ -158,6 +158,11 @@ class PostController extends Controller
         }
 
         $validated['is_featured'] = $request->has('is_featured');
+        $validated['status'] = $validated['status'] ?? 'published';
+
+        if (empty($validated['published_at']) && $validated['status'] === 'published') {
+            $validated['published_at'] = $post->published_at ?: now();
+        }
 
         if ($request->hasFile('featured_image')) {
             $path = $request->file('featured_image')->store('uploads/posts', 'public');

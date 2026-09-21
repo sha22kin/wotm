@@ -14,4 +14,11 @@ class PageController extends Controller
         $settings = Setting::getAllGrouped();
         return view('about', compact('page', 'settings'));
     }
+
+    public function show($slug)
+    {
+        $page = Page::where('slug', $slug)->where('is_active', true)->firstOrFail();
+        $settings = Setting::getAllGrouped();
+        return view('page', compact('page', 'settings'));
+    }
 }

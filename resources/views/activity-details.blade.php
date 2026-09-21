@@ -139,7 +139,7 @@
                     <span>৭৬% {{ app()->getLocale() === 'en' ? 'Completed' : 'সম্পন্ন' }}</span>
                   </div>
                   <div class="activity-support-progress-bar">
-                    <div class="activity-support-progress-fill" style="width: 76%;"></div>
+                    <div class="activity-support-progress-fill activity-support-progress-fill-76"></div>
                   </div>
                 </div>
 

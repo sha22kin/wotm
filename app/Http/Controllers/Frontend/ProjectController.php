@@ -11,12 +11,17 @@ class ProjectController extends Controller
 {
     public function index(Request $request)
     {
-        $featuredPost = Post::published()->featured()->latest('published_at')->first();
-        if (!$featuredPost) {
-            $featuredPost = Post::published()->latest('published_at')->first();
+        $isFiltering = $request->filled('search') || $request->get('page', 1) > 1;
+
+        $featuredPost = null;
+        if (!$isFiltering) {
+            $featuredPost = Post::published()->featured()->orderByRaw('COALESCE(published_at, created_at) DESC')->first();
+            if (!$featuredPost) {
+                $featuredPost = Post::published()->orderByRaw('COALESCE(published_at, created_at) DESC')->first();
+            }
         }
 
-        $query = Post::published()->latest('published_at');
+        $query = Post::published()->orderByRaw('COALESCE(published_at, created_at) DESC')->latest('id');
 
         if ($featuredPost) {
             $query->where('id', '!=', $featuredPost->id);

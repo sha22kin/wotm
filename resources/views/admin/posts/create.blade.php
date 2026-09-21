@@ -109,7 +109,7 @@
           <div class="adm-form-group">
             <label class="adm-label" for="status">Publication Status <span class="adm-req">*</span></label>
             <select name="status" id="status" class="adm-select" required>
-              <option value="published" {{ old('status') === 'published' ? 'selected' : '' }}>Published</option>
+              <option value="published" {{ old('status', 'published') === 'published' ? 'selected' : '' }}>Published</option>
               <option value="draft" {{ old('status') === 'draft' ? 'selected' : '' }}>Draft</option>
             </select>
           </div>

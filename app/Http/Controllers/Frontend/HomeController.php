@@ -15,12 +15,12 @@ class HomeController extends Controller
     public function index()
     {
         $page = Page::where('slug', 'home')->first();
-        $services = Service::active()->take(6)->get();
-        $featuredPost = Post::published()->featured()->latest('published_at')->first();
+        $services = Service::active()->orderBy('order', 'asc')->latest()->take(6)->get();
+        $featuredPost = Post::published()->featured()->orderByRaw('COALESCE(published_at, created_at) DESC')->first();
         if (!$featuredPost) {
-            $featuredPost = Post::published()->latest('published_at')->first();
+            $featuredPost = Post::published()->orderByRaw('COALESCE(published_at, created_at) DESC')->first();
         }
-        $posts = Post::published()->latest('published_at')->take(6)->get();
+        $posts = Post::published()->orderByRaw('COALESCE(published_at, created_at) DESC')->latest('id')->take(6)->get();
         $notices = Notice::active()->take(4)->get();
         $galleryImages = GalleryItem::with('galleryCategory')->active()->images()->take(6)->get();
         $settings = Setting::getAllGrouped();

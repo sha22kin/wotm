@@ -61,36 +61,36 @@
             <div class="col-lg-6 col-12">
               <article class="notice-card {{ $notice->is_pinned ? 'is-featured' : '' }}">
                 <div class="notice-card-top-row">
-                  <div class="notice-date-box">
-                    <span class="notice-date-day">{{ $notice->published_at ? $notice->published_at->format('d') : $notice->created_at->format('d') }}</span>
-                    <span class="notice-date-month">{{ $notice->published_at ? $notice->published_at->format('M Y') : $notice->created_at->format('M Y') }}</span>
-                  </div>
-                  <div class="notice-badge-group">
-                    @if($notice->is_pinned)
-                      <span class="notice-tag-badge urgent">
-                        <i class="fa-solid fa-fire"></i> {{ app()->getLocale() === 'en' ? 'Urgent' : 'জরুরি নোটিশ' }}
+                    <div class="notice-date-box">
+                      <span class="notice-date-day">{{ $notice->notice_date ? $notice->notice_date->format('d') : $notice->created_at->format('d') }}</span>
+                      <span class="notice-date-month">{{ $notice->notice_date ? $notice->notice_date->format('M Y') : $notice->created_at->format('M Y') }}</span>
+                    </div>
+                    <div class="notice-badge-group">
+                      @if($notice->is_pinned)
+                        <span class="notice-tag-badge urgent">
+                          <i class="fa-solid fa-fire"></i> {{ app()->getLocale() === 'en' ? 'Urgent' : 'জরুরি নোটিশ' }}
+                        </span>
+                      @endif
+                      <span class="notice-tag-badge project">
+                        <i class="fa-solid fa-bullhorn"></i> {{ app()->getLocale() === 'en' ? 'Notice' : 'বিজ্ঞপ্তি' }}
                       </span>
-                    @endif
-                    <span class="notice-tag-badge project">
-                      <i class="fa-solid fa-bullhorn"></i> {{ app()->getLocale() === 'en' ? 'Notice' : 'বিজ্ঞপ্তি' }}
-                    </span>
+                    </div>
                   </div>
-                </div>
 
-                @if($notice->notice_number)
-                  <span class="notice-card-ref">{{ app()->getLocale() === 'en' ? 'Memo No: ' : 'স্মারক নং: ' }}{{ $notice->notice_number }}</span>
-                @endif
+                  @if($notice->notice_number)
+                    <span class="notice-card-ref">{{ app()->getLocale() === 'en' ? 'Memo No: ' : 'স্মারক নং: ' }}{{ $notice->notice_number }}</span>
+                  @endif
 
-                <h2 class="notice-card-title">{{ $notice->title }}</h2>
+                  <h2 class="notice-card-title">{{ $notice->title }}</h2>
 
-                <p class="notice-card-desc">
-                  {{ $notice->description ?? Str::limit(strip_tags($notice->content), 140) }}
-                </p>
+                  <p class="notice-card-desc">
+                    {{ $notice->description ?? Str::limit(strip_tags($notice->content ?? ''), 140) }}
+                  </p>
 
-                <div class="notice-card-footer mt-3 pt-3 border-top d-flex justify-content-between align-items-center">
-                  <span class="text-muted small">
-                    <i class="fa-regular fa-clock me-1"></i> {{ $notice->published_at ? $notice->published_at->diffForHumans() : '' }}
-                  </span>
+                  <div class="notice-card-footer mt-3 pt-3 border-top d-flex justify-content-between align-items-center">
+                    <span class="text-muted small">
+                      <i class="fa-regular fa-clock me-1"></i> {{ $notice->notice_date ? $notice->notice_date->diffForHumans() : $notice->created_at->diffForHumans() }}
+                    </span>
                   @if($notice->file_path)
                     <a href="{{ asset($notice->file_path) }}" class="btn btn-sm btn-outline-success" target="_blank" download>
                       <i class="fa-solid fa-download me-1"></i> {{ app()->getLocale() === 'en' ? 'Download PDF' : 'ডাউনলোড' }}
