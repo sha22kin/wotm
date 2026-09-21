@@ -1,0 +1,684 @@
+/* ==========================================================================
+   WOTM - GALLERY PAGE STYLESHEET (css/gallery.css)
+   Pixel-Perfect Implementation matching As-Sunnah Reference Design
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. COLOR & DESIGN TOKENS
+   -------------------------------------------------------------------------- */
+:root {
+  --gallery-primary: #009B4D;
+  --gallery-primary-hover: #008240;
+  --gallery-primary-light: #D7F5E7;
+  --gallery-primary-dark: #006633;
+  --gallery-dark: #072619;
+  --gallery-gold: #EAA838;
+  --gallery-text-main: #1A202C;
+  --gallery-text-muted: #5A6A64;
+  --gallery-border: #E8ECE9;
+  --gallery-border-dotted: #D9DFDC;
+  --gallery-card-bg: #FFFFFF;
+  --gallery-body-bg: #F7FAF8;
+  --gallery-radius-sm: 8px;
+  --gallery-radius-md: 14px;
+  --gallery-radius-lg: 16px;
+  --gallery-radius-pill: 50px;
+  --gallery-transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  --gallery-shadow: 0 4px 20px rgba(0, 30, 15, 0.05);
+  --gallery-shadow-hover: 0 10px 28px rgba(0, 30, 15, 0.12);
+}
+
+/* --------------------------------------------------------------------------
+   2. PAGE HERO / BREADCRUMB BANNER
+   -------------------------------------------------------------------------- */
+.gallery-hero-section {
+  position: relative;
+  overflow: hidden;
+  padding: 135px 0 65px 0;
+  background-color: var(--gallery-dark);
+  color: #FFFFFF;
+  text-align: center;
+}
+
+.gallery-hero-bg-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  opacity: 0.20;
+  pointer-events: none;
+}
+
+.gallery-hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background: linear-gradient(180deg, rgba(3, 24, 16, 0.90) 0%, rgba(5, 36, 24, 0.95) 100%);
+  pointer-events: none;
+}
+
+.gallery-hero-pattern-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 3;
+  opacity: 0.10;
+  pointer-events: none;
+}
+
+.gallery-hero-container {
+  position: relative;
+  z-index: 4;
+}
+
+.gallery-breadcrumb-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  font-size: 0.95rem;
+}
+
+.gallery-breadcrumb-link {
+  color: rgba(255, 255, 255, 0.82);
+  text-decoration: none;
+  transition: color var(--gallery-transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.gallery-breadcrumb-link:hover {
+  color: var(--gallery-gold);
+}
+
+.gallery-breadcrumb-separator {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.75rem;
+}
+
+.gallery-breadcrumb-current {
+  color: var(--gallery-gold);
+  font-weight: 700;
+}
+
+.gallery-hero-title {
+  font-size: 2.85rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin-bottom: 0;
+  line-height: 1.25;
+}
+
+/* --------------------------------------------------------------------------
+   3. GALLERY MAIN CONTAINER & TOP TABS SWITCHER
+   -------------------------------------------------------------------------- */
+.gallery-main-section {
+  padding: 45px 0 85px 0;
+  background-color: var(--gallery-body-bg);
+  min-height: 600px;
+}
+
+/* Top Centered Tabs */
+.gallery-tabs-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 35px;
+}
+
+.gallery-tabs-box {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--gallery-card-bg);
+  border: 1px solid var(--gallery-border);
+  border-radius: var(--gallery-radius-sm);
+  padding: 4px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.gallery-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 34px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #4A5568;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: var(--gallery-transition);
+}
+
+.gallery-tab-btn:hover {
+  color: var(--gallery-primary);
+}
+
+.gallery-tab-btn.is-active {
+  background-color: var(--gallery-primary-light);
+  color: var(--gallery-primary-dark);
+  font-weight: 700;
+}
+
+/* --------------------------------------------------------------------------
+   4. LEFT SIDEBAR (CATEGORY NAVIGATION)
+   -------------------------------------------------------------------------- */
+.gallery-sidebar-card {
+  background-color: var(--gallery-card-bg);
+  border: 1px solid var(--gallery-border);
+  border-radius: var(--gallery-radius-lg);
+  box-shadow: var(--gallery-shadow);
+  overflow: hidden;
+  position: sticky;
+  top: 95px;
+}
+
+.gallery-sidebar-header {
+  padding: 16px 20px;
+  background-color: #FAFCFA;
+  border-bottom: 1px solid var(--gallery-border);
+  display: none; /* Desktop shows direct category items matching reference */
+}
+
+.gallery-sidebar-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--gallery-dark);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.gallery-category-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.gallery-category-item {
+  position: relative;
+  border-bottom: 1px dotted var(--gallery-border-dotted);
+}
+
+.gallery-category-item:last-child {
+  border-bottom: none;
+}
+
+.gallery-category-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 20px;
+  font-size: 0.98rem;
+  font-weight: 500;
+  color: var(--gallery-text-main);
+  background: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: var(--gallery-transition);
+  position: relative;
+}
+
+.gallery-category-btn:hover {
+  background-color: #F6FAF7;
+  color: var(--gallery-primary);
+  padding-left: 24px;
+}
+
+/* Active Category Item matching reference image */
+.gallery-category-item.is-active .gallery-category-btn {
+  color: var(--gallery-primary);
+  font-weight: 700;
+  background-color: #FAFCFA;
+}
+
+.gallery-category-item.is-active::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background-color: var(--gallery-primary);
+  z-index: 2;
+}
+
+.gallery-category-count {
+  font-size: 0.82rem;
+  color: #A0AEC0;
+  font-weight: 500;
+}
+
+.gallery-category-item.is-active .gallery-category-count {
+  color: var(--gallery-primary);
+}
+
+/* --------------------------------------------------------------------------
+   5. RIGHT CONTENT AREA & MEDIA GRID
+   -------------------------------------------------------------------------- */
+.gallery-content-area {
+  min-height: 480px;
+}
+
+/* Tab Panels */
+.gallery-tab-panel {
+  display: none;
+  animation: galleryFadeIn 0.35s ease forwards;
+}
+
+.gallery-tab-panel.is-active {
+  display: block;
+}
+
+@keyframes galleryFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. IMAGE CARDS (PIXEL PERFECT TO SCREENSHOT)
+   -------------------------------------------------------------------------- */
+.gallery-media-card {
+  position: relative;
+  background-color: var(--gallery-card-bg);
+  border-radius: var(--gallery-radius-lg);
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  transition: var(--gallery-transition);
+  cursor: pointer;
+}
+
+.gallery-media-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--gallery-shadow-hover);
+}
+
+.gallery-image-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10.5;
+  overflow: hidden;
+  background-color: #EDF2F0;
+}
+
+.gallery-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.45s ease;
+}
+
+.gallery-media-card:hover .gallery-card-img {
+  transform: scale(1.04);
+}
+
+/* Image Hover Overlay */
+.gallery-image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(3, 24, 16, 0.72) 100%);
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  transition: opacity 0.3s ease;
+}
+
+.gallery-media-card:hover .gallery-image-overlay {
+  opacity: 1;
+}
+
+.gallery-overlay-badge {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--gallery-gold);
+  background: rgba(0, 0, 0, 0.4);
+  padding: 3px 10px;
+  border-radius: var(--gallery-radius-pill);
+  margin-bottom: 6px;
+  backdrop-filter: blur(4px);
+}
+
+.gallery-overlay-caption {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+  line-height: 1.4;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* Center Eye Button (Middle View Image Icon) */
+.gallery-eye-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.85);
+  width: 56px;
+  height: 56px;
+  background: rgba(0, 155, 77, 0.92);
+  color: #FFFFFF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  opacity: 0;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.35);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 3;
+  pointer-events: none;
+}
+
+.gallery-media-card:hover .gallery-eye-btn {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  background: #00B359;
+  box-shadow: 0 8px 28px rgba(0, 155, 77, 0.55);
+}
+
+/* --------------------------------------------------------------------------
+   7. VIDEO CARDS
+   -------------------------------------------------------------------------- */
+.gallery-video-card {
+  position: relative;
+  background-color: var(--gallery-card-bg);
+  border-radius: var(--gallery-radius-lg);
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  transition: var(--gallery-transition);
+  cursor: pointer;
+}
+
+.gallery-video-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--gallery-shadow-hover);
+}
+
+.gallery-video-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10.5;
+  overflow: hidden;
+  background-color: #1A202C;
+}
+
+.gallery-video-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.45s ease;
+  filter: brightness(0.92);
+}
+
+.gallery-video-card:hover .gallery-video-thumb {
+  transform: scale(1.04);
+  filter: brightness(0.85);
+}
+
+.gallery-video-play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  width: 58px;
+  height: 58px;
+  background: rgba(0, 155, 77, 0.92);
+  color: #FFFFFF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  padding-left: 4px;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.35);
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+
+.gallery-video-card:hover .gallery-video-play-btn {
+  transform: translate(-50%, -50%) scale(1.12);
+  background: #00B359;
+  box-shadow: 0 8px 28px rgba(0, 155, 77, 0.6);
+}
+
+.gallery-video-info {
+  padding: 16px 18px;
+  background-color: var(--gallery-card-bg);
+}
+
+.gallery-video-category {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--gallery-primary);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.gallery-video-title {
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--gallery-text-main);
+  margin: 0;
+  line-height: 1.45;
+}
+
+/* Empty State / Not Found */
+.gallery-empty-state {
+  display: block;
+  text-align: center;
+  padding: 60px 20px;
+  background-color: var(--gallery-card-bg);
+  border-radius: var(--gallery-radius-lg);
+  border: 1px dashed var(--gallery-border);
+}
+
+.gallery-empty-icon {
+  font-size: 3rem;
+  color: #CBD5E0;
+  margin-bottom: 14px;
+}
+
+.gallery-empty-text {
+  font-size: 1.1rem;
+  color: var(--gallery-text-muted);
+  font-weight: 500;
+}
+
+/* --------------------------------------------------------------------------
+   8. PAGINATION STYLING
+   -------------------------------------------------------------------------- */
+.gallery-pagination-wrapper {
+  margin-top: 45px;
+  display: flex;
+  justify-content: center;
+}
+
+.gallery-pagination-list {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  padding: 6px 12px;
+  margin: 0;
+  background-color: var(--gallery-card-bg);
+  border-radius: var(--gallery-radius-pill);
+  border: 1px solid var(--gallery-border);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.gallery-page-item {
+  display: inline-block;
+}
+
+.gallery-page-btn {
+  min-width: 40px;
+  height: 40px;
+  padding: 0 14px;
+  border-radius: var(--gallery-radius-pill);
+  border: 1px solid transparent;
+  background-color: transparent;
+  color: var(--gallery-text-main);
+  font-size: 0.96rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: var(--gallery-transition);
+}
+
+.gallery-page-btn:hover:not(.disabled) {
+  background-color: var(--gallery-primary-light);
+  color: var(--gallery-primary-dark);
+  border-color: rgba(0, 155, 77, 0.2);
+}
+
+.gallery-page-btn.is-active {
+  background-color: var(--gallery-primary);
+  color: #FFFFFF;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(0, 155, 77, 0.35);
+}
+
+.gallery-page-btn.disabled {
+  color: #CBD5E0;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.gallery-page-btn.prev-btn,
+.gallery-page-btn.next-btn {
+  font-size: 0.9rem;
+  padding: 0 16px;
+}
+
+/* --------------------------------------------------------------------------
+   9. FANCYBOX 5 CUSTOM THEME
+   -------------------------------------------------------------------------- */
+.fancybox__container {
+  --fancybox-bg: rgba(3, 20, 13, 0.96);
+  --fancybox-color: #FFFFFF;
+  --fancybox-accent-color: #009B4D;
+  z-index: 10050 !important;
+}
+
+.fancybox__caption {
+  font-family: 'Anek Bangla', sans-serif !important;
+  font-size: 1.12rem !important;
+  font-weight: 600 !important;
+  color: #FFFFFF !important;
+  text-align: center;
+  padding: 16px 20px !important;
+  background: linear-gradient(180deg, transparent 0%, rgba(2, 18, 11, 0.92) 100%) !important;
+}
+
+.fancybox__thumbs .carousel__slide .fancybox__thumb {
+  border-radius: 8px;
+}
+
+.fancybox__thumbs .carousel__slide.is-nav-selected .fancybox__thumb::after {
+  border-color: #009B4D !important;
+  border-width: 3px !important;
+}
+
+/* --------------------------------------------------------------------------
+   10. RESPONSIVE MEDIA QUERIES
+   -------------------------------------------------------------------------- */
+@media (max-width: 991.98px) {
+  .gallery-sidebar-card {
+    position: static;
+    margin-bottom: 25px;
+  }
+  .gallery-hero-title {
+    font-size: 2.35rem;
+  }
+  .gallery-hero-section {
+    padding: 120px 0 55px 0;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .gallery-hero-section {
+    padding: 105px 0 45px 0;
+  }
+  .gallery-hero-title {
+    font-size: 2rem;
+  }
+  .gallery-tab-btn {
+    padding: 8px 24px;
+    font-size: 0.98rem;
+  }
+  .gallery-sidebar-header {
+    display: flex;
+  }
+  .gallery-category-btn {
+    padding: 11px 16px;
+    font-size: 0.94rem;
+  }
+  .gallery-main-section {
+    padding: 30px 0 65px 0;
+  }
+  .gallery-pagination-wrapper {
+    margin-top: 30px;
+  }
+  .gallery-page-btn {
+    min-width: 36px;
+    height: 36px;
+    font-size: 0.88rem;
+    padding: 0 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery-tabs-box {
+    width: 100%;
+    justify-content: center;
+  }
+  .gallery-tab-btn {
+    flex: 1;
+    padding: 8px 16px;
+    font-size: 0.92rem;
+  }
+  .gallery-hero-title {
+    font-size: 1.8rem;
+  }
+  .gallery-pagination-list {
+    gap: 4px;
+    padding: 4px 8px;
+  }
+  .gallery-page-btn.prev-btn span,
+  .gallery-page-btn.next-btn span {
+    display: none;
+  }
+}

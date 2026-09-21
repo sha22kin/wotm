@@ -1,0 +1,538 @@
+/* ==========================================================================
+   WOTM - VOLUNTEER JOIN STYLESHEET (css/volunteer.css)
+   Pixel-Perfect Frontend UI Matching Project Design System
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. COLOR & DESIGN TOKENS
+   -------------------------------------------------------------------------- */
+:root {
+  --vol-primary: #009B4D;
+  --vol-primary-hover: #008240;
+  --vol-primary-light: #E6F7EF;
+  --vol-primary-subtle: #D7F5E7;
+  --vol-dark: #072619;
+  --vol-gold: #EAA838;
+  --vol-gold-hover: #D8982D;
+  --vol-gold-light: #FEF6E9;
+  --vol-text-title: #0E3624;
+  --vol-text-body: #4A5568;
+  --vol-text-muted: #718096;
+  --vol-border: #E2E8F0;
+  --vol-border-focus: #009B4D;
+  --vol-card-bg: #FFFFFF;
+  --vol-body-bg: #F5F9F6;
+  --vol-radius-sm: 8px;
+  --vol-radius-md: 14px;
+  --vol-radius-lg: 20px;
+  --vol-radius-pill: 50px;
+  --vol-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --vol-shadow: 0 10px 36px rgba(7, 38, 25, 0.08), 0 2px 6px rgba(0, 0, 0, 0.03);
+  --vol-shadow-hover: 0 14px 42px rgba(7, 38, 25, 0.12);
+}
+
+/* --------------------------------------------------------------------------
+   2. PAGE HERO / BREADCRUMB BANNER
+   -------------------------------------------------------------------------- */
+.vol-hero-section {
+  position: relative;
+  overflow: hidden;
+  padding: 135px 0 65px 0;
+  background-color: var(--vol-dark);
+  color: #FFFFFF;
+  text-align: center;
+}
+
+.vol-hero-bg-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  opacity: 0.20;
+  pointer-events: none;
+}
+
+.vol-hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background: linear-gradient(180deg, rgba(3, 24, 16, 0.90) 0%, rgba(5, 36, 24, 0.95) 100%);
+  pointer-events: none;
+}
+
+.vol-hero-pattern-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 3;
+  opacity: 0.10;
+  pointer-events: none;
+}
+
+.vol-hero-container {
+  position: relative;
+  z-index: 4;
+}
+
+.vol-breadcrumb-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 14px;
+  font-size: 0.95rem;
+}
+
+.vol-breadcrumb-link {
+  color: rgba(255, 255, 255, 0.82);
+  text-decoration: none;
+  transition: color var(--vol-transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.vol-breadcrumb-link:hover {
+  color: #FFFFFF;
+  text-decoration: underline;
+}
+
+.vol-breadcrumb-separator {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.78rem;
+}
+
+.vol-breadcrumb-current {
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+.vol-hero-title {
+  font-size: 2.35rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 0;
+  color: #FFFFFF;
+}
+
+.vol-hero-subtitle {
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+/* --------------------------------------------------------------------------
+   3. HIGHLIGHTS / VALUE CARDS SECTION
+   -------------------------------------------------------------------------- */
+.vol-highlights-section {
+  background-color: #FFFFFF;
+  padding: 55px 0 35px 0;
+  border-bottom: 1px solid var(--vol-border);
+}
+
+.vol-highlight-card {
+  background-color: #FAFCFA;
+  border: 1px solid var(--vol-border);
+  border-radius: var(--vol-radius-md);
+  padding: 26px 22px;
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  transition: var(--vol-transition);
+}
+
+.vol-highlight-card:hover {
+  border-color: rgba(0, 155, 77, 0.35);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0, 30, 15, 0.06);
+}
+
+.vol-highlight-icon-box {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  background-color: var(--vol-primary-light);
+  color: var(--vol-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  flex-shrink: 0;
+  transition: var(--vol-transition);
+}
+
+.vol-highlight-card:hover .vol-highlight-icon-box {
+  background-color: var(--vol-primary);
+  color: #FFFFFF;
+}
+
+.vol-highlight-title {
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: var(--vol-text-title);
+  margin-bottom: 6px;
+}
+
+.vol-highlight-desc {
+  font-size: 0.88rem;
+  color: var(--vol-text-body);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   4. MAIN REGISTRATION SECTION & FORM CARD
+   -------------------------------------------------------------------------- */
+.vol-main-section {
+  background-color: var(--vol-body-bg);
+  padding: 65px 0 95px 0;
+}
+
+.vol-form-card {
+  background-color: var(--vol-card-bg);
+  border: 1px solid rgba(0, 155, 77, 0.14);
+  border-radius: var(--vol-radius-lg);
+  padding: 44px 40px;
+  box-shadow: var(--vol-shadow);
+}
+
+.vol-card-header {
+  text-align: center;
+  margin-bottom: 34px;
+}
+
+.vol-badge-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--vol-primary-light) 0%, #FFFFFF 100%);
+  border: 2px solid rgba(0, 155, 77, 0.2);
+  color: var(--vol-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  margin: 0 auto 16px auto;
+  box-shadow: 0 6px 16px rgba(0, 155, 77, 0.12);
+}
+
+.vol-card-title {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: var(--vol-text-title);
+  margin-bottom: 6px;
+}
+
+.vol-card-subtitle {
+  font-size: 0.95rem;
+  color: var(--vol-text-muted);
+  margin: 0;
+}
+
+/* Section Dividers inside Form */
+.vol-form-section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--vol-primary);
+  margin: 28px 0 18px 0;
+  padding-bottom: 8px;
+  border-bottom: 1.5px dashed rgba(0, 155, 77, 0.25);
+}
+
+.vol-form-section-title:first-of-type {
+  margin-top: 0;
+}
+
+.vol-form-section-title i {
+  font-size: 1rem;
+}
+
+/* Form Fields */
+.vol-form-group {
+  margin-bottom: 20px;
+}
+
+.vol-label {
+  display: block;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--vol-text-title);
+  margin-bottom: 7px;
+}
+
+.vol-label .req {
+  color: #DC2626;
+}
+
+.vol-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.vol-input-icon {
+  position: absolute;
+  left: 16px;
+  color: var(--vol-text-muted);
+  font-size: 0.95rem;
+  pointer-events: none;
+  transition: color var(--vol-transition);
+}
+
+.vol-input-field {
+  width: 100%;
+  height: 48px;
+  padding: 0 16px 0 46px;
+  border: 1.5px solid var(--vol-border);
+  border-radius: var(--vol-radius-sm);
+  background-color: #FAFCFA;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--vol-text-title);
+  outline: none;
+  transition: var(--vol-transition);
+}
+
+.vol-input-field:focus {
+  border-color: var(--vol-border-focus);
+  background-color: #FFFFFF;
+  box-shadow: 0 0 0 4px rgba(0, 155, 77, 0.12);
+}
+
+.vol-input-field:focus + .vol-input-icon,
+.vol-input-wrapper:focus-within .vol-input-icon {
+  color: var(--vol-primary);
+}
+
+.vol-select-field {
+  width: 100%;
+  height: 48px;
+  padding: 0 16px 0 46px;
+  border: 1.5px solid var(--vol-border);
+  border-radius: var(--vol-radius-sm);
+  background-color: #FAFCFA;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--vol-text-title);
+  outline: none;
+  cursor: pointer;
+  transition: var(--vol-transition);
+}
+
+.vol-select-field:focus {
+  border-color: var(--vol-border-focus);
+  background-color: #FFFFFF;
+  box-shadow: 0 0 0 4px rgba(0, 155, 77, 0.12);
+}
+
+.vol-textarea-field {
+  width: 100%;
+  min-height: 95px;
+  padding: 12px 16px 12px 46px;
+  border: 1.5px solid var(--vol-border);
+  border-radius: var(--vol-radius-sm);
+  background-color: #FAFCFA;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--vol-text-title);
+  outline: none;
+  resize: vertical;
+  transition: var(--vol-transition);
+}
+
+.vol-textarea-field:focus {
+  border-color: var(--vol-border-focus);
+  background-color: #FFFFFF;
+  box-shadow: 0 0 0 4px rgba(0, 155, 77, 0.12);
+}
+
+.vol-textarea-wrapper {
+  position: relative;
+}
+
+.vol-textarea-wrapper .vol-input-icon {
+  top: 15px;
+}
+
+/* Agreement Checkbox */
+.vol-checkbox-group {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 0.91rem;
+  color: var(--vol-text-body);
+  margin-top: 10px;
+  margin-bottom: 26px;
+  line-height: 1.5;
+}
+
+.vol-checkbox {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--vol-primary);
+  cursor: pointer;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+/* Submit Button */
+.vol-submit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  height: 52px;
+  background: linear-gradient(135deg, var(--vol-primary) 0%, var(--vol-primary-hover) 100%);
+  color: #FFFFFF;
+  border: none;
+  border-radius: var(--vol-radius-pill);
+  font-family: inherit;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--vol-transition);
+  box-shadow: 0 6px 20px rgba(0, 155, 77, 0.30);
+}
+
+.vol-submit-btn:hover {
+  background: linear-gradient(135deg, var(--vol-primary-hover) 0%, #006B34 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 26px rgba(0, 155, 77, 0.40);
+}
+
+.vol-submit-btn:active {
+  transform: translateY(0);
+}
+
+/* Support Help Box at Bottom of Form */
+.vol-support-box {
+  margin-top: 36px;
+  padding: 18px 24px;
+  background-color: var(--vol-gold-light);
+  border: 1px solid rgba(234, 168, 56, 0.35);
+  border-radius: var(--vol-radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.vol-support-text {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.94rem;
+  color: var(--vol-text-title);
+  font-weight: 600;
+}
+
+.vol-support-icon {
+  color: var(--vol-gold);
+  font-size: 1.35rem;
+  flex-shrink: 0;
+}
+
+.vol-support-phone {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--vol-primary);
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 0.98rem;
+  transition: color var(--vol-transition);
+}
+
+.vol-support-phone:hover {
+  color: var(--vol-primary-hover);
+  text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------------
+   5. RESPONSIVE BREAKPOINTS
+   -------------------------------------------------------------------------- */
+@media (max-width: 991.98px) {
+  .vol-hero-section {
+    padding: 115px 0 50px 0;
+  }
+
+  .vol-hero-title {
+    font-size: 2rem;
+  }
+
+  .vol-form-card {
+    padding: 34px 28px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .vol-hero-section {
+    padding: 105px 0 45px 0;
+  }
+
+  .vol-hero-title {
+    font-size: 1.6rem;
+  }
+
+  .vol-hero-subtitle {
+    font-size: 0.92rem;
+  }
+
+  .vol-highlights-section {
+    padding: 40px 0 25px 0;
+  }
+
+  .vol-main-section {
+    padding: 40px 0 60px 0;
+  }
+
+  .vol-form-card {
+    padding: 26px 18px;
+    border-radius: var(--vol-radius-md);
+  }
+
+  .vol-card-title {
+    font-size: 1.38rem;
+  }
+
+  .vol-form-section-title {
+    font-size: 1rem;
+    margin: 22px 0 14px 0;
+  }
+
+  .vol-input-field,
+  .vol-select-field {
+    height: 46px;
+    font-size: 0.92rem;
+  }
+
+  .vol-submit-btn {
+    height: 48px;
+    font-size: 0.98rem;
+  }
+
+  .vol-support-box {
+    padding: 16px 18px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

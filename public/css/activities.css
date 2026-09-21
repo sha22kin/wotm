@@ -1,0 +1,670 @@
+/* ==========================================================================
+   WOTM - ACTIVITIES PAGE STYLESHEET (css/activities.css)
+   Pixel-Perfect Implementation Matching Project Design System
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. COLOR & DESIGN TOKENS
+   -------------------------------------------------------------------------- */
+:root {
+  --activity-primary: #009B4D;
+  --activity-primary-hover: #008240;
+  --activity-primary-light: #E6F7EF;
+  --activity-primary-subtle: #D7F5E7;
+  --activity-dark: #072619;
+  --activity-gold: #EAA838;
+  --activity-gold-hover: #D8982D;
+  --activity-text-title: #0E3624;
+  --activity-text-body: #52635B;
+  --activity-text-muted: #82928B;
+  --activity-border: #EEF2F0;
+  --activity-card-bg: #FFFFFF;
+  --activity-body-bg: #F8FAF8;
+  --activity-radius-sm: 8px;
+  --activity-radius-md: 14px;
+  --activity-radius-lg: 18px;
+  --activity-radius-pill: 50px;
+  --activity-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --activity-shadow: 0 4px 20px rgba(0, 30, 15, 0.05);
+  --activity-shadow-hover: 0 14px 34px rgba(0, 35, 18, 0.12);
+}
+
+/* --------------------------------------------------------------------------
+   2. PAGE HERO / BREADCRUMB BANNER
+   -------------------------------------------------------------------------- */
+.activity-hero-section {
+  position: relative;
+  overflow: hidden;
+  padding: 135px 0 65px 0;
+  background-color: var(--activity-dark);
+  color: #FFFFFF;
+  text-align: center;
+}
+
+.activity-hero-bg-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  opacity: 0.20;
+  pointer-events: none;
+}
+
+.activity-hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background: linear-gradient(180deg, rgba(3, 24, 16, 0.90) 0%, rgba(5, 36, 24, 0.95) 100%);
+  pointer-events: none;
+}
+
+.activity-hero-pattern-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 3;
+  opacity: 0.10;
+  pointer-events: none;
+}
+
+.activity-hero-container {
+  position: relative;
+  z-index: 4;
+}
+
+.activity-breadcrumb-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  font-size: 0.95rem;
+}
+
+.activity-breadcrumb-link {
+  color: rgba(255, 255, 255, 0.82);
+  text-decoration: none;
+  transition: color var(--activity-transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.activity-breadcrumb-link:hover {
+  color: #FFFFFF;
+  text-decoration: underline;
+}
+
+.activity-breadcrumb-separator {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.78rem;
+}
+
+.activity-breadcrumb-current {
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+.activity-hero-title {
+  font-size: 2.35rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 0;
+  color: #FFFFFF;
+}
+
+.activity-hero-subtitle {
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 620px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* --------------------------------------------------------------------------
+   3. MAIN ACTIVITIES CONTENT SECTION
+   -------------------------------------------------------------------------- */
+.activity-main-section {
+  background-color: var(--activity-body-bg);
+  padding: 55px 0 80px 0;
+  min-height: 70vh;
+}
+
+/* Filter & Search Bar */
+.activity-filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 34px;
+  padding: 16px 20px;
+  background: var(--activity-card-bg);
+  border: 1px solid var(--activity-border);
+  border-radius: var(--activity-radius-md);
+  box-shadow: var(--activity-shadow);
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.activity-section-heading {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--activity-text-title);
+  margin: 0;
+}
+
+.activity-search-box {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+}
+
+@media (max-width: 575.98px) {
+  .activity-filter-bar {
+    padding: 14px 16px;
+  }
+  .activity-search-box {
+    max-width: 100%;
+  }
+}
+
+.activity-search-icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--activity-text-muted);
+  font-size: 0.95rem;
+  pointer-events: none;
+}
+
+.activity-search-input {
+  width: 100%;
+  height: 44px;
+  padding: 0 16px 0 42px;
+  border: 1.5px solid var(--activity-border);
+  border-radius: var(--activity-radius-pill);
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--activity-text-title);
+  background-color: #FAFCFA;
+  transition: var(--activity-transition);
+  outline: none;
+}
+
+.activity-search-input:focus {
+  border-color: var(--activity-primary);
+  background-color: #FFFFFF;
+  box-shadow: 0 0 0 4px rgba(0, 155, 77, 0.12);
+}
+
+.activity-search-input::placeholder {
+  color: var(--activity-text-muted);
+}
+
+/* Category Filter Tabs */
+.activity-filter-tabs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.activity-filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border: 1.5px solid var(--activity-border);
+  border-radius: var(--activity-radius-pill);
+  background: #FFFFFF;
+  color: var(--activity-text-body);
+  font-family: inherit;
+  font-size: 0.92rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--activity-transition);
+}
+
+.activity-filter-btn:hover {
+  background-color: var(--activity-primary-light);
+  border-color: var(--activity-primary);
+  color: var(--activity-primary);
+}
+
+.activity-filter-btn.is-active {
+  background-color: var(--activity-primary);
+  border-color: var(--activity-primary);
+  color: #FFFFFF;
+  box-shadow: 0 4px 14px rgba(0, 155, 77, 0.25);
+}
+
+/* --------------------------------------------------------------------------
+   4. ACTIVITY CARDS GRID & COMPONENTS
+   -------------------------------------------------------------------------- */
+.activity-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--activity-card-bg);
+  border: 1px solid var(--activity-border);
+  border-radius: var(--activity-radius-md);
+  overflow: hidden;
+  box-shadow: var(--activity-shadow);
+  transition: var(--activity-transition);
+  position: relative;
+}
+
+.activity-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--activity-shadow-hover);
+  border-color: rgba(0, 155, 77, 0.28);
+}
+
+/* Card Media & Image */
+.activity-card-media {
+  position: relative;
+  width: 100%;
+  height: 225px;
+  overflow: hidden;
+  background-color: #E8ECE9;
+  display: block;
+  text-decoration: none;
+}
+
+.activity-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  display: block;
+}
+
+.activity-card:hover .activity-card-img {
+  transform: scale(1.07);
+}
+
+/* Card Category Badge */
+.activity-card-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: rgba(7, 38, 25, 0.85);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  color: #FFFFFF;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: var(--activity-radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.activity-card-badge i {
+  color: var(--activity-gold);
+  font-size: 0.8rem;
+}
+
+/* Card Body */
+.activity-card-body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 22px 22px 20px 22px;
+}
+
+.activity-card-title {
+  font-size: 1.22rem;
+  font-weight: 700;
+  line-height: 1.45;
+  color: var(--activity-text-title);
+  margin-bottom: 12px;
+  transition: color 0.25s ease;
+}
+
+.activity-title-link {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.activity-title-link:hover,
+.activity-card:hover .activity-card-title,
+.activity-card:hover .activity-title-link {
+  color: var(--activity-primary);
+}
+
+/* Truncated Short Description */
+.activity-card-desc {
+  font-size: 0.94rem;
+  line-height: 1.65;
+  color: var(--activity-text-body);
+  margin-bottom: 20px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-grow: 1;
+}
+
+/* Card Footer & Full Card See Details Button */
+.activity-card-footer {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--activity-border);
+  width: 100%;
+}
+
+.activity-btn-details {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 8px;
+  padding: 10px 20px;
+  font-size: 0.94rem;
+  font-weight: 600;
+  color: var(--activity-primary);
+  background-color: var(--activity-primary-light);
+  border: 1.5px solid #A3DEC0;
+  border-radius: var(--activity-radius-pill);
+  text-decoration: none;
+  transition: var(--activity-transition);
+  text-align: center;
+}
+
+.activity-btn-details:hover {
+  background-color: var(--activity-primary);
+  color: #FFFFFF;
+  border-color: var(--activity-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 155, 77, 0.25);
+}
+
+.activity-btn-details i {
+  transition: transform 0.25s ease;
+}
+
+.activity-btn-details:hover i {
+  transform: translateX(4px);
+}
+
+/* --------------------------------------------------------------------------
+   5. PAGINATION COMPONENT
+   -------------------------------------------------------------------------- */
+.activity-pagination-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 48px;
+  margin-bottom: 40px;
+}
+
+.activity-pagination-list {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.activity-page-item {
+  display: inline-block;
+}
+
+.activity-page-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 10px;
+  border: 1px solid var(--activity-border);
+  border-radius: var(--activity-radius-sm);
+  background-color: #FFFFFF;
+  color: var(--activity-text-title);
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--activity-transition);
+}
+
+.activity-page-btn:hover:not(.disabled):not(.is-active) {
+  border-color: var(--activity-primary);
+  color: var(--activity-primary);
+  background-color: var(--activity-primary-light);
+}
+
+.activity-page-btn.is-active {
+  background-color: var(--activity-primary);
+  border-color: var(--activity-primary);
+  color: #FFFFFF;
+  box-shadow: 0 4px 10px rgba(0, 155, 77, 0.25);
+  cursor: default;
+}
+
+.activity-page-btn.disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.activity-page-arrow {
+  font-size: 0.85rem;
+  color: var(--activity-text-muted);
+}
+
+.activity-page-ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 40px;
+  color: var(--activity-text-muted);
+  font-size: 0.95rem;
+}
+
+/* --------------------------------------------------------------------------
+   6. NEWSLETTER SUBSCRIPTION BANNER
+   -------------------------------------------------------------------------- */
+.activity-newsletter-section {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--activity-primary);
+  border-radius: var(--activity-radius-lg);
+  padding: 44px 36px;
+  margin-top: 50px;
+  box-shadow: 0 8px 30px rgba(0, 155, 77, 0.20);
+}
+
+.activity-newsletter-pattern {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 320px;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.12;
+  pointer-events: none;
+}
+
+.activity-newsletter-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.activity-newsletter-title {
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.activity-newsletter-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 440px;
+}
+
+.activity-newsletter-input {
+  flex-grow: 1;
+  height: 48px;
+  padding: 0 18px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: var(--activity-radius-pill);
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #FFFFFF;
+  font-family: inherit;
+  font-size: 0.95rem;
+  outline: none;
+  transition: var(--activity-transition);
+}
+
+.activity-newsletter-input::placeholder {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.activity-newsletter-input:focus {
+  background: #FFFFFF;
+  color: var(--activity-text-title);
+  border-color: #FFFFFF;
+}
+
+.activity-newsletter-btn {
+  height: 48px;
+  padding: 0 26px;
+  border: none;
+  border-radius: var(--activity-radius-pill);
+  background-color: var(--activity-dark);
+  color: #FFFFFF;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--activity-transition);
+  white-space: nowrap;
+}
+
+.activity-newsletter-btn:hover {
+  background-color: #03150d;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  transform: translateY(-2px);
+}
+
+/* --------------------------------------------------------------------------
+   7. RESPONSIVE BREAKPOINTS
+   -------------------------------------------------------------------------- */
+@media (max-width: 991.98px) {
+  .activity-hero-section {
+    padding: 115px 0 50px 0;
+  }
+
+  .activity-hero-title {
+    font-size: 2.05rem;
+  }
+
+  .activity-filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .activity-search-box {
+    max-width: 100%;
+  }
+
+  .activity-filter-tabs {
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 6px;
+  }
+
+  .activity-newsletter-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .activity-newsletter-form {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .activity-hero-section {
+    padding: 105px 0 45px 0;
+  }
+
+  .activity-hero-title {
+    font-size: 1.7rem;
+  }
+
+  .activity-hero-subtitle {
+    font-size: 0.92rem;
+  }
+
+  .activity-main-section {
+    padding: 40px 0 60px 0;
+  }
+
+  .activity-card-media {
+    height: 190px;
+  }
+
+  .activity-card-body {
+    padding: 18px 16px 16px 16px;
+  }
+
+  .activity-card-title {
+    font-size: 1.12rem;
+  }
+
+  .activity-card-desc {
+    font-size: 0.88rem;
+    -webkit-line-clamp: 2;
+  }
+
+  .activity-newsletter-section {
+    padding: 30px 20px;
+  }
+
+  .activity-newsletter-form {
+    flex-direction: column;
+  }
+
+  .activity-newsletter-input,
+  .activity-newsletter-btn {
+    width: 100%;
+  }
+
+  .activity-page-btn {
+    min-width: 36px;
+    height: 36px;
+    font-size: 0.85rem;
+  }
+}
