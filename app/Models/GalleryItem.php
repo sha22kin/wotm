@@ -32,7 +32,7 @@ class GalleryItem extends Model
 
     public function scopeActive(Builder $query): Builder
     {
-        return $query->where('is_active', true)->orderBy('order', 'asc');
+        return $query->where('is_active', true)->orderBy('order', 'asc')->latest('id');
     }
 
     public function scopeImages(Builder $query): Builder

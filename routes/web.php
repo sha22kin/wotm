@@ -203,3 +203,14 @@ Route::prefix('admin')->name('admin.')->middleware('admin.auth')->group(function
     // Users & Roles Management
     Route::resource('users', AdminUserController::class)->except(['show', 'create', 'edit']);
 });
+
+// Deployment & Maintenance utility routes
+Route::get('/storage-link', function () {
+    \Illuminate\Support\Facades\Artisan::call('storage:link');
+    return response()->json(['status' => 'success', 'message' => 'Storage symlink created successfully!']);
+});
+
+Route::get('/clear-cache', function () {
+    \Illuminate\Support\Facades\Artisan::call('optimize:clear');
+    return response()->json(['status' => 'success', 'message' => 'Application cache cleared successfully!']);
+});

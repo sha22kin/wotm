@@ -7,7 +7,8 @@
 
     # 1. Prevent direct access to sensitive system files and folders
     RewriteRule ^\.(?!well-known).* - [F,L,NC]
-    RewriteRule ^(app|bootstrap|config|database|resources|routes|storage|tests|vendor)(/.*)?$ - [F,L,NC]
+    RewriteRule ^(app|bootstrap|config|database|resources|routes|tests|vendor)(/.*)?$ - [F,L,NC]
+    RewriteRule ^storage/(app|framework|logs)(/.*)?$ - [F,L,NC]
     RewriteRule ^(\.env.*|composer\.(json|lock)|package\.(json|lock)|phpunit\.xml|vite\.config\.js|artisan) - [F,L,NC]
 
     # 2. Prevent rewrite loop if request is already targeting /public
