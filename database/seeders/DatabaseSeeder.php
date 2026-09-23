@@ -90,7 +90,12 @@ class DatabaseSeeder extends Seeder
         // 3. Navigation Items
         $navs = [
             ['title_en' => 'Home', 'title_bn' => 'হোম', 'url' => '/', 'order' => 1],
-            ['title_en' => 'About Us', 'title_bn' => 'আমাদের সম্পর্কে', 'url' => '/about-us', 'order' => 2],
+            ['title_en' => 'About Us', 'title_bn' => 'আমাদের সম্পর্কে', 'url' => '/about-us', 'order' => 2, 'children' => [
+                ['title_en' => 'Introduction & Background', 'title_bn' => 'পরিচিতি ও পটভূমি', 'url' => '/introduction-background', 'order' => 1],
+                ['title_en' => 'Vision & Mission', 'title_bn' => 'ভিশন ও মিশন', 'url' => '/vision-mission', 'order' => 2],
+                ['title_en' => "Chairman's Message", 'title_bn' => 'চেয়ারম্যানের বাণী', 'url' => '/chairmans-message', 'order' => 3],
+                ['title_en' => 'Board of Directors & Advisory Council', 'title_bn' => 'পরিচালনা পর্ষদ ও উপদেষ্টা পরিষদ', 'url' => '/board-of-directors', 'order' => 4],
+            ]],
             ['title_en' => 'Activities', 'title_bn' => 'কার্যক্রমসমূহ', 'url' => '/activities', 'order' => 3, 'children' => [
                 ['title_en' => 'Education & Dawah', 'title_bn' => 'শিক্ষা ও দাওয়াহ', 'url' => '/activities?cat=education', 'order' => 1],
                 ['title_en' => 'Welfare & Rehabilitation', 'title_bn' => 'সেবা ও পুনর্বাসন', 'url' => '/activities?cat=welfare', 'order' => 2],
@@ -108,11 +113,11 @@ class DatabaseSeeder extends Seeder
         foreach ($navs as $nav) {
             $children = $nav['children'] ?? [];
             unset($nav['children']);
-            $parent = NavigationItem::updateOrCreate(['url' => $nav['url']], $nav);
+            $parent = NavigationItem::updateOrCreate(['url' => $nav['url'], 'parent_id' => null], $nav);
 
             foreach ($children as $child) {
                 $child['parent_id'] = $parent->id;
-                NavigationItem::updateOrCreate(['url' => $child['url']], $child);
+                NavigationItem::updateOrCreate(['url' => $child['url'], 'parent_id' => $parent->id], $child);
             }
         }
 
@@ -387,6 +392,58 @@ class DatabaseSeeder extends Seeder
                 'meta_title' => 'যোগাযোগ | WOTM',
                 'meta_description' => 'যেকোনো পরামর্শ, অনুদান বা তথ্যের জন্য WOTM-এর সাথে যোগাযোগ করুন।',
                 'meta_keywords' => 'যোগাযোগ, ফোন, ঠিকানা, ইমেইল, হটলাইন',
+                'og_image' => 'images/hero.webp',
+            ],
+            [
+                'slug' => 'chairmans-message',
+                'title_en' => "Chairman's Message | WOTM",
+                'title_bn' => 'চেয়ারম্যানের বাণী | WOTM',
+                'subtitle_en' => 'Guiding humanity towards an enlightened welfare society through the path of Sunnah',
+                'subtitle_bn' => 'সুন্নাহর আলোকে আর্তমানবতার সেবায় আত্মনিবেদিত ও আলোকিত কল্যাণ সমাজ গঠনের বার্তা',
+                'content_en' => '<p>In the Name of Allah, the Most Gracious, the Most Merciful.</p><p>All praise is due to Allah, the Lord of the worlds, and peace and blessings be upon the final Prophet, Muhammad (PBUH), his family, and all his companions.</p><p>WOTM was founded with a profound vision: to bridge Islamic values, ethical guidance, and direct humanitarian assistance for the underprivileged members of our community. True societal reform begins when compassionate hearts unite to alleviate suffering, empower families with dignity, and foster sustainable self-reliance.</p><p>We believe that every donation, every hour of volunteer service, and every prayer entrusted to us is a sacred trust (Amanah). Under our leadership, we remain steadfast in upholding total transparency, rigorous audit standards, and zero compromise on the authentic Sunnah of our beloved Prophet (PBUH).</p><p>I extend my heartfelt gratitude to our devoted donors, life members, volunteers, and well-wishers worldwide. Let us continue to march forward together—For the Ummah, with the Sunnah.</p>',
+                'content_bn' => '<p>বিসমিল্লাহির রাহমানির রাহিম।</p><p>সমস্ত প্রশংসা মহান আল্লাহ রাব্বুল আলামীনের, যিনি নিখিল বিশ্বের স্রষ্টা ও পালনকর্তা। দরূদ ও সালাম বর্ষিত হোক মানবতার মুক্তির দিশারী, সর্বশ্রেষ্ঠ রাসুল হযরত মুহাম্মদ (সা.)-এর প্রতি এবং তাঁর পরিবারবর্গ ও সাহাবায়ে কেরামের প্রতি।</p><p>মানবতার পরম আদর্শ মহানবী সা.-এর সুন্নাহর ভিত্তিতে আর্তমানবতার সার্বিক কল্যাণসাধন এবং সমাজ সংস্কারের মহান লক্ষ্য নিয়ে প্রতিষ্ঠিত হয়েছে WOTM। সমাজের সুবিধাবঞ্চিত, অসহায় ও দরিদ্র মানুষদের অর্থনৈতিক স্বাবলম্বীকরণ, বিশুদ্ধ ধর্মীয় ও নৈতিক শিক্ষা বিস্তার এবং জরুরি দুর্যোগে নিঃস্বার্থ মানবিক সহায়তা পৌঁছে দেওয়াই আমাদের মূল ব্রত।</p><p>আমরা দৃঢ়ভাবে বিশ্বাস করি—আপনাদের প্রতিটি অনুদান ও আন্তরিক সহযোগিতা মহান আল্লাহর পক্ষ থেকে অর্পিত এক পবিত্র আমানত। সেই আমানতের শতভাগ সুরক্ষা নিশ্চিত করতে আমরা প্রাতিষ্ঠানিক স্বচ্ছতা, নিয়মিত অডিট ও সর্বোচ্চ জবাবদিহিতা নিশ্চিত করে আসছি।</p><p>আমাদের সকল শুভাকাঙ্ক্ষী, সম্মানিত দাতা এবং নিবেদিতপ্রাণ স্বেচ্ছাসেবকদের জানাই আন্তরিক মোবারকবাদ। আসুন, আর্তমানবতার সেবায় আমরা একতাবদ্ধ হয়ে কাজ করি—উম্মাহর স্বার্থে, সুন্নাহর সাথে।</p>',
+                'meta_title' => 'চেয়ারম্যানের বাণী | WOTM',
+                'meta_description' => 'WOTM-এর সম্মানিত চেয়ারম্যানের দিকনির্দেশনামূলক বাণী ও মানবিক অঙ্গীকার পড়ুন।',
+                'meta_keywords' => 'চেয়ারম্যানের বাণী, WOTM Chairman Message, চেয়ারম্যান বার্তা, মানবসেবা, সুন্নাহ',
+                'og_image' => 'images/hero.webp',
+            ],
+            [
+                'slug' => 'introduction-background',
+                'title_en' => 'Introduction & Background | WOTM',
+                'title_bn' => 'পরিচিতি ও পটভূমি | WOTM',
+                'subtitle_en' => 'Our history, foundational ethos, and continuous journey in the service of humanity',
+                'subtitle_bn' => 'প্রতিষ্ঠানের ইতিহাস, মূল আদর্শ এবং আর্তমানবতার সেবায় ৭+ বছরের নিরবচ্ছিন্ন পথচলা',
+                'content_en' => '<p>WOTM is a non-political, non-profit education, dawah, and humanitarian welfare organization registered with the Government of the People\'s Republic of Bangladesh (Govt. Reg No: S-13111/2019). Following the footsteps of Prophet Muhammad (PBUH), we strive tirelessly to build an ideal welfare society rooted in compassion, integrity, and self-reliance.</p>',
+                'content_bn' => '<p>WOTM একটি অরাজনৈতিক, অলাভজনক শিক্ষা, দাওয়াহ ও পূর্ণত মানবকল্যাণে নিবেদিত সেবামূলক সরকার-নিবন্ধিত প্রতিষ্ঠান (নিবন্ধন নম্বর: এস-১৩১১১/২০১৯)। মানবতার মহান শিক্ষক ও মুক্তির দূত হযরত মুহাম্মদ (সা.)-এর সুন্নাহর আলোকে আর্তমানবতার সেবায় একটি আদর্শ কল্যাণসমাজ বিনির্মাণে WOTM নিরবচ্ছিন্নভাবে কাজ করে যাচ্ছে।</p>',
+                'meta_title' => 'পরিচিতি ও পটভূমি | WOTM',
+                'meta_description' => 'WOTM-এর বিশদ পরিচিতি, ঐতিহাসিক পটভূমি ও সরকার-নিবন্ধিত মানবিক সেবামূলক কার্যক্রমের বিস্তারিত জানুন।',
+                'meta_keywords' => 'পরিচিতি, পটভূমি, WOTM ইতিহাস, নিবন্ধন, সেবা',
+                'og_image' => 'images/hero.webp',
+            ],
+            [
+                'slug' => 'vision-mission',
+                'title_en' => 'Vision & Mission | WOTM',
+                'title_bn' => 'ভিশন ও মিশন | WOTM',
+                'subtitle_en' => 'Our ultimate vision, enduring mission, and non-negotiable core values',
+                'subtitle_bn' => 'সুন্নাহর আলোকে আত্মমর্যাদাশীল আলোকিত সমাজ গঠনের প্রত্যয় ও মূলনীতি',
+                'content_en' => '<p>To build an enlightened, self-reliant society where every underprivileged person attains access to moral education, basic human dignity, and economic freedom guided by the Sunnah.</p>',
+                'content_bn' => '<p>দ্বীনি মূল্যবোধ ও সহীহ সুন্নাহর আলোকে এমন একটি সমৃদ্ধ ও আলোকিত সমাজ গড়ে তোলা, যেখানে প্রতিটি মানুষ বিশুদ্ধ ধর্মীয় শিক্ষা, মানবিক মর্যাদা এবং দারিদ্র্যমুক্ত অর্থনৈতিক জীবনের নিশ্চয়তা লাভ করবে।</p>',
+                'meta_title' => 'ভিশন ও মিশন | WOTM',
+                'meta_description' => 'WOTM-এর দূরদর্শী ভিশন, মিশন ও ৫টি প্রধান মূলনীতি সম্পর্কে জানুন।',
+                'meta_keywords' => 'ভিশন, মিশন, লক্ষ্য, উদ্দেশ্য, WOTM মূল্যবোধ',
+                'og_image' => 'images/hero.webp',
+            ],
+            [
+                'slug' => 'board-of-directors',
+                'title_en' => 'Board of Directors & Advisory Council | WOTM',
+                'title_bn' => 'পরিচালনা পর্ষদ ও উপদেষ্টা পরিষদ | WOTM',
+                'subtitle_en' => 'Esteemed leadership, trustees, and renowned Islamic scholars guiding our foundation',
+                'subtitle_bn' => 'প্রতিষ্ঠান পরিচালনায় সম্মানিত ট্রাস্টি বোর্ড ও বরেণ্য আলেমদের নিয়ে গঠিত উপদেষ্টা পরিষদ',
+                'content_en' => '<p>WOTM is governed by a dedicated Board of Trustees comprised of qualified professionals, community organizers, and scholars, working alongside an eminent Shariah Advisory Council to ensure compliance with authentic Sunnah and absolute transparency.</p>',
+                'content_bn' => '<p>WOTM একটি সম্মানিত ট্রাস্টি বোর্ড এবং প্রথিতযশা আলেমদের সমন্বয়ে গঠিত উপদেষ্টা পরিষদ দ্বারা পরিচালিত। প্রতিটি উন্নয়নমূলক কর্মকাণ্ডে সর্বোচ্চ স্বচ্ছতা, নিয়তের বিশুদ্ধতা এবং সুন্নাহর সঠিক অনুসরণ নিশ্চিত করাই এই যৌথ নেতৃত্বের মূল দায়িত্ব।</p>',
+                'meta_title' => 'পরিচালনা পর্ষদ ও উপদেষ্টা পরিষদ | WOTM',
+                'meta_description' => 'WOTM-এর সম্মানিত পরিচালনা পর্ষদ (Board of Trustees) ও শরীয়াহ উপদেষ্টা পরিষদের সদস্যদের পরিচিতি।',
+                'meta_keywords' => 'পরিচালনা পর্ষদ, ট্রাস্টি বোর্ড, উপদেষ্টা পরিষদ, WOTM নেতৃত্ব, শরিয়াহ কাউন্সিল',
                 'og_image' => 'images/hero.webp',
             ],
         ];

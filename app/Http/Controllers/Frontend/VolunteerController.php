@@ -28,17 +28,36 @@ class VolunteerController extends Controller
             'education' => 'nullable|string|max:100',
             'district' => 'nullable|string|max:100',
             'message' => 'nullable|string',
+            'facebook_link' => 'nullable|url|max:255',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
+
+        if ($request->hasFile('photo')) {
+            $path = $request->file('photo')->store('uploads/volunteers', 'public');
+            $validated['photo_path'] = $path;
+        }
 
         $submission = JoinSubmission::create($validated);
 
         // Send email notification to admin if mail configured
         try {
-            $adminEmail = Setting::get('mail_admin_recipient', 'admin@wotm.org');
+            $adminEmail = Setting::get('mail_admin_recipient', Setting::get('site_email', 'admin@wotm.org'));
             if ($adminEmail) {
-                Mail::raw("New Volunteer / Join Application Received:\n\nName: {$submission->full_name}\nPhone: {$submission->phone}\nEmail: {$submission->email}\nArea: {$submission->area_of_interest}\nDistrict: {$submission->district}\nMessage: {$submission->message}", function ($message) use ($adminEmail) {
+                $settings = Setting::getAllGrouped();
+                Mail::send('emails.volunteer', [
+                    'submission' => $submission,
+                    'settings' => $settings,
+                    'subject' => 'New Volunteer Application - WOTM',
+                    'badge' => '🤝 New Volunteer Application',
+                    'badgeColor' => '#dcfce7',
+                    'badgeTextColor' => '#166534',
+                    'title' => 'New Volunteer Form Submission',
+                    'subtitle' => 'A new volunteer has applied to join your team.',
+                    'actionUrl' => url('/admin/joins'),
+                    'actionText' => 'View Applications',
+                ], function ($message) use ($adminEmail) {
                     $message->to($adminEmail)
-                        ->subject('New Volunteer Submission - WOTM');
+                        ->subject('New Volunteer Application - WOTM');
                 });
             }
         } catch (\Exception $e) {

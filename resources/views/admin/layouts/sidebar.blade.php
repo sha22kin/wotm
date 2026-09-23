@@ -27,6 +27,54 @@
         <span>Pages & SEO</span>
       </a>
     </li>
+    <li class="adm-nav-item adm-has-submenu {{ request()->routeIs('admin.board-members.*') ? 'is-open' : '' }}">
+      <a href="{{ route('admin.board-members.index') }}" class="adm-nav-link {{ request()->routeIs('admin.board-members.*') ? 'is-active' : '' }}">
+        <i class="fa-solid fa-users-gear"></i>
+        <span>Board & Council</span>
+        <span class="adm-submenu-arrow" title="Toggle Submenu">
+          <i class="fa-solid fa-chevron-down"></i>
+        </span>
+      </a>
+      <ul class="adm-submenu">
+        <li class="adm-submenu-item">
+          <a href="{{ route('admin.board-members.index') }}" class="adm-submenu-link {{ (request()->routeIs('admin.board-members.index') && !request()->has('type')) ? 'is-active' : '' }}">
+            <i class="fa-solid fa-list"></i>
+            <span>All Members</span>
+          </a>
+        </li>
+        <li class="adm-submenu-item">
+          <a href="{{ route('admin.board-members.index', ['type' => 'chairman']) }}" class="adm-submenu-link {{ request()->get('type') === 'chairman' ? 'is-active' : '' }}">
+            <i class="fa-solid fa-user-tie"></i>
+            <span>Chairman Info</span>
+          </a>
+        </li>
+        <li class="adm-submenu-item">
+          <a href="{{ route('admin.board-members.index', ['type' => 'director']) }}" class="adm-submenu-link {{ request()->get('type') === 'director' ? 'is-active' : '' }}">
+            <i class="fa-solid fa-id-badge"></i>
+            <span>Directors</span>
+          </a>
+        </li>
+        <li class="adm-submenu-item">
+          <a href="{{ route('admin.board-members.index', ['type' => 'advisor']) }}" class="adm-submenu-link {{ request()->get('type') === 'advisor' ? 'is-active' : '' }}">
+            <i class="fa-solid fa-lightbulb"></i>
+            <span>Advisory Council</span>
+          </a>
+        </li>
+        <li class="adm-submenu-item">
+          <a href="{{ route('admin.board-members.create') }}" class="adm-submenu-link {{ request()->routeIs('admin.board-members.create') ? 'is-active' : '' }}">
+            <i class="fa-solid fa-plus"></i>
+            <span>Add Member</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+    <li class="adm-nav-item">
+      <a href="{{ route('admin.new-muslims.index') }}" class="adm-nav-link {{ request()->routeIs('admin.new-muslims.*') ? 'is-active' : '' }}">
+        <i class="fa-solid fa-user-check"></i>
+        <span>New Muslims (নবমুসলিম)</span>
+      </a>
+    </li>
     <li class="adm-nav-item adm-has-submenu {{ (request()->routeIs('admin.posts.*') || request()->routeIs('admin.post-categories.*')) ? 'is-open' : '' }}">
       <a href="{{ route('admin.posts.index') }}" class="adm-nav-link {{ (request()->routeIs('admin.posts.*') || request()->routeIs('admin.post-categories.*')) ? 'is-active' : '' }}">
         <i class="fa-solid fa-newspaper"></i>
@@ -108,18 +156,6 @@
         @endphp
         @if($pendingJoins > 0)
           <span class="adm-nav-badge">{{ $pendingJoins }}</span>
-        @endif
-      </a>
-    </li>
-    <li class="adm-nav-item">
-      <a href="{{ route('admin.contacts.index') }}" class="adm-nav-link {{ request()->routeIs('admin.contacts.*') ? 'is-active' : '' }}">
-        <i class="fa-solid fa-envelope"></i>
-        <span>Messages</span>
-        @php
-          $unreadContacts = App\Models\ContactSubmission::where('is_read', false)->count();
-        @endphp
-        @if($unreadContacts > 0)
-          <span class="adm-nav-badge">{{ $unreadContacts }}</span>
         @endif
       </a>
     </li>

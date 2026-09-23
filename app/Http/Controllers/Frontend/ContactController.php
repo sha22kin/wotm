@@ -31,9 +31,21 @@ class ContactController extends Controller
 
         // Send email notification to admin if mail configured
         try {
-            $adminEmail = Setting::get('mail_admin_recipient', 'admin@wotm.org');
+            $adminEmail = Setting::get('mail_admin_recipient', Setting::get('site_email', 'admin@wotm.org'));
             if ($adminEmail) {
-                Mail::raw("New Contact Inquiry Received:\n\nName: {$submission->name}\nContact: {$submission->contact}\nSubject: {$submission->subject}\nMessage: {$submission->message}", function ($message) use ($adminEmail) {
+                $settings = Setting::getAllGrouped();
+                Mail::send('emails.contact', [
+                    'submission' => $submission,
+                    'settings' => $settings,
+                    'subject' => 'New Contact Inquiry - WOTM',
+                    'badge' => '📩 New Contact Message',
+                    'badgeColor' => '#dbeafe',
+                    'badgeTextColor' => '#1e40af',
+                    'title' => 'New Contact Form Submission',
+                    'subtitle' => 'Someone has sent a message through the website contact form.',
+                    'actionUrl' => url('/admin/contacts'),
+                    'actionText' => 'View in Admin Panel',
+                ], function ($message) use ($adminEmail) {
                     $message->to($adminEmail)
                         ->subject('New Contact Inquiry - WOTM');
                 });

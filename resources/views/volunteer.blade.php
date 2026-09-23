@@ -108,7 +108,7 @@
               @endif
 
               <!-- Volunteer Form -->
-              <form id="volunteerJoinForm" action="{{ route('volunteer.store') }}" method="POST">
+              <form id="volunteerJoinForm" action="{{ route('volunteer.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <!-- 1. PERSONAL INFORMATION -->
@@ -193,6 +193,28 @@
                           <option value="all">{{ app()->getLocale() === 'en' ? 'Any Needed Area' : 'প্রয়োজনে যেকোনো বিভাগে' }}</option>
                         </select>
                         <i class="fa-solid fa-handshake-angle vol-input-icon"></i>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Facebook Link (Optional) -->
+                  <div class="col-md-6 col-12">
+                    <div class="vol-form-group">
+                      <label for="volFacebook" class="vol-label">{{ app()->getLocale() === 'en' ? 'Facebook Profile Link' : 'ফেইসবুক প্রোফাইল লিংক' }} <span class="text-muted" style="font-weight:normal; font-size:0.8rem;">(Optional)</span></label>
+                      <div class="vol-input-wrapper">
+                        <input type="url" name="facebook_link" class="vol-input-field" id="volFacebook" placeholder="https://facebook.com/username">
+                        <i class="fa-brands fa-facebook vol-input-icon"></i>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Photo Upload (Optional) -->
+                  <div class="col-md-6 col-12">
+                    <div class="vol-form-group">
+                      <label for="volPhoto" class="vol-label">{{ app()->getLocale() === 'en' ? 'Upload Photo' : 'ছবি আপলোড করুন' }} <span class="text-muted" style="font-weight:normal; font-size:0.8rem;">(Optional)</span></label>
+                      <div class="vol-input-wrapper">
+                        <input type="file" name="photo" class="vol-input-field" id="volPhoto" accept="image/jpeg,image/png,image/jpg" style="padding: 9px 40px 9px 15px; font-size: 0.9rem;">
+                        <i class="fa-solid fa-image vol-input-icon"></i>
                       </div>
                     </div>
                   </div>

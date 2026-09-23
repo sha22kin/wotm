@@ -10,7 +10,10 @@ class NoticeController extends Controller
 {
     public function index()
     {
-        $notices = Notice::latest('notice_date')->get();
+        $notices = Notice::orderByRaw('COALESCE(notice_date, DATE(created_at)) DESC')
+            ->orderBy('is_pinned', 'desc')
+            ->orderBy('id', 'desc')
+            ->get();
         return view('admin.notices.index', compact('notices'));
     }
 
@@ -28,26 +31,31 @@ class NoticeController extends Controller
             'notice_date' => 'nullable|date',
             'description_en' => 'nullable|string',
             'description_bn' => 'nullable|string',
-            'is_pinned' => 'nullable|boolean',
-            'is_active' => 'nullable|boolean',
-            'file' => 'nullable|file|mimes:pdf,doc,docx,png,jpg,jpeg|max:10240',
+            'is_pinned' => 'nullable',
+            'is_active' => 'nullable',
+            'file' => 'nullable|file|mimes:pdf,doc,docx,png,jpg,jpeg|max:20480',
+        ], [
+            'file.mimes' => 'সংযুক্তি অবশ্যই PDF, DOC, DOCX, PNG অথবা JPG ফরম্যাটের হতে হবে।',
+            'file.max' => 'সংযুক্ত ফাইলের সাইজ সর্বোচ্চ ২০ মেগাবাইট (20MB) হতে পারবে।',
         ]);
 
         if (empty($validated['title_en']) && empty($validated['title_bn'])) {
-            throw \Illuminate\Validation\ValidationException::withMessages([
+            return redirect()->back()->withInput()->withErrors([
                 'title_en' => 'নোটিশের অন্তত একটি শিরোনাম (বাংলা বা ইংরেজি) আবশ্যক।',
             ]);
         }
 
-        $validated['title_en'] = $validated['title_en'] ?: $validated['title_bn'];
-        $validated['title_bn'] = $validated['title_bn'] ?: $validated['title_en'];
+        $validated['title_en'] = !empty($validated['title_en']) ? $validated['title_en'] : $validated['title_bn'];
+        $validated['title_bn'] = !empty($validated['title_bn']) ? $validated['title_bn'] : $validated['title_en'];
+        $validated['description_en'] = !empty($validated['description_en']) ? $validated['description_en'] : ($validated['description_bn'] ?? null);
+        $validated['description_bn'] = !empty($validated['description_bn']) ? $validated['description_bn'] : ($validated['description_en'] ?? null);
         $validated['notice_date'] = !empty($validated['notice_date']) ? $validated['notice_date'] : now()->format('Y-m-d');
         $validated['is_pinned'] = $request->has('is_pinned');
         $validated['is_active'] = $request->has('is_active');
 
-        if ($request->hasFile('file')) {
+        if ($request->hasFile('file') && $request->file('file')->isValid()) {
             $file = $request->file('file');
-            $ext = $file->getClientOriginalExtension() ?: 'pdf';
+            $ext = strtolower($file->getClientOriginalExtension() ?: 'pdf');
             $filename = time() . '_' . uniqid() . '.' . $ext;
             $path = $file->storeAs('uploads/notices', $filename, 'public');
             $validated['file_path'] = 'storage/' . $path;
@@ -66,7 +74,7 @@ class NoticeController extends Controller
 
         Notice::create($validated);
 
-        return redirect()->route('admin.notices.index')->with('success', 'Notice created successfully.');
+        return redirect()->route('admin.notices.index')->with('success', 'নোটিশ সফলভাবে তৈরি হয়েছে।');
     }
 
     public function edit(Notice $notice)
@@ -83,26 +91,38 @@ class NoticeController extends Controller
             'notice_date' => 'nullable|date',
             'description_en' => 'nullable|string',
             'description_bn' => 'nullable|string',
-            'is_pinned' => 'nullable|boolean',
-            'is_active' => 'nullable|boolean',
-            'file' => 'nullable|file|mimes:pdf,doc,docx,png,jpg,jpeg|max:10240',
+            'is_pinned' => 'nullable',
+            'is_active' => 'nullable',
+            'file' => 'nullable|file|mimes:pdf,doc,docx,png,jpg,jpeg|max:20480',
+        ], [
+            'file.mimes' => 'সংযুক্তি অবশ্যই PDF, DOC, DOCX, PNG অথবা JPG ফরম্যাটের হতে হবে।',
+            'file.max' => 'সংযুক্ত ফাইলের সাইজ সর্বোচ্চ ২০ মেগাবাইট (20MB) হতে পারবে।',
         ]);
 
         if (empty($validated['title_en']) && empty($validated['title_bn'])) {
-            throw \Illuminate\Validation\ValidationException::withMessages([
+            return redirect()->back()->withInput()->withErrors([
                 'title_en' => 'নোটিশের অন্তত একটি শিরোনাম (বাংলা বা ইংরেজি) আবশ্যক।',
             ]);
         }
 
-        $validated['title_en'] = $validated['title_en'] ?: $validated['title_bn'];
-        $validated['title_bn'] = $validated['title_bn'] ?: $validated['title_en'];
+        $validated['title_en'] = !empty($validated['title_en']) ? $validated['title_en'] : $validated['title_bn'];
+        $validated['title_bn'] = !empty($validated['title_bn']) ? $validated['title_bn'] : $validated['title_en'];
+        $validated['description_en'] = !empty($validated['description_en']) ? $validated['description_en'] : ($validated['description_bn'] ?? null);
+        $validated['description_bn'] = !empty($validated['description_bn']) ? $validated['description_bn'] : ($validated['description_en'] ?? null);
         $validated['notice_date'] = !empty($validated['notice_date']) ? $validated['notice_date'] : ($notice->notice_date ? $notice->notice_date->format('Y-m-d') : now()->format('Y-m-d'));
         $validated['is_pinned'] = $request->has('is_pinned');
         $validated['is_active'] = $request->has('is_active');
 
-        if ($request->hasFile('file')) {
+        // Handle attachment removal request
+        if ($request->boolean('remove_file')) {
+            $validated['file_path'] = null;
+            $validated['file_type'] = null;
+            $validated['file_size'] = null;
+        }
+
+        if ($request->hasFile('file') && $request->file('file')->isValid()) {
             $file = $request->file('file');
-            $ext = $file->getClientOriginalExtension() ?: 'pdf';
+            $ext = strtolower($file->getClientOriginalExtension() ?: 'pdf');
             $filename = time() . '_' . uniqid() . '.' . $ext;
             $path = $file->storeAs('uploads/notices', $filename, 'public');
             $validated['file_path'] = 'storage/' . $path;
@@ -121,7 +141,7 @@ class NoticeController extends Controller
 
         $notice->update($validated);
 
-        return redirect()->route('admin.notices.index')->with('success', 'Notice updated successfully.');
+        return redirect()->route('admin.notices.index')->with('success', 'নোটিশ সফলভাবে আপডেট হয়েছে।');
     }
 
     public function destroy(Notice $notice)

@@ -507,7 +507,8 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0;
 }
 
-.mobile-menu-list a {
+.mobile-menu-list a,
+.mobile-nav-toggle-btn {
   display: block;
   font-size: 1.05rem;
   font-weight: 500;
@@ -515,13 +516,43 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--text-main);
   border-radius: var(--radius-sm);
   border-bottom: 1px dashed #F0F2F1;
+  text-decoration: none;
   transition: background-color var(--transition-fast), color var(--transition-fast), padding-left var(--transition-fast);
 }
 
-.mobile-menu-list a:hover {
+.mobile-menu-list a:hover,
+.mobile-nav-toggle-btn:hover,
+.mobile-nav-toggle-btn[aria-expanded="true"] {
   background-color: var(--bg-surface);
   color: var(--primary-green);
   padding-left: 12px;
+}
+
+.mobile-nav-toggle-btn .fa-chevron-down {
+  transition: transform 0.3s ease;
+}
+
+.mobile-nav-toggle-btn[aria-expanded="true"] .fa-chevron-down {
+  transform: rotate(180deg);
+}
+
+.mobile-sub-menu {
+  margin-top: 5px;
+  margin-bottom: 10px;
+  border-left: 2px solid var(--border-color);
+}
+
+.mobile-sub-menu a {
+  font-size: 0.95rem;
+  font-weight: 400;
+  padding: 8px 12px;
+  border-bottom: none;
+  opacity: 0.85;
+}
+
+.mobile-sub-menu a:hover {
+  padding-left: 16px;
+  opacity: 1;
 }
 
 @media (min-width: 992px) {

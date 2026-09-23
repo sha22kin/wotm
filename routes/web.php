@@ -37,6 +37,9 @@ use App\Http\Controllers\Admin\SettingController as AdminSettingController;
 use App\Http\Controllers\Admin\MailSettingController as AdminMailSettingController;
 use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\BoardMemberController as AdminBoardMemberController;
+use App\Http\Controllers\Admin\NewMuslimController as AdminNewMuslimController;
+use App\Http\Controllers\Frontend\NewMuslimController as FrontendNewMuslimController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,12 +48,17 @@ use App\Http\Controllers\Admin\UserController as AdminUserController;
 */
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about-us', [PageController::class, 'about'])->name('about');
+Route::get('/chairmans-message', [PageController::class, 'chairmansMessage'])->name('chairmans.message');
+Route::get('/introduction-background', [PageController::class, 'introductionBackground'])->name('introduction.background');
+Route::get('/vision-mission', [PageController::class, 'visionMission'])->name('vision.mission');
+Route::get('/board-of-directors', [PageController::class, 'boardOfDirectors'])->name('board.directors');
 Route::get('/page/{slug}', [PageController::class, 'show'])->name('pages.show');
 Route::get('/activities', [ActivityController::class, 'index'])->name('activities.index');
 Route::get('/activities/{slug}', [ActivityController::class, 'show'])->name('activities.show');
 Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
 Route::get('/projects/{slug}', [ProjectController::class, 'show'])->name('projects.show');
 Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.index');
+Route::get('/new-muslims', [FrontendNewMuslimController::class, 'index'])->name('new-muslims.index');
 Route::get('/volunteer', [VolunteerController::class, 'index'])->name('volunteer.index');
 Route::post('/volunteer', [VolunteerController::class, 'store'])->name('volunteer.store');
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
@@ -140,6 +148,12 @@ Route::prefix('admin')->name('admin.')->middleware('admin.auth')->group(function
     Route::get('/pages', [AdminPageController::class, 'index'])->name('pages.index');
     Route::get('/pages/{page}/edit', [AdminPageController::class, 'edit'])->name('pages.edit');
     Route::put('/pages/{page}', [AdminPageController::class, 'update'])->name('pages.update');
+
+    // Board Members & Advisory Council
+    Route::resource('board-members', AdminBoardMemberController::class);
+
+    // New Muslims
+    Route::resource('new-muslims', AdminNewMuslimController::class)->except(['show']);
 
     // Blog & Categories
     Route::resource('posts', AdminPostController::class);

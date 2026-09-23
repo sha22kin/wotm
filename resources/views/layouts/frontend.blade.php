@@ -86,8 +86,8 @@
         <div class="nav-actions">
           <!-- Language Switcher -->
           <div class="lang-switch notranslate" role="group" aria-label="ভাষা পরিবর্তন">
-            <a href="{{ route('lang.switch', 'bn') }}" class="lang-btn {{ app()->getLocale() === 'bn' ? 'active' : '' }}">বাং</a>
-            <a href="{{ route('lang.switch', 'en') }}" class="lang-btn {{ app()->getLocale() === 'en' ? 'active' : '' }}">EN</a>
+            <a href="{{ url('/lang/bn') }}" class="lang-btn {{ app()->getLocale() === 'bn' ? 'active' : '' }}">বাং</a>
+            <a href="{{ url('/lang/en') }}" class="lang-btn {{ app()->getLocale() === 'en' ? 'active' : '' }}">EN</a>
           </div>
 
           <!-- User Auth Button -->
@@ -141,8 +141,8 @@
 
       <div class="d-flex align-items-center justify-content-between my-2">
         <div class="lang-switch notranslate">
-          <a href="{{ route('lang.switch', 'bn') }}" class="lang-btn {{ app()->getLocale() === 'bn' ? 'active' : '' }}">বাং</a>
-          <a href="{{ route('lang.switch', 'en') }}" class="lang-btn {{ app()->getLocale() === 'en' ? 'active' : '' }}">EN</a>
+          <a href="{{ url('/lang/bn') }}" class="lang-btn {{ app()->getLocale() === 'bn' ? 'active' : '' }}">বাং</a>
+          <a href="{{ url('/lang/en') }}" class="lang-btn {{ app()->getLocale() === 'en' ? 'active' : '' }}">EN</a>
         </div>
         @auth
           <div class="dropdown">
@@ -172,7 +172,23 @@
       <ul class="mobile-menu-list">
         @foreach($navItems as $nav)
           <li>
-            <a href="{{ url($nav->url) }}" class="mobile-nav-link">{{ $nav->title }}</a>
+            @if($nav->children->count() > 0)
+              <a href="#submenu-{{ $nav->id }}" class="mobile-nav-toggle-btn d-flex justify-content-between align-items-center" data-bs-toggle="collapse" aria-expanded="false">
+                {{ $nav->title }}
+                <i class="fa-solid fa-chevron-down small transition-transform"></i>
+              </a>
+              <ul class="mobile-sub-menu ps-3 list-unstyled collapse" id="submenu-{{ $nav->id }}">
+                @foreach($nav->children as $child)
+                  <li>
+                    <a href="{{ url($child->url) }}" class="mobile-nav-link py-1 opacity-75 small">
+                      <i class="fa-solid fa-angle-right me-1 small"></i> {{ $child->title }}
+                    </a>
+                  </li>
+                @endforeach
+              </ul>
+            @else
+              <a href="{{ url($nav->url) }}" class="mobile-nav-link">{{ $nav->title }}</a>
+            @endif
           </li>
         @endforeach
       </ul>

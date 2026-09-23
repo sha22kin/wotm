@@ -15,7 +15,7 @@
          2. HERO / BREADCRUMB BANNER
          ====================================================================== -->
     <section class="notice-hero-section" id="noticeHero">
-      <img src="{{ asset('images/hero2.webp') }}" alt="WOTM ব্যানার" class="notice-hero-bg-img">
+      <img src="{{ asset('images/hero.webp') }}" alt="WOTM ব্যানার" class="notice-hero-bg-img">
       <div class="notice-hero-overlay"></div>
       <img src="{{ asset('images/patterns/islamic-pattern.svg') }}" alt="ইসলামিক প্যাটার্ন" class="notice-hero-pattern-img">
 
@@ -87,18 +87,22 @@
                     {{ $notice->description ?? Str::limit(strip_tags($notice->content ?? ''), 140) }}
                   </p>
 
-                  <div class="notice-card-footer mt-3 pt-3 border-top d-flex justify-content-between align-items-center">
-                    <span class="text-muted small">
+                  <div class="notice-card-footer">
+                    <span class="notice-card-time">
                       <i class="fa-regular fa-clock me-1"></i> {{ $notice->notice_date ? $notice->notice_date->diffForHumans() : $notice->created_at->diffForHumans() }}
                     </span>
-                  @if($notice->file_path)
-                    <a href="{{ $notice->file_url }}" class="btn btn-sm btn-outline-success" target="_blank" download>
-                      <i class="fa-solid fa-download me-1"></i> {{ app()->getLocale() === 'en' ? 'Download PDF' : 'ডাউনলোড' }}
-                    </a>
-                  @endif
-                </div>
-              </article>
-            </div>
+                    @if($notice->file_path)
+                      <a href="{{ $notice->file_url }}" class="notice-dl-btn" target="_blank" download title="{{ app()->getLocale() === 'en' ? 'Download PDF Attachment' : 'পিডিএফ সংযুক্তি ডাউনলোড করুন' }}">
+                        <i class="fa-solid fa-file-pdf"></i>
+                        <span>{{ app()->getLocale() === 'en' ? 'Download PDF' : 'ডাউনলোড করুন' }}</span>
+                        @if($notice->file_size)
+                          <span class="notice-dl-size">({{ $notice->file_size }})</span>
+                        @endif
+                      </a>
+                    @endif
+                  </div>
+                </article>
+              </div>
           @empty
             <div class="col-12 text-center py-5">
               <p class="text-muted fs-5">{{ app()->getLocale() === 'en' ? 'No notices available.' : 'বর্তমানে কোনো নোটিশ নেই।' }}</p>

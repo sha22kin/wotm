@@ -16,5 +16,7 @@ class JoinSubmission extends Model
         'message',
         'status',
         'notes',
+        'photo_path',
+        'facebook_link',
     ];
 }

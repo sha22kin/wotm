@@ -46,6 +46,32 @@
             <div>{{ $submission->district ?: 'Not specified' }}</div>
           </div>
 
+          <div class="col-md-6 col-12">
+            <label class="adm-label text-muted">Facebook Profile</label>
+            <div>
+              @if($submission->facebook_link)
+                <a href="{{ $submission->facebook_link }}" target="_blank" class="text-decoration-none">
+                  <i class="fa-brands fa-facebook"></i> View Profile
+                </a>
+              @else
+                Not provided
+              @endif
+            </div>
+          </div>
+
+          <div class="col-md-6 col-12">
+            <label class="adm-label text-muted">Photo</label>
+            <div>
+              @if($submission->photo_path)
+                <a href="{{ asset('storage/' . $submission->photo_path) }}" target="_blank">
+                  <img src="{{ asset('storage/' . $submission->photo_path) }}" alt="Applicant Photo" class="img-thumbnail mt-1" style="max-height: 80px; object-fit: cover;">
+                </a>
+              @else
+                Not provided
+              @endif
+            </div>
+          </div>
+
           <div class="col-12 mt-3">
             <label class="adm-label text-muted">Applicant Message / Motivation</label>
             <div class="p-3 bg-light border rounded">

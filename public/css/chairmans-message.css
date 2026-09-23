@@ -1,0 +1,885 @@
+/* ==========================================================================
+   WOTM - CHAIRMAN'S MESSAGE (চেয়ারম্যানের বাণী) STYLESHEET
+   Stack: HTML5 Semantic, CSS3, Bootstrap 5 Grid, Font Awesome 6
+   Rules:
+   - Zero inline styles
+   - Short unique class names with .chm- prefix
+   - Bootstrap 5 grid compliant layout
+   - 100% Responsive (mobile, tablet, desktop)
+   ========================================================================== */
+
+:root {
+  --chm-primary: #009B4D;
+  --chm-primary-hover: #007c3e;
+  --chm-primary-light: #EBF7F0;
+  --chm-dark: #063B2A;
+  --chm-dark-deep: #031F16;
+  --chm-gold: #EAA838;
+  --chm-gold-hover: #D49022;
+  --chm-gold-light: #FFF8EB;
+  --chm-gold-border: rgba(234, 168, 56, 0.25);
+  --chm-text-heading: #111827;
+  --chm-text-body: #4B5563;
+  --chm-text-muted: #6B7280;
+  --chm-card-bg: #FFFFFF;
+  --chm-surface-bg: #F8FAF9;
+  --chm-border: #E5E9E7;
+  --chm-radius-sm: 8px;
+  --chm-radius-md: 14px;
+  --chm-radius-lg: 20px;
+  --chm-radius-pill: 50px;
+  --chm-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --chm-shadow-md: 0 8px 24px rgba(6, 59, 42, 0.08);
+  --chm-shadow-lg: 0 16px 36px rgba(6, 59, 42, 0.12);
+  --chm-transition: all 0.3s ease;
+}
+
+/* ==========================================================================
+   1. HERO BANNER & BREADCRUMB (STANDARD SITE-WIDE BANNER DESIGN)
+   ========================================================================== */
+.about-hero-section {
+  position: relative;
+  overflow: hidden;
+  padding: 135px 0 65px 0;
+  background-color: var(--chm-dark);
+  color: #FFFFFF;
+  text-align: center;
+}
+
+.about-hero-bg-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  opacity: 0.22;
+  pointer-events: none;
+}
+
+.about-hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background: linear-gradient(180deg, rgba(4, 31, 22, 0.88) 0%, rgba(6, 59, 42, 0.94) 100%);
+  pointer-events: none;
+}
+
+.about-hero-pattern-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 3;
+  opacity: 0.12;
+  pointer-events: none;
+}
+
+.about-hero-container {
+  position: relative;
+  z-index: 4;
+}
+
+.about-breadcrumb-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  font-size: 0.95rem;
+}
+
+.about-breadcrumb-link {
+  color: rgba(255, 255, 255, 0.82);
+  text-decoration: none;
+  transition: color var(--chm-transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.about-breadcrumb-link:hover {
+  color: var(--chm-gold);
+}
+
+.about-breadcrumb-separator {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.75rem;
+}
+
+.about-breadcrumb-current {
+  color: var(--chm-gold);
+  font-weight: 700;
+}
+
+.about-hero-title {
+  font-size: 2.85rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin-bottom: 0;
+  line-height: 1.25;
+}
+
+/* ==========================================================================
+   2. MAIN CONTENT LAYOUT
+   ========================================================================== */
+.chm-main-sec {
+  background-color: var(--chm-surface-bg);
+  padding: 70px 0 90px 0;
+  position: relative;
+}
+
+/* Chairman Profile Card (Left Column) */
+.chm-profile-card {
+  background-color: var(--chm-card-bg);
+  border-radius: var(--chm-radius-lg);
+  padding: 35px 25px;
+  box-shadow: var(--chm-shadow-md);
+  border: 1px solid var(--chm-border);
+  text-align: center;
+  position: sticky;
+  top: 100px;
+}
+
+.chm-avatar-wrap {
+  position: relative;
+  width: 170px;
+  height: 170px;
+  margin: 0 auto 24px;
+}
+
+.chm-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #FFFFFF;
+  box-shadow: 0 8px 20px rgba(0, 155, 77, 0.18);
+  background-color: var(--chm-primary-light);
+}
+
+.chm-verified-badge {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  width: 36px;
+  height: 36px;
+  background-color: var(--chm-primary);
+  color: #FFFFFF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #FFFFFF;
+  font-size: 0.95rem;
+  box-shadow: var(--chm-shadow-sm);
+}
+
+.chm-chair-name {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--chm-text-heading);
+  margin-bottom: 6px;
+}
+
+.chm-chair-role {
+  display: inline-block;
+  background-color: var(--chm-primary-light);
+  color: var(--chm-primary);
+  font-weight: 700;
+  font-size: 0.88rem;
+  padding: 4px 14px;
+  border-radius: var(--chm-radius-pill);
+  margin-bottom: 15px;
+}
+
+.chm-chair-bio {
+  font-size: 0.92rem;
+  color: var(--chm-text-body);
+  line-height: 1.65;
+  margin-bottom: 22px;
+}
+
+.chm-meta-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px 0;
+  text-align: left;
+  border-top: 1px dashed var(--chm-border);
+  padding-top: 18px;
+}
+
+.chm-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.88rem;
+  color: var(--chm-text-body);
+  margin-bottom: 12px;
+}
+
+.chm-meta-item:last-child {
+  margin-bottom: 0;
+}
+
+.chm-meta-icon {
+  width: 32px;
+  height: 32px;
+  background-color: var(--chm-surface-bg);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--chm-primary);
+  flex-shrink: 0;
+  font-size: 0.85rem;
+}
+
+.chm-contact-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 11px 20px;
+  background-color: var(--chm-dark);
+  color: #FFFFFF;
+  border-radius: var(--chm-radius-md);
+  font-weight: 600;
+  font-size: 0.92rem;
+  text-decoration: none;
+  transition: var(--chm-transition);
+}
+
+.chm-contact-btn:hover {
+  background-color: var(--chm-primary);
+  color: #FFFFFF;
+}
+
+/* ==========================================================================
+   3. MESSAGE ARTICLE & LETTER BODY (Right Column)
+   ========================================================================== */
+.chm-article-card {
+  background-color: var(--chm-card-bg);
+  border-radius: var(--chm-radius-lg);
+  padding: 48px;
+  box-shadow: var(--chm-shadow-md);
+  border: 1px solid var(--chm-border);
+}
+
+.chm-bismillah-box {
+  text-align: center;
+  padding: 20px 24px;
+  background: linear-gradient(135deg, var(--chm-gold-light) 0%, #FFFFFF 100%);
+  border: 1px solid var(--chm-gold-border);
+  border-radius: var(--chm-radius-md);
+  margin-bottom: 35px;
+}
+
+.chm-bismillah-txt {
+  font-family: 'Amiri', 'Traditional Arabic', 'Scheherazade', serif, var(--font-primary);
+  font-size: 1.65rem;
+  color: var(--chm-dark);
+  margin-bottom: 4px;
+  font-weight: 700;
+}
+
+.chm-bismillah-trans {
+  font-size: 0.92rem;
+  color: var(--chm-gold-hover);
+  font-weight: 600;
+  margin: 0;
+}
+
+.chm-quote-callout {
+  position: relative;
+  background-color: var(--chm-primary-light);
+  border-left: 5px solid var(--chm-primary);
+  border-radius: 0 var(--chm-radius-md) var(--chm-radius-md) 0;
+  padding: 24px 30px;
+  margin-bottom: 35px;
+}
+
+.chm-quote-icon {
+  font-size: 2rem;
+  color: var(--chm-primary);
+  opacity: 0.35;
+  margin-bottom: 8px;
+}
+
+.chm-quote-text {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--chm-dark);
+  line-height: 1.65;
+  margin: 0;
+}
+
+.chm-body-text {
+  color: var(--chm-text-body);
+  font-size: 1.05rem;
+  line-height: 1.85;
+}
+
+.chm-body-text p {
+  margin-bottom: 22px;
+}
+
+.chm-body-text h3 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--chm-text-heading);
+  margin-top: 35px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chm-body-text h3 i {
+  color: var(--chm-primary);
+  font-size: 1.1rem;
+}
+
+/* Strategic Pillars in Message */
+.chm-pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  margin: 30px 0 35px 0;
+}
+
+.chm-pillar-box {
+  background-color: var(--chm-surface-bg);
+  border: 1px solid var(--chm-border);
+  border-radius: var(--chm-radius-md);
+  padding: 22px;
+  transition: var(--chm-transition);
+}
+
+.chm-pillar-box:hover {
+  transform: translateY(-3px);
+  border-color: var(--chm-primary);
+  box-shadow: var(--chm-shadow-sm);
+}
+
+.chm-pillar-icon {
+  width: 44px;
+  height: 44px;
+  background-color: #FFFFFF;
+  border-radius: var(--chm-radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--chm-primary);
+  font-size: 1.25rem;
+  box-shadow: var(--chm-shadow-sm);
+  margin-bottom: 14px;
+}
+
+.chm-pillar-title {
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--chm-text-heading);
+  margin-bottom: 8px;
+}
+
+.chm-pillar-desc {
+  font-size: 0.88rem;
+  color: var(--chm-text-body);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* Sign-off & Seal Box */
+.chm-sign-section {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  border-top: 2px solid var(--chm-surface-bg);
+  padding-top: 30px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.chm-sign-details {
+  max-width: 400px;
+}
+
+.chm-sign-complimentary {
+  font-size: 0.95rem;
+  color: var(--chm-text-muted);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.chm-signature-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--chm-text-heading);
+  margin-bottom: 4px;
+}
+
+.chm-signature-sub {
+  font-size: 0.9rem;
+  color: var(--chm-primary);
+  font-weight: 600;
+  margin: 0;
+}
+
+.chm-seal-card {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--chm-surface-bg);
+  border: 1px dashed var(--chm-primary);
+  border-radius: var(--chm-radius-md);
+  padding: 12px 18px;
+}
+
+.chm-seal-icon {
+  width: 40px;
+  height: 40px;
+  background-color: var(--chm-primary);
+  color: #FFFFFF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.chm-seal-text h5 {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--chm-text-heading);
+  margin: 0 0 2px 0;
+}
+
+.chm-seal-text p {
+  font-size: 0.78rem;
+  color: var(--chm-text-muted);
+  margin: 0;
+}
+
+/* ==========================================================================
+   4. BOTTOM ACTION CTA BANNER
+   ========================================================================== */
+.chm-cta-sec {
+  margin-top: 50px;
+}
+
+.chm-cta-card {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--chm-dark) 0%, var(--chm-dark-deep) 100%);
+  border-radius: var(--chm-radius-lg);
+  padding: 40px 45px;
+  color: #FFFFFF;
+  box-shadow: var(--chm-shadow-lg);
+}
+
+.chm-cta-pattern {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.08;
+  pointer-events: none;
+}
+
+.chm-cta-content {
+  position: relative;
+  z-index: 2;
+}
+
+.chm-cta-heading {
+  font-size: 1.75rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.chm-cta-lead {
+  font-size: 1.02rem;
+  color: #E2E8F0;
+  max-width: 550px;
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+.chm-btn-solid {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background-color: var(--chm-gold);
+  color: #111827;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border-radius: var(--chm-radius-pill);
+  text-decoration: none;
+  transition: var(--chm-transition);
+}
+
+.chm-btn-solid:hover {
+  background-color: var(--chm-gold-hover);
+  color: #111827;
+  transform: translateY(-2px);
+}
+
+.chm-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background-color: transparent;
+  color: #FFFFFF;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-radius: var(--chm-radius-pill);
+  text-decoration: none;
+  transition: var(--chm-transition);
+}
+
+.chm-btn-outline:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #FFFFFF;
+  border-color: #FFFFFF;
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   5. RESPONSIVE BREAKPOINTS
+   ========================================================================== */
+@media (max-width: 991.98px) {
+  .about-hero-section,
+  .chm-hero-sec {
+    padding: 110px 0 50px 0;
+  }
+  
+  .about-hero-title,
+  .chm-hero-title {
+    font-size: 2.2rem;
+  }
+
+  .chm-profile-card {
+    position: static;
+    margin-bottom: 30px;
+  }
+
+  .chm-article-card {
+    padding: 30px 24px;
+  }
+
+  .chm-sign-section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .chm-cta-card {
+    padding: 30px 24px;
+    text-align: center;
+  }
+
+  .chm-cta-lead {
+    margin: 0 auto 20px auto;
+  }
+
+  .chm-cta-actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .about-hero-section,
+  .chm-hero-sec {
+    padding: 95px 0 40px 0;
+  }
+
+  .about-hero-title,
+  .chm-hero-title {
+    font-size: 1.75rem;
+  }
+
+  .about-breadcrumb-nav {
+    font-size: 0.85rem;
+    gap: 6px;
+  }
+
+  .chm-article-card {
+    padding: 22px 16px;
+  }
+
+  .chm-quote-callout {
+    padding: 18px 16px;
+  }
+
+  .chm-quote-text {
+    font-size: 1rem;
+  }
+
+  .chm-body-text {
+    font-size: 0.98rem;
+    line-height: 1.75;
+  }
+
+  .chm-pillars-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chm-btn-solid,
+  .chm-btn-outline {
+    width: 100%;
+  }
+}
+
+/* ==========================================================================
+   5. SEQUENTIAL CHAIRMAN MESSAGE LAYOUT (PHOTO -> MESSAGE -> NAME AT BOTTOM)
+   ========================================================================== */
+.chm-unified-card {
+  background-color: var(--chm-card-bg);
+  border-radius: var(--chm-radius-lg);
+  border: 1px solid var(--chm-border);
+  box-shadow: 0 10px 35px rgba(6, 59, 42, 0.08);
+  padding: 55px 50px;
+  position: relative;
+  overflow: hidden;
+  transition: var(--chm-transition);
+}
+
+/* 1. Top Section: Chairman Photo & Portrait */
+.chm-top-portrait-sec {
+  text-align: center;
+  margin-bottom: 45px;
+  position: relative;
+  padding-bottom: 35px;
+  border-bottom: 2px dashed var(--chm-border);
+}
+
+.chm-top-avatar-wrap {
+  position: relative;
+  width: 190px;
+  height: 190px;
+  margin: 0 auto 20px auto;
+}
+
+.chm-top-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 5px solid #FFFFFF;
+  box-shadow: 0 10px 28px rgba(0, 155, 77, 0.22);
+  background-color: var(--chm-primary-light);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.chm-unified-card:hover .chm-top-avatar-img {
+  transform: scale(1.02);
+  box-shadow: 0 14px 34px rgba(0, 155, 77, 0.28);
+}
+
+.chm-top-badge {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--chm-gold) 0%, var(--chm-gold-hover) 100%);
+  color: #FFFFFF;
+  border: 3px solid #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  box-shadow: var(--chm-shadow-sm);
+}
+
+.chm-top-role-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--chm-gold-light);
+  color: var(--chm-gold-hover);
+  font-size: 0.92rem;
+  font-weight: 700;
+  padding: 6px 18px;
+  border-radius: var(--chm-radius-pill);
+  letter-spacing: 0.3px;
+  box-shadow: var(--chm-shadow-sm);
+}
+
+/* 2. Middle Section: Message Typography */
+.chm-body-wrapper {
+  margin-bottom: 45px;
+}
+
+/* 3. Bottom Section: Chairman's Name & Sign-off */
+.chm-bottom-signoff {
+  background: linear-gradient(135deg, var(--chm-surface-bg) 0%, #FFFFFF 100%);
+  border: 1px solid var(--chm-border);
+  border-left: 5px solid var(--chm-gold);
+  border-radius: var(--chm-radius-md);
+  padding: 30px 35px;
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.chm-bottom-details {
+  flex: 1;
+  min-width: 260px;
+}
+
+.chm-bottom-complimentary {
+  font-size: 1rem;
+  color: var(--chm-primary);
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-style: italic;
+}
+
+.chm-bottom-chairman-name {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--chm-text-heading);
+  margin-bottom: 4px;
+  letter-spacing: -0.2px;
+}
+
+.chm-bottom-chairman-desig {
+  font-size: 1.05rem;
+  color: var(--chm-primary-hover);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.chm-bottom-chairman-org {
+  font-size: 0.92rem;
+  color: var(--chm-text-muted);
+  margin-bottom: 12px;
+}
+
+.chm-bottom-contacts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 15px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--chm-border);
+}
+
+.chm-bottom-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.88rem;
+  color: var(--chm-text-body);
+  text-decoration: none;
+  background-color: #FFFFFF;
+  border: 1px solid var(--chm-border);
+  padding: 4px 12px;
+  border-radius: var(--chm-radius-pill);
+  transition: var(--chm-transition);
+}
+
+.chm-bottom-chip:hover {
+  border-color: var(--chm-primary);
+  color: var(--chm-primary);
+  background-color: var(--chm-primary-light);
+}
+
+.chm-bottom-chip i {
+  color: var(--chm-primary);
+}
+
+.chm-bottom-seal-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background-color: #FFFFFF;
+  border: 1px dashed var(--chm-primary);
+  border-radius: var(--chm-radius-md);
+  padding: 16px 22px;
+  box-shadow: var(--chm-shadow-sm);
+}
+
+.chm-bottom-seal-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--chm-primary) 0%, var(--chm-primary-hover) 100%);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  margin-bottom: 8px;
+  box-shadow: 0 4px 12px rgba(0, 155, 77, 0.2);
+}
+
+.chm-bottom-seal-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--chm-text-heading);
+  margin-bottom: 2px;
+}
+
+.chm-bottom-seal-sub {
+  font-size: 0.78rem;
+  color: var(--chm-text-muted);
+  margin: 0;
+}
+
+@media (max-width: 991.98px) {
+  .chm-unified-card {
+    padding: 35px 25px;
+  }
+
+  .chm-bottom-signoff {
+    padding: 24px 20px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .chm-bottom-seal-box {
+    width: 100%;
+    margin-top: 15px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .chm-unified-card {
+    padding: 25px 16px;
+  }
+
+  .chm-top-avatar-wrap {
+    width: 150px;
+    height: 150px;
+  }
+
+  .chm-bottom-chairman-name {
+    font-size: 1.4rem;
+  }
+}
+

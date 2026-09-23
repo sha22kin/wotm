@@ -1,0 +1,186 @@
+/* ==========================================================================
+   NEW MUSLIMS PAGE STYLES
+   ========================================================================== */
+
+/* Grid Section */
+.nm-grid-section {
+  padding: 80px 0;
+  background-color: #f8fafc;
+}
+
+.nm-section-title {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 800;
+  color: #166534;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.nm-section-desc {
+  font-size: 1.05rem;
+  color: #64748b;
+  max-width: 750px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+/* Card Styling */
+.nm-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.nm-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(34, 197, 94, 0.1);
+  border-color: rgba(34, 197, 94, 0.2);
+}
+
+.nm-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--wotm-primary), #4ade80);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.nm-card:hover::before {
+  opacity: 1;
+}
+
+/* Photo Styles */
+.nm-photo-wrapper {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  padding: 4px;
+  background: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.nm-photo {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.nm-photo-placeholder {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  color: #cbd5e1;
+}
+
+/* Name & Details */
+.nm-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--wotm-dark);
+  margin-bottom: 12px;
+}
+
+.nm-details {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px;
+}
+
+.nm-details li {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.nm-details i {
+  color: var(--wotm-primary);
+  width: 16px;
+}
+
+/* Facebook Link */
+.nm-fb-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  border-radius: 50px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.nm-fb-link:hover {
+  background: #1d4ed8;
+  color: white;
+}
+
+/* Empty State */
+.nm-empty {
+  text-align: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 16px;
+  border: 1px dashed #cbd5e1;
+}
+
+.nm-empty i {
+  font-size: 4rem;
+  color: #e2e8f0;
+  margin-bottom: 16px;
+}
+
+/* Responsive */
+@media (max-width: 767.98px) {
+  .nm-grid-section {
+    padding: 50px 0;
+  }
+
+  .nm-card {
+    padding: 16px;
+  }
+
+  .nm-photo-wrapper {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 16px;
+  }
+
+  .nm-name {
+    font-size: 1.1rem;
+  }
+
+  .nm-details li {
+    font-size: 0.8rem;
+  }
+
+  .nm-fb-link {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+}

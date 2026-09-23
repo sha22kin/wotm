@@ -30,20 +30,24 @@ class Notice extends Model
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true)
+            ->orderByRaw('COALESCE(notice_date, DATE(created_at)) DESC')
             ->orderBy('is_pinned', 'desc')
-            ->orderBy('notice_date', 'desc');
+            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'desc');
     }
 
     public function getTitleAttribute(): string
     {
         $locale = app()->getLocale();
-        return $locale === 'en' ? ($this->title_en ?: $this->title_bn) : ($this->title_bn ?: $this->title_en);
+        $title = $locale === 'en' ? ($this->title_en ?: $this->title_bn) : ($this->title_bn ?: $this->title_en);
+        return $title ?: ($this->title_en ?: ($this->title_bn ?: ''));
     }
 
     public function getDescriptionAttribute(): ?string
     {
         $locale = app()->getLocale();
-        return $locale === 'en' ? ($this->description_en ?: $this->description_bn) : ($this->description_bn ?: $this->description_en);
+        $desc = $locale === 'en' ? ($this->description_en ?: $this->description_bn) : ($this->description_bn ?: $this->description_en);
+        return !empty($desc) ? $desc : null;
     }
 
     /**
