@@ -780,7 +780,7 @@ h1, h2, h3, h4, h5, h6 {
   gap: 8px;
   box-shadow: 0 4px 14px rgba(0, 155, 77, 0.35);
   transition: all var(--transition-fast);
-  margin-top: 28px;
+  margin-bottom: 16px;
 }
 
 .donation-submit-btn:hover {
